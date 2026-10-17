@@ -652,3 +652,91 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     opacity:1 !important; animation:none !important;
   }
 }
+
+
+/* FIX: keep the actual 3D orbital viewport alone on screen during approach.
+   The earlier selectors missed status metrics and floating .fp panels, which
+   made the dashboard appear before the satellite finished its move. */
+.orbi-transition-content--arrival .scintilla-console > :not(style):not(.sc-space) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+.orbi-transition-content--launch .scintilla-console {
+  visibility: hidden;
+}
+.orbi-transition-content--arrival .scintilla-console {
+  background: #020711 !important;
+}
+.orbi-transition-content--arrival .scintilla-console .sc-space {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  z-index: 1 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  animation: fpv-dashboard-space-wake 1.25s .12s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--arrival .scintilla-console .sc-space canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+.orbi-transition-content--interface .scintilla-console {
+  visibility: visible !important;
+}
+.orbi-transition-content--interface .scintilla-console > :not(style):not(.sc-space) {
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-space {
+  position: relative !important;
+  inset: auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  z-index: auto !important;
+  border: 1px solid #152536 !important;
+  border-radius: 17px !important;
+  box-shadow: 0 12px 32px rgba(12,24,35,.15) !important;
+}
+.orbi-transition-content--interface .scintilla-console > .sc-status {
+  animation: fpv-ui-pop .55s .22s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console > .fp {
+  animation: fpv-ui-pop .55s .68s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console > .sc-endpoint.b {
+  animation-delay: .46s !important;
+}
+.orbi-transition-content--interface .scintilla-console > .sc-timeline {
+  animation-delay: .52s !important;
+}
+.orbi-transition-content--interface .scintilla-console > .sc-scene-tools {
+  animation-delay: .28s !important;
+}
+.orbi-transition-content--interface .scintilla-console > .sc-rail {
+  animation-delay: .3s !important;
+}
+.orbi-transition-content--interface .scintilla-console > .sc-topbar {
+  animation-delay: .12s !important;
+}
+.orbi-transition-content--interface .scintilla-console > .sc-status,
+.orbi-transition-content--interface .scintilla-console > .sc-scene-tools,
+.orbi-transition-content--interface .scintilla-console > .sc-rail,
+.orbi-transition-content--interface .scintilla-console > .sc-topbar,
+.orbi-transition-content--interface .scintilla-console > .sc-endpoint,
+.orbi-transition-content--interface .scintilla-console > .sc-timeline,
+.orbi-transition-content--interface .scintilla-console > .fp {
+  opacity: 1 !important;
+}
+@media (max-width: 700px) {
+  .orbi-transition-content--arrival .scintilla-console .sc-space {
+    position: fixed !important;
+    inset: 0 !important;
+  }
+}
