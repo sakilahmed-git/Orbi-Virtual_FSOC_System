@@ -275,3 +275,291 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     animation: none !important; will-change: auto !important;
   }
 }
+
+
+/* Cinematic FPV launch: the transition is a scene, not a title card. */
+.space-entry {
+  position: fixed !important; inset: 0 !important; z-index: 9999 !important;
+  display: block !important; overflow: hidden !important; isolation: isolate !important;
+  color: #f2f7fb !important; background: #dce9f1 !important;
+  perspective: 1200px; transform: translateZ(0);
+}
+.space-entry__wash {
+  position: absolute !important; inset: -12% !important; z-index: -2 !important;
+  opacity: 1 !important;
+  background: linear-gradient(180deg,#c6e5f5 0%,#8fb9d6 44%,#e7c9a7 64%,#162637 100%) !important;
+  transition: background 1.8s cubic-bezier(.72,0,.2,1), opacity 1.2s ease !important;
+}
+.fpv-flight-scene {
+  position: absolute; inset: 0; overflow: hidden; transform-style: preserve-3d;
+  transform: scale(1.035); animation: fpv-scene-settle 1.1s cubic-bezier(.16,.7,.2,1) both;
+  background: linear-gradient(#a9d5f0 0%,#e6d5bd 55%,#17212d 100%);
+}
+.fpv-cabin-glow {
+  position: absolute; z-index: 3; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 42%,transparent 0%,#101a2814 50%,#0509109c 100%);
+  transition: opacity 1.2s ease;
+}
+.fpv-window {
+  position: absolute; z-index: 1; left: 50%; top: 45%; width: min(68vw, 1120px); height: min(73vh, 850px);
+  min-height: 350px; transform: translate(-50%,-50%) translateZ(-90px);
+  overflow: hidden; border-radius: 48% 48% 36% 36% / 39% 39% 24% 24%;
+  border: clamp(10px,2vw,28px) solid #202a35;
+  box-shadow: 0 0 0 2px #778b9b, 0 0 0 7px #0b111a, inset 0 0 40px #07101c, 0 35px 110px #050b15aa;
+  background: #8bc3e8; transition: transform 2.2s cubic-bezier(.6,0,.2,1), border-color 1s ease, box-shadow 1.2s ease;
+}
+.fpv-window-sky {
+  position:absolute; inset:0; background:
+    radial-gradient(ellipse at 52% 62%,#f9f0d9 0%,#e7d5b5 16%,transparent 38%),
+    linear-gradient(180deg,#6aa8d6 0%,#b4d5e8 38%,#e8d7bc 67%,#6c8b99 100%);
+  transition: opacity 1.2s ease, filter 1.5s ease;
+}
+.fpv-earth {
+  position: absolute; width: 125%; aspect-ratio: 1; left: 50%; top: 66%;
+  transform: translate(-50%, 0) rotateX(12deg); border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 35% 30%,#83c9ef 0%,#2875a4 29%,#155076 54%,#071c39 72%);
+  box-shadow: inset -55px -30px 100px #020917c9, inset 22px 20px 50px #c4efff55, 0 -10px 70px #dff6ff75;
+  transition: top 2.4s cubic-bezier(.68,0,.2,1), width 2.4s cubic-bezier(.68,0,.2,1), opacity 1.1s ease, filter 1.6s ease;
+}
+.fpv-earth::before {
+  content:""; position:absolute; inset:0; border-radius:inherit; opacity:.78;
+  background:
+    radial-gradient(ellipse at 26% 32%,#76a978 0 5%,transparent 6%),
+    radial-gradient(ellipse at 38% 43%,#80b184 0 10%,transparent 11%),
+    radial-gradient(ellipse at 61% 26%,#92b88b 0 7%,transparent 8%),
+    radial-gradient(ellipse at 70% 47%,#8ab080 0 12%,transparent 13%),
+    radial-gradient(ellipse at 43% 68%,#76a777 0 8%,transparent 9%),
+    radial-gradient(ellipse at 25% 65%,#a6bf92 0 4%,transparent 5%);
+  filter: blur(8px);
+}
+.fpv-earth-land { position:absolute; inset:0; width:100%; height:100%; fill:#83ac7d; opacity:.6; filter:blur(8px); }
+.fpv-earth-clouds {
+  position:absolute; inset:-5%; border-radius:inherit; opacity:.68; mix-blend-mode:screen;
+  background: repeating-radial-gradient(ellipse at 50% 50%,transparent 0 7%,#d6f4ff1a 8% 9%,transparent 10% 15%);
+  filter:blur(8px); animation: fpv-cloud-drift 18s linear infinite;
+}
+.fpv-atmosphere-line {
+  position:absolute; left:0; right:0; top:17%; height:18%;
+  border-top:5px solid #d5f3ffcc; border-radius:50%; filter:blur(5px);
+  box-shadow:0 -10px 32px #8bdcff80; transition:opacity .7s ease;
+}
+.fpv-window-reflection {
+  position:absolute; inset:0; background:linear-gradient(112deg,#fff7 0%,transparent 18% 58%,#d6efff0c 70%,#fff2 100%);
+  pointer-events:none;
+}
+.fpv-window-rim {
+  position:absolute; inset:0; border-radius:inherit;
+  box-shadow:inset 0 0 0 2px #d8e8f366,inset 0 0 80px #09111e2e;
+}
+.fpv-horizon {
+  position:absolute; z-index:2; left:-20%; right:-20%; top:69%; height:25%;
+  border-radius:50%; background:linear-gradient(180deg,#e5c9a0aa,#192536 30%,#080e18 80%);
+  filter:blur(14px); opacity:.1; transition:opacity 1s ease;
+}
+.fpv-cabin-left,.fpv-cabin-right,.fpv-overhead {
+  position:absolute; z-index:4; pointer-events:none;
+}
+.fpv-cabin-left {
+  inset:-8% auto -12% -13%; width:35%;
+  clip-path:polygon(0 0,74% 0,100% 35%,90% 67%,100% 100%,0 100%);
+  background:linear-gradient(110deg,#080d15 0%,#29323d 32%,#101923 65%,#03070d 100%);
+  box-shadow:inset -20px 0 45px #000b; transform:translateZ(35px);
+}
+.fpv-cabin-right {
+  inset:-8% -13% -12% auto; width:35%;
+  clip-path:polygon(26% 0,100% 0,100% 100%,0 100%,10% 67%,0 35%);
+  background:linear-gradient(250deg,#080d15 0%,#29323d 32%,#101923 65%,#03070d 100%);
+  box-shadow:inset 20px 0 45px #000b; transform:translateZ(35px);
+}
+.fpv-overhead {
+  left:-8%; right:-8%; top:-24%; height:45%;
+  background:linear-gradient(180deg,#02050a 5%,#141d29 58%,#34404b 88%,#080d15 100%);
+  clip-path:polygon(0 0,100% 0,85% 65%,66% 82%,34% 82%,15% 65%);
+  transform:translateZ(45px); box-shadow:0 25px 45px #0008;
+}
+.fpv-console {
+  position:absolute; z-index:6; bottom:-12%; left:13%; right:13%; height:31%;
+  transform:perspective(700px) rotateX(17deg) translateZ(70px);
+  border:1px solid #8b9eae55; border-radius:22px 22px 0 0;
+  background:linear-gradient(180deg,#303b47 0%,#121b26 20%,#050910 75%);
+  box-shadow:0 -18px 55px #03070caa,inset 0 2px 0 #b9d5e72b;
+  display:flex; align-items:flex-start; justify-content:center; gap:12px; padding:20px 8%;
+  transition:transform 1.5s cubic-bezier(.7,0,.2,1), opacity 1s ease;
+}
+.fpv-console-screen {
+  width:31%; height:47%; border:1px solid #9db3c23b; border-radius:7px;
+  background:linear-gradient(145deg,#0d2834,#08121b); box-shadow:inset 0 0 18px #050b11;
+  padding:12px; position:relative; overflow:hidden;
+}
+.fpv-console-screen::before {
+  content:""; position:absolute; left:10%; right:10%; top:22%; height:1px; background:#70d8d0;
+  box-shadow:0 15px #70d8d044,0 30px #70d8d033,0 45px #70d8d022;
+}
+.fpv-console-screen span { position:absolute; left:12%; top:14%; width:28%; height:3px; background:#9ce4e4; }
+.fpv-console-screen i { position:absolute; left:12%; right:12%; bottom:14%; height:16px; border:1px solid #62b6d455; border-radius:3px; }
+.fpv-console-screen b { position:absolute; width:8px; height:8px; right:12%; top:12%; border-radius:50%; background:#6fe4bd; box-shadow:0 0 12px #6fe4bd; }
+.fpv-console-screen--small { width:20%; opacity:.7; }
+.fpv-console-lights { display:flex; gap:7px; align-items:center; padding-top:8px; }
+.fpv-console-lights i { width:5px;height:5px;border-radius:50%;background:#80d9e7;box-shadow:0 0 9px #80d9e7; }
+.fpv-console-lights i:nth-child(2n) { background:#d4a96b;box-shadow:0 0 8px #d4a96b; }
+.fpv-seat {
+  position:absolute; z-index:5; bottom:-14%; width:24%; height:58%;
+  background:linear-gradient(90deg,#05080e,#111925 45%,#03060b);
+  border:1px solid #9aa9b61c; border-radius:42% 42% 8% 8%;
+  box-shadow:inset 0 0 28px #000c,0 0 30px #0007; transform:translateZ(85px);
+}
+.fpv-seat--left { left:23%; transform:translateZ(85px) rotate(-7deg); }
+.fpv-seat--right { right:23%; transform:translateZ(85px) rotate(7deg); }
+.fpv-seat-shoulder {
+  position:absolute; z-index:7; bottom:-18%; width:27%; height:42%;
+  border-radius:50% 50% 0 0; background:linear-gradient(100deg,#080c13,#202a35 45%,#080c12);
+  filter:drop-shadow(0 0 20px #0009); transform:translateZ(115px);
+}
+.fpv-seat-shoulder--left { left:-9%; transform:translateZ(115px) rotate(-22deg); }
+.fpv-seat-shoulder--right { right:-9%; transform:translateZ(115px) rotate(22deg); }
+.fpv-vignette {
+  position:absolute; z-index:8; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse at 50% 45%,transparent 25%,#03070d2b 62%,#02050be8 100%);
+  transition:background 1.3s ease;
+}
+.fpv-motion-blur {
+  position:absolute; z-index:9; inset:-30%; opacity:0; pointer-events:none;
+  background:repeating-conic-gradient(from 0deg at 50% 45%,transparent 0deg 9deg,#d5f6ff14 9.4deg 9.7deg,transparent 10deg 20deg);
+  mask-image:radial-gradient(ellipse at center,transparent 0 18%,#000 68%);
+}
+.fpv-ignition-flare {
+  position:absolute; z-index:3; left:50%; top:60%; width:100vmax; aspect-ratio:1;
+  transform:translate(-50%,-50%) scale(.01); border-radius:50%; opacity:0;
+  background:radial-gradient(circle,#fff 0%,#d7f5ffb0 2%,#8dd9e855 7%,transparent 38%);
+}
+.fpv-orbit-satellite {
+  position:absolute; z-index:3; top:42%; left:50%; width:clamp(110px,18vw,230px);
+  opacity:0; transform:translate(-50%,-50%) translate3d(0,80px,-200px) scale(.15) rotate(-14deg);
+  filter:drop-shadow(0 0 28px #a6e8ff55);
+}
+.fpv-orbit-satellite svg { display:block;width:100%;overflow:visible; }
+.space-entry__stars {
+  position:absolute !important; inset:0 !important; z-index:2 !important;
+  opacity:0 !important; pointer-events:none; transition:opacity 1.6s ease !important;
+}
+.space-entry__stars i {
+  position:absolute; left:var(--star-x); top:var(--star-y); width:var(--star-size); height:var(--star-size);
+  border-radius:50%; background:#e7f6ff; box-shadow:0 0 8px #bceaff;
+  opacity:.8; transform:translate3d(0,0,0);
+}
+.space-entry__hud {
+  position:absolute !important; z-index:12 !important; inset:0 !important; padding:clamp(22px,4vw,58px) !important;
+  pointer-events:none; opacity:0; animation:fpv-hud-in .7s .35s ease both;
+}
+.space-entry__brand {
+  position:absolute; left:clamp(22px,4vw,58px); top:clamp(22px,4vw,48px);
+  display:flex; align-items:center; gap:10px; font:700 13px var(--orbi-sans); letter-spacing:.08em;
+}
+.space-entry__brand b { display:grid;place-items:center;width:26px;height:26px;border:1px solid #dff6ff75;border-radius:50%;font-size:14px; }
+.space-entry__brand i { font:8px var(--orbi-mono);letter-spacing:.13em;color:#e1edf5a6;font-style:normal; }
+.space-entry__readout {
+  position:absolute;right:clamp(22px,4vw,58px);top:clamp(27px,4vw,51px);
+  display:flex;gap:16px;align-items:center;font:9px var(--orbi-mono);letter-spacing:.1em;color:#d5e5efb8;
+}
+.space-entry__readout b { color:#f4fbff; }
+.space-entry__progress { position:absolute;top:clamp(68px,9vh,96px);left:clamp(22px,4vw,58px);right:clamp(22px,4vw,58px);height:2px;background:#e9f5ff3d;overflow:hidden; }
+.space-entry__progress i { display:block;width:100%;height:100%;background:#dff8ff;transform:scaleX(0);transform-origin:left;box-shadow:0 0 12px #b8efff; }
+.space-entry__headline {
+  position:absolute;left:clamp(26px,8vw,124px);bottom:clamp(145px,20vh,220px);
+  display:flex;flex-direction:column;gap:9px;max-width:min(760px,78vw);
+  font-weight:500;letter-spacing:-.06em;text-shadow:0 3px 32px #020711a6;
+}
+.space-entry__headline span { font:500 clamp(34px,5.6vw,76px)/.98 var(--orbi-sans); }
+.space-entry__headline em { font:400 clamp(14px,1.5vw,20px)/1.4 var(--orbi-sans);font-style:normal;letter-spacing:-.025em;color:#e2edf5c9; }
+.space-entry__steps {
+  position:absolute;left:clamp(26px,8vw,124px);bottom:clamp(35px,6vh,65px);
+  display:flex;gap:clamp(16px,3vw,42px);font:8px var(--orbi-mono);letter-spacing:.12em;color:#e1edf577;
+}
+.space-entry__steps span { display:flex;align-items:center;gap:8px;transition:color .3s; }
+.space-entry__steps i { display:inline-block;width:5px;height:5px;border:1px solid currentColor;border-radius:50%; }
+.space-entry__steps .is-current { color:#f4fcff; }
+.space-entry__steps .is-current i { background:#c5f3ff;box-shadow:0 0 12px #9de9ff; }
+.space-entry__steps .is-done { color:#a8e8d5; }
+.space-entry__flash { display:none !important; }
+
+/* Stage 1: cabin, daylight and the curved Earth through the viewport. */
+.space-entry--cabin .fpv-window { animation:fpv-window-breathe 4s ease-in-out infinite; }
+.space-entry--cabin .space-entry__wash { opacity:.08 !important; }
+.space-entry--cabin .space-entry__hud { opacity:1; }
+.space-entry--cabin .space-entry__progress i { animation:fpv-progress 4.9s linear both; }
+
+/* Stage 2: engine light blooms across the cabin; the viewport begins to shake. */
+.space-entry--ignition .fpv-ignition-flare { animation:fpv-ignition .95s cubic-bezier(.1,.8,.3,1) both; }
+.space-entry--ignition .fpv-flight-scene { animation:fpv-ignition-shake .14s linear infinite; }
+.space-entry--ignition .fpv-console { box-shadow:0 -18px 70px #9bdcff55,inset 0 2px 0 #b9d5e75c; }
+.space-entry--ignition .space-entry__progress i { animation:fpv-progress .9s linear both; }
+
+/* Stage 3: punch through cloud, cabin rolls forward and day falls to near-black. */
+.space-entry--ascent .fpv-flight-scene { animation:fpv-ascent .95s cubic-bezier(.2,.7,.1,1) both; }
+.space-entry--ascent .fpv-window { transform:translate(-50%,-50%) translateZ(-90px) scale(1.3); }
+.space-entry--ascent .fpv-earth { top:100%; width:160%; filter:blur(9px) brightness(.55); }
+.space-entry--ascent .fpv-window-sky { filter:brightness(.22) saturate(.4); }
+.space-entry--ascent .fpv-motion-blur { opacity:.8; animation:fpv-speed-lines .7s ease-in both; }
+.space-entry--ascent .space-entry__wash { background:linear-gradient(180deg,#18354c 0%,#071321 48%,#02050a 100%) !important; }
+.space-entry--ascent .fpv-cabin-glow { opacity:.1; }
+.space-entry--ascent .space-entry__progress i { animation:fpv-progress .9s linear both; }
+
+/* Stage 4: black space settles in. Earth is now a distant blue curve below. */
+.space-entry--orbit .fpv-flight-scene { animation:fpv-orbit-settle 1.2s cubic-bezier(.16,.8,.2,1) both; }
+.space-entry--orbit .fpv-window { border-color:#0b1521;box-shadow:0 0 0 2px #21394b,0 0 0 7px #03070c,inset 0 0 60px #000; }
+.space-entry--orbit .fpv-window-sky { opacity:0;background:#020711; }
+.space-entry--orbit .fpv-earth { top:118%;width:62%;opacity:.92;filter:brightness(.75); }
+.space-entry--orbit .fpv-atmosphere-line { opacity:.2; }
+.space-entry--orbit .space-entry__stars { opacity:1 !important; }
+.space-entry--orbit .space-entry__wash { background:radial-gradient(ellipse at 50% 45%,#0c1c2b 0%,#03070e 66%,#010309 100%) !important; }
+.space-entry--orbit .space-entry__progress i { animation:fpv-progress .7s linear both; }
+
+/* Arrival: satellite first; controls are intentionally held back until it resolves. */
+.space-entry--satellite .fpv-flight-scene,.space-entry--interface .fpv-flight-scene { animation:fpv-orbit-settle .8s ease both; }
+.space-entry--satellite .fpv-orbit-satellite { animation:fpv-satellite-arrive 1.15s .1s cubic-bezier(.16,.8,.2,1) both; }
+.space-entry--satellite .fpv-window { border-color:#07101b; }
+.space-entry--satellite .fpv-earth,.space-entry--interface .fpv-earth { top:122%;width:52%; }
+.space-entry--satellite .space-entry__wash,.space-entry--interface .space-entry__wash { background:radial-gradient(ellipse at 50% 45%,#102537 0%,#03070e 68%,#010309 100%) !important; }
+.space-entry--satellite .space-entry__stars,.space-entry--interface .space-entry__stars { opacity:1 !important; }
+.space-entry--interface .fpv-orbit-satellite { opacity:1;transform:translate(-50%,-50%) translate3d(0,0,0) scale(1); }
+.space-entry--interface .space-entry__hud { animation:fpv-interface-in .75s ease both; }
+.space-entry--interface .fpv-console { transform:perspective(700px) rotateX(25deg) translateY(25%) translateZ(70px);opacity:0; }
+
+@keyframes fpv-scene-settle { from {transform:scale(1.12);filter:brightness(1.25)} to {transform:scale(1.035);filter:brightness(1)} }
+@keyframes fpv-window-breathe { 0%,100%{transform:translate(-50%,-50%) translateZ(-90px) scale(1)} 50%{transform:translate(-50%,-50%) translateZ(-90px) scale(1.008)} }
+@keyframes fpv-ignition { 0%{opacity:0;transform:translate(-50%,-50%) scale(.01)} 18%{opacity:.95;transform:translate(-50%,-50%) scale(.35)} 55%{opacity:.25;transform:translate(-50%,-50%) scale(1.3)} 100%{opacity:0;transform:translate(-50%,-50%) scale(2.2)} }
+@keyframes fpv-ignition-shake { 0%,100%{transform:translate(0,0) scale(1.035)} 25%{transform:translate(2px,-2px) scale(1.04)} 50%{transform:translate(-2px,1px) scale(1.035)} 75%{transform:translate(1px,2px) scale(1.04)} }
+@keyframes fpv-ascent { 0%{transform:scale(1.035) translateY(0)} 100%{transform:scale(1.22) translateY(4%)} }
+@keyframes fpv-speed-lines { 0%{opacity:0;transform:scale(.2)} 35%{opacity:.8;transform:scale(1)} 100%{opacity:0;transform:scale(1.7)} }
+@keyframes fpv-orbit-settle { 0%{transform:scale(1.18) translateY(2%);filter:brightness(.45)} 100%{transform:scale(1) translateY(0);filter:brightness(1)} }
+@keyframes fpv-satellite-arrive { 0%{opacity:0;transform:translate(-50%,-50%) translate3d(0,80px,-200px) scale(.15) rotate(-14deg)} 70%{opacity:1;transform:translate(-50%,-50%) translate3d(0,-8px,0) scale(1.06) rotate(2deg)} 100%{opacity:1;transform:translate(-50%,-50%) translate3d(0,0,0) scale(1) rotate(0)} }
+@keyframes fpv-interface-in { from{opacity:0;filter:blur(8px);transform:translateY(10px)} to{opacity:1;filter:blur(0);transform:translateY(0)} }
+@keyframes fpv-hud-in { from{opacity:0} to{opacity:1} }
+@keyframes fpv-progress { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+@keyframes fpv-cloud-drift { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+@media (max-width: 700px) {
+  .fpv-window { width:90vw;height:57vh;min-height:280px;top:42%; }
+  .fpv-cabin-left { width:29%;left:-17%; }
+  .fpv-cabin-right { width:29%;right:-17%; }
+  .fpv-overhead { top:-17%;height:35%; }
+  .fpv-seat { width:28%;height:44%; }
+  .fpv-seat--left { left:12%; }
+  .fpv-seat--right { right:12%; }
+  .fpv-console { left:4%;right:4%;height:25%;padding:15px 5%; }
+  .fpv-console-screen { padding:6px; }
+  .space-entry__headline { bottom:clamp(155px,24vh,220px);max-width:88vw; }
+  .space-entry__headline span { font-size:clamp(31px,8.5vw,54px); }
+  .space-entry__headline em { font-size:13px;max-width:80vw; }
+  .space-entry__readout { font-size:7px;gap:7px; }
+  .space-entry__brand i { display:none; }
+  .space-entry__steps { gap:12px;font-size:6px; }
+  .space-entry__steps span { gap:5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fpv-flight-scene,.fpv-window,.fpv-earth,.fpv-earth-clouds,.fpv-motion-blur,
+  .fpv-ignition-flare,.fpv-orbit-satellite,.space-entry__hud,.space-entry__progress i {
+    animation:none !important;transition:none !important;
+  }
+  .space-entry--satellite .fpv-orbit-satellite,.space-entry--interface .fpv-orbit-satellite { opacity:1;transform:translate(-50%,-50%); }
+}
