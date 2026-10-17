@@ -1274,3 +1274,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   }
   .space-entry--arrival .space-entry__wash { opacity: 0 !important; }
 }
+
+
+/* HANDOFF FIX: the fixed overlay itself must be transparent during arrival.
+   Otherwise its inherited opaque #020711 background sits above the WebGL
+   canvas even after the wash fades, making the satellites pop in at teardown. */
+.space-entry--arrival {
+  background: transparent !important;
+}
+.space-entry--arrival .space-entry__wash {
+  z-index: 0 !important;
+}
