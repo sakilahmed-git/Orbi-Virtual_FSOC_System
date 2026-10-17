@@ -116,11 +116,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
     // Hold the real 3D scene long enough for the acquisition message to land.
-    later(() => setStage("interface"), 1450);
+    later(() => setStage("interface"), 2150);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 3300);
+    }, 3550);
   }, [pathname, phase, clearTimers, later]);
 
 
