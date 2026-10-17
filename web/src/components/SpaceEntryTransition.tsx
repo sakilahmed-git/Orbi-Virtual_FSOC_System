@@ -26,7 +26,6 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const [stage, setStage] = useState<FlightStage>("cabin");
   const target = useRef<string | null>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const lastPath = useRef(pathname);
 
   const clearTimers = useCallback(() => {
     timers.current.forEach(clearTimeout);
@@ -71,9 +70,6 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     }, 2050);
   }, [pathname, phase, clearTimers, later]);
 
-  useEffect(() => {
-    lastPath.current = pathname;
-  }, [pathname]);
 
   useEffect(() => () => clearTimers(), [clearTimers]);
 
