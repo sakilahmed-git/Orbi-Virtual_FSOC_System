@@ -2085,3 +2085,31 @@ html body .scintilla-console .sc-mark:after {
   42%{opacity:.95;transform:translateY(7%) scale(1.06)}
   75%,100%{opacity:0;transform:translateY(20%) scale(1.12)}
 }
+
+
+/* Arrival copy must remain readable for the complete typewriter pass. */
+.orbi-cinema--arrival .orbi-cinema__headline {
+  animation: orbi-cinema-arrival-copy 3.4s cubic-bezier(.22,.7,.25,1) both;
+}
+.orbi-cinema--arrival.orbi-cinema--interface .orbi-cinema__headline {
+  animation: orbi-cinema-copy-out .55s ease both;
+}
+.orbi-cinema--launch .orbi-cinema__headline span,
+.orbi-cinema--arrival .orbi-cinema__headline span {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.orbi-cinema--arrival .orbi-cinema__headline em {
+  max-width: min(58ch, 84vw);
+  text-wrap: balance;
+}
+@media(max-width:680px) {
+  .orbi-cinema--arrival .orbi-cinema__headline span {
+    max-width: 16ch;
+    font-size: clamp(24px, 7vw, 34px);
+  }
+  .orbi-cinema--arrival .orbi-cinema__headline em {
+    max-width: 42ch;
+    font-size: 8px;
+  }
+}
