@@ -880,3 +880,123 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     animation: none !important;
   }
 }
+
+
+/* CLEAN FPV CUT — compact telemetry, bright-to-black exposure ramp. */
+.space-entry--launch {
+  background: transparent !important;
+  isolation: isolate;
+}
+.space-entry--launch .space-entry__wash {
+  opacity: 1 !important;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(255,255,255,.03), transparent 58%),
+    linear-gradient(180deg, rgba(247,250,255,.02), rgba(2,7,17,.98) 78%),
+    #030812 !important;
+  animation: orbi-exposure-drop 3.1s cubic-bezier(.7,0,.2,1) both !important;
+}
+@keyframes orbi-exposure-drop {
+  0% { opacity: 0; background-color: rgba(255,255,255,0); backdrop-filter: brightness(1) saturate(1); }
+  14% { opacity: .18; backdrop-filter: brightness(1.04) saturate(.9); }
+  52% { opacity: .86; backdrop-filter: brightness(.55) saturate(.7); }
+  100% { opacity: 1; backdrop-filter: brightness(.18) saturate(.45); }
+}
+.space-entry--launch .space-entry__hud {
+  left: clamp(22px, 4.4vw, 64px) !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: clamp(24px, 5vh, 52px) !important;
+  width: min(410px, calc(100vw - 44px)) !important;
+  animation: orbi-fpv-caption .3s ease both !important;
+}
+.space-entry--launch .space-entry__brand,
+.space-entry--launch .space-entry__steps {
+  display: none !important;
+}
+.space-entry--launch .space-entry__readout {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  color: rgba(169, 220, 247, .82) !important;
+  font: 500 9px/1.2 var(--font-mono, "DM Mono", monospace) !important;
+  letter-spacing: .19em !important;
+}
+.space-entry--launch .space-entry__readout b {
+  color: rgba(210, 237, 255, .5);
+  font-weight: 400;
+}
+.space-entry--launch .space-entry__progress {
+  height: 1px !important;
+  width: min(180px, 44vw) !important;
+  margin: 0 0 13px !important;
+  background: rgba(172, 217, 243, .18) !important;
+}
+.space-entry--launch .space-entry__progress i {
+  height: 1px !important;
+  animation-duration: 3.1s !important;
+  background: #a9e4ff !important;
+  box-shadow: 0 0 8px rgba(104, 206, 255, .65) !important;
+}
+.space-entry--launch .space-entry__headline {
+  position: relative !important;
+  inset: auto !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  font-size: inherit !important;
+}
+.space-entry--launch .space-entry__headline span {
+  color: #f1f7ff !important;
+  font-size: clamp(17px, 1.8vw, 22px) !important;
+  line-height: 1.2 !important;
+  font-weight: 500 !important;
+  letter-spacing: -.035em !important;
+}
+.space-entry--launch .space-entry__headline em {
+  margin-top: 5px !important;
+  color: rgba(174, 202, 222, .65) !important;
+  font: 500 8px/1.5 var(--font-mono, "DM Mono", monospace) !important;
+  letter-spacing: .16em !important;
+}
+.space-entry--launch .space-entry__typing-cursor {
+  width: 1px !important;
+  height: .9em !important;
+  margin-left: 3px !important;
+  box-shadow: 0 0 7px rgba(101, 207, 255, .65) !important;
+}
+.space-entry--launch::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg 8deg, rgba(167,220,255,.12) 8.2deg 8.35deg, transparent 8.6deg 15deg);
+  mask-image: radial-gradient(ellipse at center, transparent 0 18%, black 62%, transparent 84%);
+  animation: orbi-fpv-streak 1.15s .9s cubic-bezier(.2,.65,.2,1) both;
+}
+@keyframes orbi-fpv-streak {
+  0% { opacity: 0; transform: scale(.12); filter: blur(3px); }
+  38% { opacity: .4; }
+  100% { opacity: 0; transform: scale(1.8); filter: blur(1px); }
+}
+@keyframes orbi-fpv-caption {
+  from { opacity: 0; transform: translate3d(0,5px,0); }
+  to { opacity: 1; transform: translate3d(0,0,0); }
+}
+.space-entry--arrival .space-entry__headline span {
+  font-size: clamp(15px, 1.6vw, 20px) !important;
+  font-weight: 500 !important;
+  letter-spacing: -.025em !important;
+}
+.space-entry--arrival .space-entry__headline em {
+  font-size: 8px !important;
+  letter-spacing: .15em !important;
+  text-transform: uppercase;
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry--launch .space-entry__wash,
+  .space-entry--launch::after {
+    animation: none !important;
+  }
+}
