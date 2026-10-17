@@ -1680,7 +1680,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .space-entry--arrival .space-entry__wash,
 .space-entry--satellite .space-entry__wash,
 .space-entry--interface .space-entry__wash {
-  display: block !important;
   animation: orbi-arrival-dissolve .95s ease-out both !important;
 }
 .space-entry--arrival .space-entry__cockpit,
