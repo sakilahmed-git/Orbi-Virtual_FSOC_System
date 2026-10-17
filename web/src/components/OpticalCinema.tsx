@@ -275,12 +275,12 @@ export default function OpticalCinema() {
   return (
     <div className="orbi-cinema" ref={hostRef} aria-label="Cinematic 3D optical-link sequence">
       <div className="orbi-cinema-vignette" aria-hidden="true" />
-      <div className="orbi-cinema-cut" key={beatIndex} aria-hidden="true" />
+      <div className="orbi-cinema-cut" aria-hidden="true" />
       <div className="orbi-cinema-top">
         <span><i /> ORBI / MISSION VISUALISATION</span>
         <span className="orbi-cinema-rec"><b /> REC <strong>LIVE RENDER</strong></span>
       </div>
-      <div className="orbi-cinema-beat" key={beatIndex}>
+      <div className="orbi-cinema-beat">
         <span className="orbi-cinema-kicker">{beat.phase}</span>
         <h3>{beat.title}</h3>
         <p>{beat.sub}</p>
