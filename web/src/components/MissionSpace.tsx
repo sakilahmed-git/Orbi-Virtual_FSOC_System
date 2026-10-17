@@ -52,7 +52,7 @@ export default function MissionSpace({
     const materials = Array.isArray(material) ? material : material ? [material] : [];
     materials.forEach((item) => {
       item.transparent = true;
-      item.opacity = 0.22;
+      item.opacity = 0.11;
       item.depthWrite = false;
       item.needsUpdate = true;
     });
@@ -61,7 +61,7 @@ export default function MissionSpace({
     <Canvas
       dpr={[1, 2]}
       camera={{
-        position: [0, 6.5, 18],
+        position: [0, 7.6, 22],
         fov: 43,
         near: 0.1,
         far: 100,
@@ -187,7 +187,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
     View,
     [number, number, number]
   > = {
-    mission: [0, 6.5, 18],
+    mission: [0, 7.6, 22],
     "terminal-a": [-8, 3, 9],
     "terminal-b": [8, 3, 9],
   };
@@ -224,9 +224,9 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       // Keep the first frame wide enough to establish the complete optical system.
       // A close fly-by made the large solar arrays clip the viewport and felt like
       // a second motion layered on top of the transition.
-      c.start.set(0, 7.8, 22);
+      c.start.set(0, 8.4, 24);
       c.pass.set(0, 6.9, 20);
-      c.wide.set(0, 6.5, 18);
+      c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
     };
