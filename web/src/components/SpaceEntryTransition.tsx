@@ -131,7 +131,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       <div className={`orbi-transition-content orbi-transition-content--${phase} orbi-transition-content--${stage}`}>{children}</div>
       {phase !== "idle" && (
         <div
-          className={`space-entry space-entry--${phase} space-entry--${stage}`}
+          className={`space-entry space-entry--${phase} space-entry--${stage} ${phase === "launch" ? "space-entry--flight" : ""}`}
           aria-live="polite"
           role="status"
           aria-label="Orbital launch sequence"
