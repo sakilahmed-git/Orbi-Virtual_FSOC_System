@@ -49,23 +49,23 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("cabin");
     setPhase("launch");
 
-    // Give the mission transmissions room to type in, rather than flashing past.
-    later(() => setStage("ignition"), 1450);
-    later(() => setStage("ascent"), 2850);
-    later(() => setStage("orbit"), 4300);
+    // Short, precise beats: let the FPV motion do the storytelling.
+    later(() => setStage("ignition"), 800);
+    later(() => setStage("ascent"), 1550);
+    later(() => setStage("orbit"), 2350);
     later(() => {
       if (target.current) router.push(target.current);
-    }, 5550);
+    }, 3100);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
     const transmissions: Record<FlightStage, [string, string]> = {
-      cabin: ["Flight computer: cabin sealed.", "Ground control, we are ready for orbital insertion."],
-      ignition: ["Telemetry confirmed. Engines online.", "Remain seated. We are leaving Earth."],
-      ascent: ["Passing through the atmosphere.", "External light levels falling. Guidance is nominal."],
-      orbit: ["Orbital insertion confirmed.", "Ground control, acquiring the optical satellite now."],
-      satellite: ["Visual contact. Satellite acquired.", "Stabilising the real optical link in your mission viewport."],
-      interface: ["Mission control is yours.", "Live telemetry, link status and controls are coming online."],
+      cabin: ["Cabin sealed.", "T−00:03  /  FLIGHT COMPUTER"],
+      ignition: ["Ignition.", "THRUST NOMINAL"],
+      ascent: ["Ascent.", "ATMOSPHERIC EXIT"],
+      orbit: ["Orbit acquired.", "OPTICAL TARGET LOCK"],
+      satellite: ["Link acquired.", "FSO SYSTEM ONLINE"],
+      interface: ["Mission ready.", "LIVE TELEMETRY"],
     };
     const [headline, subline] = transmissions[stage];
     setTypedHeadline("");
