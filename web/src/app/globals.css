@@ -1842,7 +1842,7 @@ a {
 @keyframes orbi-wash-in{0%{opacity:0;transform:scale(1.2)}35%{opacity:1}100%{opacity:1;transform:scale(1)}}
 @keyframes orbi-earth-rise{0%{opacity:0;top:135%;transform:translate(-50%,0) rotateX(68deg) scale(.8)}45%{opacity:1}100%{opacity:1;top:45%;transform:translate(-50%,0) rotateX(68deg) scale(1.7)}}
 @keyframes orbi-stars-on{0%{opacity:0}100%{opacity:1}}
-@keyframes orbi-star-streak{0%{transform:translate3d(0,0,0) scale(.4);opacity:0}25%{opacity:1}100%{transform:translate3d(calc((var(--star-x) - 50%) * 1.2),calc((var(--star-y) - 50%) * 1.2),0) scale(2.8);opacity:.9}}
+@keyframes orbi-star-streak{0%{transform:translate3d(0,0,0) scale(.4);opacity:0}25%{opacity:1}100%{transform:translate3d(var(--star-dx),var(--star-dy),0) scale(2.8);opacity:.9}}
 @keyframes orbi-tunnel{0%{opacity:0;transform:translate(-50%,-50%) scale(.05) rotateX(68deg)}28%{opacity:.9}100%{opacity:1;transform:translate(-50%,-50%) scale(2.3) rotateX(68deg)}}
 @keyframes orbi-beam{0%{opacity:0;transform:scaleX(.02)}30%{opacity:1}100%{opacity:.65;transform:scaleX(1)}}
 @keyframes orbi-hud-in{0%{opacity:0;transform:scale(1.04);filter:blur(8px)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
