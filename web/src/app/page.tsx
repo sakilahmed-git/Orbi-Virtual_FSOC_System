@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import OpticalCinema from "@/components/OpticalCinema";
 import { useEffect, useState } from "react";
 import { runScenario, type RunScenarioResponse } from "@/lib/api";
 import "./landing.css";
@@ -93,50 +94,7 @@ export default function Home() {
           </div>
           <div className="orbi-hero-visual" aria-label="Conceptual free-space optical link visualization">
             <div className="orbi-visual-topline"><span>OPTICAL LINK / SC-01 → SC-02</span><span className={"orbi-live-state " + (apiStatus === "online" ? "is-live" : "")}><i /> {apiStatus === "online" ? "ENGINE ONLINE" : apiStatus === "checking" ? "CONNECTING" : "ENGINE OFFLINE"}</span></div>
-            <div className="orbi-space-scene">
-              <div className="orbi-earth-horizon"><div className="orbi-earth-atmosphere" /><div className="orbi-earth-continent continent-a" /><div className="orbi-earth-continent continent-b" /></div>
-              <div className="orbi-scene-stars" />
-              <div className="orbi-motion-depth" aria-hidden="true"><span /><span /><span /></div>
-              <div className="orbi-phase-readout" aria-live="off">
-                <span className="orbi-phase phase-connect"><i /> CONNECTING <b>01</b></span>
-                <span className="orbi-phase phase-acquire"><i /> ACQUIRING <b>02</b></span>
-                <span className="orbi-phase phase-track"><i /> TRACKING <b>03</b></span>
-                <span className="orbi-phase phase-intelligence"><i /> ADAPTIVE CONTROL <b>04</b></span>
-              </div>
-              <div className="orbi-acquisition-sweep" aria-hidden="true" />
-              <svg className="orbi-beam-art" viewBox="0 0 760 420" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="orbiBeam" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stopColor="#D9A45D"/><stop offset="45%" stopColor="#77A8DC"/><stop offset="100%" stopColor="#3C9F96"/></linearGradient>
-                  <linearGradient id="orbiBeamCone" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#D9A45D" stopOpacity=".02"/><stop offset="100%" stopColor="#72C8BF" stopOpacity=".2"/></linearGradient>
-                  <filter id="orbiBeamSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                </defs>
-                <path d="M112 247 Q330 235 630 88 L630 111 Q330 255 112 260Z" fill="url(#orbiBeamCone)"/>
-                <path d="M112 253 Q330 245 630 100" stroke="url(#orbiBeam)" strokeWidth="2.4" fill="none" filter="url(#orbiBeamSoft)"/>
-                <path className="orbi-beam-core" d="M112 253 Q330 245 630 100" stroke="#F5FFFF" strokeWidth=".85" strokeDasharray="3 8" opacity=".9" fill="none"/>
-                <path className="orbi-beam-packet" d="M112 253 Q330 245 630 100" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeDasharray="1 1300" fill="none"/>
-                <path d="M112 253 Q370 340 630 100" stroke="#A9D9D7" strokeWidth=".7" strokeDasharray="3 9" opacity=".25" fill="none"/>
-                <g transform="translate(112 253)">
-                  <circle r="31" fill="#D9A45D" fillOpacity=".08" stroke="#E4BD83" strokeWidth="1.2"/>
-                  <circle r="18" fill="#102331" stroke="#E4BD83" strokeWidth="1.2"/>
-                  <circle className="orbi-tx-lock-ring" r="8" fill="#D9A45D" fillOpacity=".3" stroke="#F5D7A8"/>
-                  <circle r="3" fill="#FFF6E7"/>
-                  <path d="M-42 0H-23 M23 0H42 M0 -42V-23 M0 23V42" stroke="#E4BD83" strokeWidth=".8"/>
-                </g>
-                <g transform="translate(630 100)">
-                  <circle r="51" fill="#3C9F96" fillOpacity=".04" stroke="#6FC7BE" strokeDasharray="4 5" strokeWidth="1.2"/>
-                  <circle r="31" fill="#3C9F96" fillOpacity=".08" stroke="#6FC7BE" strokeWidth="1.2"/>
-                  <circle className="orbi-rx-lock-ring" r="17" fill="#102A32" stroke="#8AD7CF" strokeWidth="1.4"/>
-                  <circle className="orbi-rx-core" r="7" fill="#3C9F96" fillOpacity=".45" stroke="#C7F6EF"/>
-                  <circle r="2.5" fill="#FFFFFF"/>
-                  <path d="M-59 0H-36 M36 0H59 M0 -59V-36 M0 36V59" stroke="#7DCFC6" strokeWidth=".8"/>
-                </g>
-                <circle cx="372" cy="211" r="4" fill="#F6FFFF" filter="url(#orbiBeamSoft)"/>
-              </svg>
-              <div className="orbi-terminal-tag tag-tx"><span>TX</span><div><b>SC-01</b><small>TRANSMITTER</small></div></div>
-              <div className="orbi-terminal-tag tag-rx"><span>RX</span><div><b>SC-02</b><small>RECEIVER</small></div></div>
-              <div className="orbi-intelligence-orbit" aria-hidden="true"><span /><span /><span /></div>
-              <div className="orbi-scene-caption"><span>CONCEPTUAL LINK GEOMETRY</span><span>NOT TO SCALE</span></div>
-            </div>
+            <OpticalCinema />
             <div className="orbi-visual-foot"><span><i /> SCENARIO-DRIVEN VISUALIZATION</span><span>REAL MEASUREMENTS APPEAR AFTER EXECUTION</span></div>
           </div>
         </div>
