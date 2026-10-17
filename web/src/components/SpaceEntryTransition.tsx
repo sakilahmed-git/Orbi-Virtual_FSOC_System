@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
   useState,
+  type CSSProperties,
   type MouseEvent,
   type ReactNode,
 } from "react";
@@ -72,7 +73,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
                 "--star-y": `${(i * 53 + 7) % 100}%`,
                 "--star-delay": `${(i % 9) * -0.11}s`,
                 "--star-size": `${i % 5 === 0 ? 3 : i % 3 === 0 ? 2 : 1}px`,
-              } as React.CSSProperties} />
+              } as CSSProperties} />
             ))}
           </div>
           <div className="space-entry__tunnel" aria-hidden="true"><i /><i /><i /></div>
