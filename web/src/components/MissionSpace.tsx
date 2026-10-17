@@ -417,7 +417,6 @@ function EndpointSystem({
   side,
   position,
   axis,
-  disturbance,
   shared,
   aimTarget,
   connected,
