@@ -49,14 +49,14 @@ export default function Home() {
 
       <section className="ol-hero">
         <div className="ol-hero-copy">
-          <div className="ol-eyebrow"><span /> OPTICAL LINKS, ENGINEERED WITH EVIDENCE</div>
-          <h1>Turn <em>light</em> into<br /><span>possibility.</span></h1>
-          <p>Design, stress and verify free-space optical communication links with a software-in-the-loop testbed — before hardware is in the loop.</p>
+          <div className="ol-eyebrow"><span /> SCINTILLA / SOFTWARE-IN-THE-LOOP OPTICAL TESTBED</div>
+          <h1>Acquire.<br /><em>Track.</em> Recover.</h1>
+          <p>Run repeatable free-space optical link experiments. Stress acquisition with vibration, clutter and sensor noise, then inspect detection and control results from the Scintilla backend.</p>
           <div className="ol-hero-actions">
             <Link className="ol-button ol-button-dark" href="/mission">Open Mission Control <span>→</span></Link>
             <Link className="ol-button ol-button-quiet" href="/demo">Run a backend scenario <span>↗</span></Link>
           </div>
-          <div className="ol-proof-line"><span className="ol-proof-glyph">⌁</span> MODEL THE LINK. EXPOSE THE LIMITS. MEASURE THE RESPONSE.</div>
+          <div className="ol-proof-line"><span className="ol-proof-glyph">⌁</span> CONFIGURE THE DISTURBANCE. RUN THE PIPELINE. INSPECT THE EVIDENCE.</div>
         </div>
 
         <div className="ol-visual" aria-label="Illustration of two optical terminals connected by a laser link">
@@ -116,7 +116,7 @@ export default function Home() {
       <section className="ol-platform" id="platform">
         <div className="ol-section-kicker"><span>THE PLATFORM</span><i /> FROM SIGNAL TO EVIDENCE</div>
         <div className="ol-platform-heading">
-          <h2>Optical link behaviour,<br /><em>made inspectable.</em></h2>
+          <h2>An optical link is<br /><em>a system to test.</em></h2>
           <p>Orbi brings the virtual mission environment and Scintilla’s event-based detection and control pipeline into one workflow. Run the engine, inspect the output, and compare control strategies using the same scenario inputs.</p>
         </div>
         <div className="ol-capabilities">
@@ -129,7 +129,7 @@ export default function Home() {
       <section className="ol-workflow" id="workflow">
         <div className="ol-workflow-copy">
           <div className="ol-section-kicker"><span>THE WORKFLOW</span><i /> REPEATABLE EXPERIMENTS</div>
-          <h2>From acquisition<br />to <em>confidence.</em></h2>
+          <h2>From acquisition<br />to <em>measured control.</em></h2>
           <p>Start with a parameterised mission. Run the same processing path every time, then review detector hits, disturbance estimates, and control error rather than relying on decorative telemetry.</p>
           <Link className="ol-button ol-button-light" href="/demo">Run a scenario on the engine <span>→</span></Link>
         </div>
@@ -142,7 +142,7 @@ export default function Home() {
 
       <section className="ol-usecases" id="use-cases">
         <div className="ol-section-kicker"><span>APPLICATIONS</span><i /> TEST THE FAILURE MODES</div>
-        <div className="ol-usecases-head"><h2>Built for hard<br /><em>mission questions.</em></h2><p>Explore sensitivity to vibration, clutter and sensor noise; compare event-based processing with a frame-camera baseline; and measure how control performance changes under disturbance.</p></div>
+        <div className="ol-usecases-head"><h2>Find the limits<br /><em>before deployment.</em></h2><p>Explore sensitivity to vibration, clutter and sensor noise; compare event-based processing with a frame-camera baseline; and measure how control performance changes under disturbance.</p></div>
         <div className="ol-usecase-grid">
           <article className="ol-usecase-card ol-usecase-blue"><span>01 / SENSOR</span><div className="ol-usecase-art"><div className="ol-grid-art" /><div className="ol-particle" /><div className="ol-particle p2" /><div className="ol-particle p3" /></div><h3>Event stream vs. frames</h3><p>Compare event detections with exposure-averaged frame-camera measurements.</p><Link href="/demo">Inspect the stream <span>→</span></Link></article>
           <article className="ol-usecase-card ol-usecase-violet"><span>02 / DISTURBANCE</span><div className="ol-usecase-art"><div className="ol-wave-art"><i /><i /><i /></div></div><h3>Vibration &amp; clutter</h3><p>Vary the disturbance profile and inspect the frequency estimate and detection response.</p><Link href="/demo">Change scenario inputs <span>→</span></Link></article>
@@ -153,7 +153,7 @@ export default function Home() {
       <section className="ol-research" id="research">
         <div className="ol-research-copy">
           <div className="ol-section-kicker"><span>RESEARCH &amp; VALIDATION</span><i /> TRACEABLE OUTPUTS</div>
-          <h2>Make every result<br />worth <em>examining.</em></h2>
+          <h2>Every run should<br />leave <em>evidence.</em></h2>
           <p>Backend-generated results can be repeated with a fixed seed. Exported scenario output and documented assumptions make it easier to inspect what was measured, how it was produced, and where the limits remain.</p>
           <Link className="ol-button ol-button-outline" href="/envelope">Open performance envelope <span>→</span></Link>
         </div>
