@@ -713,17 +713,21 @@ export default function MissionControl() {
 .scintilla-console .sc-rail button:hover{background:#f0f6f7!important;color:#315b64!important;}
 .scintilla-console .sc-rail button.active,.scintilla-console .sc-rail button.open{background:#fff!important;border-color:#d9e6e9!important;color:#176e69!important;box-shadow:0 5px 16px #1d39400b!important;}
 .scintilla-console .sc-center{padding:16px!important;gap:14px!important;grid-template-rows:minmax(390px,1fr) 270px!important;}
-.scintilla-console .sc-space{border-radius:18px!important;border:1px solid #d2e0e6!important;box-shadow:0 18px 48px #18334018,0 1px 0 #fff inset!important;background:#071724!important;}
-.scintilla-console .sc-status{top:16px!important;left:16px!important;border-radius:12px!important;background:rgba(249,252,253,.94)!important;border-color:#dbe6eb!important;box-shadow:0 10px 28px #07172424!important;}
+.scintilla-console .sc-space{
+  position:absolute!important;inset:88px 360px 14px 82px!important;
+  border-radius:18px!important;border:1px solid #d2e0e6!important;
+  box-shadow:0 18px 48px #18334018,0 1px 0 #fff inset!important;background:#071724!important;
+}
+.scintilla-console .sc-status{top:102px!important;left:96px!important;border-radius:12px!important;background:rgba(249,252,253,.94)!important;border-color:#dbe6eb!important;box-shadow:0 10px 28px #07172424!important;}
 .scintilla-console .sc-metric{padding:10px 13px!important;border-color:#e2eaee!important;}
 .scintilla-console .sc-metric-label{font-size:7px!important;letter-spacing:.12em!important;color:#718592!important;}
 .scintilla-console .sc-metric-value{font-size:12px!important;letter-spacing:-.025em!important;color:#1b303b!important;}
-.scintilla-console .sc-scene-tools{top:16px!important;right:16px!important;}
+.scintilla-console .sc-scene-tools{top:102px!important;right:374px!important;}
 .scintilla-console .sc-tool{height:35px!important;border-radius:999px!important;background:rgba(250,252,253,.96)!important;border-color:#d6e3e8!important;color:#3d5b68!important;box-shadow:0 6px 18px #06172220!important;}
 .scintilla-console .sc-endpoint{border-radius:12px!important;background:rgba(250,252,253,.94)!important;border-color:#d6e3e8!important;box-shadow:0 10px 28px #06172225!important;padding:11px 13px!important;}
-.scintilla-console .sc-endpoint.a{border-left:3px solid #d7a35c!important;}
-.scintilla-console .sc-endpoint.b{border-left:3px solid #4abeb5!important;}
-.scintilla-console .sc-timeline{height:58px!important;bottom:14px!important;left:16px!important;right:16px!important;border-radius:12px!important;background:rgba(7,23,36,.88)!important;border-color:#8caab42e!important;box-shadow:0 8px 28px #07172428!important;}
+.scintilla-console .sc-endpoint{top:190px!important;max-width:180px!important;}\n.scintilla-console .sc-endpoint.a{left:96px!important;border-left:3px solid #d7a35c!important;}
+.scintilla-console .sc-endpoint.b{right:374px!important;border-left:3px solid #4abeb5!important;}
+.scintilla-console .sc-timeline{height:58px!important;bottom:28px!important;left:96px!important;right:374px!important;border-radius:12px!important;background:rgba(7,23,36,.88)!important;border-color:#8caab42e!important;box-shadow:0 8px 28px #07172428!important;}
 .scintilla-console .sc-stage{font-size:7px!important;letter-spacing:.04em!important;}
 .scintilla-console .sc-stage:not(:last-of-type):after{background:#526b76!important;}
 .scintilla-console .sc-stage-dot{border-color:#78909b!important;background:#172f3b!important;}
@@ -775,7 +779,7 @@ export default function MissionControl() {
 @media(max-width:900px){
  .scintilla-console .sc-topbar{grid-template-columns:auto 1fr!important;height:64px!important;padding:0 12px!important;}
  .scintilla-console .sc-main{height:auto!important;min-height:calc(100vh - 64px)!important;grid-template-columns:54px minmax(0,1fr)!important;}
- .scintilla-console .sc-center{padding:10px!important;grid-template-rows:minmax(360px,55vh) auto!important;overflow:visible!important;}
+ .scintilla-console .sc-center{padding:10px!important;grid-template-rows:minmax(360px,55vh) auto!important;overflow:visible!important;}\n .scintilla-console .sc-space{inset:78px 8px 8px 8px!important;}\n .scintilla-console .sc-status{top:88px!important;left:18px!important;}\n .scintilla-console .sc-scene-tools{top:205px!important;left:18px!important;right:18px!important;}\n .scintilla-console .sc-endpoint.a{left:18px!important;}\n .scintilla-console .sc-endpoint.b{right:18px!important;}\n .scintilla-console .sc-timeline{left:18px!important;right:18px!important;bottom:18px!important;}
  .scintilla-console .sc-lower{grid-template-columns:1fr 1fr!important;}
  .scintilla-console .sc-lower>*:last-child{grid-column:1/-1;}
  .scintilla-console .sc-right{grid-column:2;grid-row:2;padding:0 10px 14px!important;overflow:visible!important;}
