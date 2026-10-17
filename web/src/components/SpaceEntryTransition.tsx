@@ -60,12 +60,12 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const transmissions: Record<FlightStage, [string, string]> = {
-      cabin: ["Cabin sealed.", "T−00:03  /  FLIGHT COMPUTER"],
-      ignition: ["Ignition.", "THRUST NOMINAL"],
-      ascent: ["Ascent.", "ATMOSPHERIC EXIT"],
-      orbit: ["Orbit acquired.", "OPTICAL TARGET LOCK"],
-      satellite: ["Link acquired.", "FSO SYSTEM ONLINE"],
-      interface: ["Mission ready.", "LIVE TELEMETRY"],
+      cabin: ["Buckle up. We're going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
+      ignition: ["IGNITION", "THRUST NOMINAL"],
+      ascent: ["ASCENT", "ATMOSPHERIC EXIT"],
+      orbit: ["ORBIT LOCK", "OPTICAL TARGET ACQUISITION"],
+      satellite: ["LINK ACQUIRED", "FSO SYSTEM ONLINE"],
+      interface: ["MISSION READY", "LIVE TELEMETRY"],
     };
     const [headline, subline] = transmissions[stage];
     setTypedHeadline("");
@@ -115,6 +115,15 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           aria-label="Orbital launch sequence"
         >
           <div className="space-entry__wash" />
+          <div className="space-entry__cockpit" aria-hidden="true">
+            <div className="space-entry__cockpit-top"><span>ORBI / FPV</span><span>CAM 01 · LIVE</span></div>
+            <i className="space-entry__cockpit-corner space-entry__cockpit-corner--tl" />
+            <i className="space-entry__cockpit-corner space-entry__cockpit-corner--tr" />
+            <i className="space-entry__cockpit-corner space-entry__cockpit-corner--bl" />
+            <i className="space-entry__cockpit-corner space-entry__cockpit-corner--br" />
+            <div className="space-entry__reticle"><i /></div>
+            <div className="space-entry__cockpit-bottom"><span>ATTITUDE <b>STABLE</b></span><span>VELOCITY <b>INCREASING</b></span></div>
+          </div>
           <div className="space-entry__stars" aria-hidden="true">
             {Array.from({ length: 76 }, (_, i) => (
               <i key={i} style={{
