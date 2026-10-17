@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import OpticalCinema from "@/components/OpticalCinema";
+import { OrbitalTransitionLink } from "@/components/SpaceEntryTransition";
 import { useEffect, useState } from "react";
 import { runScenario, type RunScenarioResponse } from "@/lib/api";
 import "./landing.css";
@@ -73,7 +74,7 @@ export default function Home() {
           <span className={"ol-api-status " + (apiStatus === "online" ? "is-online" : apiStatus === "offline" ? "is-offline" : "")}>
             <i /> API {apiStatus === "checking" ? "CHECKING" : apiStatus === "online" ? "CONNECTED" : "OFFLINE"}
           </span>
-          <Link className="ol-button ol-button-dark ol-nav-cta" href="/mission">Open workspace <span>→</span></Link>
+          <OrbitalTransitionLink className="ol-button ol-button-dark ol-nav-cta" href="/mission">Open workspace <span>→</span></OrbitalTransitionLink>
         </div>
       </header>
 
@@ -87,7 +88,7 @@ export default function Home() {
               <button className="orbi-primary-action" onClick={runLiveScenario} disabled={running || apiStatus !== "online"}>
                 {running ? "Running experiment…" : "Run live experiment"} <span>↗</span>
               </button>
-              <Link className="orbi-secondary-action" href="/mission">Explore the workspace <span>→</span></Link>
+              <OrbitalTransitionLink className="orbi-secondary-action" href="/mission">Explore the workspace <span>→</span></OrbitalTransitionLink>
             </div>
             <div className="orbi-trust-line"><span><i /> Reproducible scenarios</span><span><i /> Measured outcomes</span><span><i /> Backend-powered</span></div>
             {runError && <p className="orbi-error" role="alert">{runError}</p>}
@@ -121,7 +122,7 @@ export default function Home() {
             <div className="orbi-card-heading"><div><span>03 / VALIDATE</span><h2>Experiment workflow</h2></div><Link href="/demo">Open demo ↗</Link></div>
             <div className="orbi-process-steps"><div className="complete"><i>1</i><span>Configure</span></div><div className={running ? "active" : ""}><i>2</i><span>Execute</span></div><div className={runResult ? "complete" : ""}><i>3</i><span>Inspect</span></div></div>
             <div className="orbi-process-note">{running ? "The backend is processing the selected scenario." : runResult ? "The run completed. Inspect the measured results or compare controllers." : "Set the disturbance profile, then execute a reproducible backend run."}</div>
-            <Link className="orbi-text-link" href="/mission">Explore Mission Control <span>→</span></Link>
+            <OrbitalTransitionLink className="orbi-text-link" href="/mission">Explore Mission Control <span>→</span></OrbitalTransitionLink>
           </section>
         </div>
       </section>
@@ -179,10 +180,10 @@ export default function Home() {
 
       <section className="ol-final-cta">
         <div><div className="ol-section-kicker"><span>READY TO TEST?</span><i /> OPEN THE REAL WORKSPACE</div><h2>Make the next link<br /><em>measurable.</em></h2></div>
-        <div className="ol-final-actions"><Link className="ol-button ol-button-dark" href="/mission">Open Mission Control <span>→</span></Link><Link className="ol-button ol-button-quiet" href="/demo">Run backend scenario <span>↗</span></Link></div>
+        <div className="ol-final-actions"><OrbitalTransitionLink className="ol-button ol-button-dark" href="/mission">Open Mission Control <span>→</span></OrbitalTransitionLink><Link className="ol-button ol-button-quiet" href="/demo">Run backend scenario <span>↗</span></Link></div>
       </section>
 
-      <footer className="ol-footer"><Link className="ol-brand" href="#top"><span className="ol-mark" aria-hidden="true"><i /></span><span>orbi</span></Link><span>OPTICAL LINKS, BETTER UNDERSTOOD.</span><div><Link href="/mission">Mission Control</Link><Link href="/demo">Backend scenario</Link><Link href="/compare">Comparison</Link></div><small>ORBI · VIRTUAL FSOC SYSTEM</small></footer>
+      <footer className="ol-footer"><Link className="ol-brand" href="#top"><span className="ol-mark" aria-hidden="true"><i /></span><span>orbi</span></Link><span>OPTICAL LINKS, BETTER UNDERSTOOD.</span><div><OrbitalTransitionLink href="/mission">Mission Control</OrbitalTransitionLink><Link href="/demo">Backend scenario</Link><Link href="/compare">Comparison</Link></div><small>ORBI · VIRTUAL FSOC SYSTEM</small></footer>
     </main>
   );
 }
