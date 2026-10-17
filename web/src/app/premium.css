@@ -1510,3 +1510,77 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     animation: none !important;
   }
 }
+
+
+/* ORBI CINEMATIC UPGRADE — hold a real deep-space cover through navigation,
+   keep the transmission readable, and never clip the spacecraft on approach. */
+.space-entry--launch,
+.space-entry--ignition,
+.space-entry--ascent,
+.space-entry--orbit {
+  background: transparent !important;
+}
+.space-entry--launch .space-entry__wash,
+.space-entry--ignition .space-entry__wash,
+.space-entry--ascent .space-entry__wash,
+.space-entry--orbit .space-entry__wash {
+  inset: -6% !important;
+  z-index: 0 !important;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse at 50% 46%, rgba(95,171,222,.12) 0%, transparent 42%),
+    linear-gradient(150deg, #dce8e6 0%, #9ab7c8 20%, #3e5a74 39%, #101e34 60%, #020711 82%, #020711 100%) !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: orbi-final-departure 5.8s cubic-bezier(.5,0,.18,1) both !important;
+  will-change: opacity, transform, filter;
+}
+@keyframes orbi-final-departure {
+  0% { opacity: 0; transform: scale(1.015); filter: blur(0) brightness(1); }
+  14% { opacity: .28; transform: scale(1.04); filter: blur(2px) brightness(.98); }
+  32% { opacity: .72; transform: scale(1.09); filter: blur(7px) brightness(.78); }
+  48% { opacity: 1; transform: scale(1.16); filter: blur(12px) brightness(.5); }
+  64% { opacity: 1; transform: scale(1.24); filter: blur(5px) brightness(.25); }
+  82% { opacity: 1; transform: scale(1.32); filter: blur(1px) brightness(.12); }
+  100% { opacity: 1; transform: scale(1.38); filter: blur(0) brightness(.1); }
+}
+.space-entry--launch .space-entry__stars {
+  animation: orbi-flight-starfield 4.2s 1.25s cubic-bezier(.16,.72,.2,1) both !important;
+}
+.space-entry--launch .space-entry__stars i {
+  animation: orbi-flight-star-streak 3.9s 1.25s cubic-bezier(.12,.72,.18,1) both !important;
+}
+.space-entry--launch .space-entry__hud {
+  animation: orbi-transmission-in .65s .28s ease-out both !important;
+}
+.space-entry--launch .space-entry__headline span {
+  font-size: clamp(13px, 1.15vw, 16px) !important;
+  line-height: 1.6 !important;
+  letter-spacing: -.015em !important;
+}
+.space-entry--launch .space-entry__headline em {
+  margin-top: 10px !important;
+  color: rgba(180,220,241,.68) !important;
+  letter-spacing: .16em !important;
+}
+.space-entry--launch .space-entry__cockpit {
+  animation: orbi-cockpit-enter .8s .75s ease-out both !important;
+}
+.space-entry--arrival .space-entry__wash,
+.space-entry--interface .space-entry__wash {
+  display: none !important;
+}
+.space-entry--arrival::after {
+  animation-duration: 1.5s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry--launch .space-entry__wash,
+  .space-entry--ignition .space-entry__wash,
+  .space-entry--ascent .space-entry__wash,
+  .space-entry--orbit .space-entry__wash {
+    animation: none !important;
+    opacity: 1 !important;
+    background: #020711 !important;
+  }
+}
