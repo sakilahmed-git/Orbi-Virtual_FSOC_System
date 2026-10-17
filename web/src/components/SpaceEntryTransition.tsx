@@ -49,11 +49,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("cabin");
     setPhase("launch");
 
-    // Hold the landing-to-flight blend long enough to read as one continuous shot.
-    // The first transmission gets time to type before the rapid FPV cuts begin.
-    later(() => setStage("ignition"), 420);
-    later(() => setStage("ascent"), 760);
-    later(() => setStage("orbit"), 1080);
+    // Give the transmission a cinematic beat: the words finish typing, breathe,
+    // and remain readable while the flight visuals continue behind them.
+    later(() => setStage("ignition"), 900);
+    later(() => setStage("ascent"), 1800);
+    later(() => setStage("orbit"), 2800);
     later(() => {
       if (target.current) {
         // Persist the hand-off before navigation so the 3D scene can pick it
@@ -61,37 +61,49 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         window.sessionStorage.setItem("orbi:cinematic-entry", "1");
         router.push(target.current);
       }
-    }, 1480);
+    }, 4200);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
-    const transmissions: Record<FlightStage, [string, string]> = {
-      cabin: ["Buckle up. We're going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
-      ignition: ["Buckle up. We\u0027re going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
-      ascent: ["Buckle up. We\u0027re going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
-      orbit: ["Buckle up. We\u0027re going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
+    const launchMessage: [string, string] = [
+      "Buckle up. We're going to space.",
+      "FLIGHT COMPUTER  /  TRANSMISSION IN",
+    ];
+    const arrivalMessages: Record<"satellite" | "interface", [string, string]> = {
       satellite: ["LINK ACQUIRED", "FSO SYSTEM ONLINE"],
       interface: ["MISSION READY", "LIVE TELEMETRY"],
     };
-    const [headline, subline] = transmissions[stage];
+    const [headline, subline] = phase === "launch"
+      ? launchMessage
+      : arrivalMessages[stage === "interface" ? "interface" : "satellite"];
+
     setTypedHeadline("");
     setTypedSubline("");
     let headlineIndex = 0;
     let sublineIndex = 0;
+    let sublineTimer: ReturnType<typeof setInterval> | undefined;
+
+    // Slow, deliberate typewriter timing. Crucially, depend on phase rather
+    // than every flight stage, so ignition/ascent/orbit never reset the text.
     const headlineTimer = setInterval(() => {
       headlineIndex += 1;
       setTypedHeadline(headline.slice(0, headlineIndex));
       if (headlineIndex >= headline.length) {
         clearInterval(headlineTimer);
-        const sublineTimer = setInterval(() => {
+        // A short dramatic pause before the smaller transmission line begins.
+        sublineTimer = setInterval(() => {
           sublineIndex += 1;
           setTypedSubline(subline.slice(0, sublineIndex));
           if (sublineIndex >= subline.length) clearInterval(sublineTimer);
-        }, 20);
+        }, 38);
       }
-    }, 29);
-    return () => clearInterval(headlineTimer);
-  }, [stage, phase]);
+    }, phase === "launch" ? 58 : 48);
+
+    return () => {
+      clearInterval(headlineTimer);
+      if (sublineTimer) clearInterval(sublineTimer);
+    };
+  }, [phase]);
 
   useEffect(() => {
     if (phase !== "launch" || !target.current || pathname === "/" || pathname !== target.current) return;
