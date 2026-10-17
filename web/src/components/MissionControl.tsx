@@ -609,7 +609,7 @@ export default function MissionControl() {
 
         .sc-topbar{height:68px;display:grid;grid-template-columns:245px minmax(300px,1fr) 300px 185px;align-items:center;gap:16px;padding:0 18px;background:rgba(255,255,255,.95);border-bottom:1px solid #d9e2e7;box-shadow:0 1px 14px rgba(20,35,48,.055);backdrop-filter:blur(20px)}
 
-        .sc-brand{display:flex;align-items:center;gap:11px}.sc-mark{width:33px;height:33px;transform:rotate(45deg);border-radius:6px;background:linear-gradient(135deg,#132337,#1b8bd7 58%,#2bc8e6);box-shadow:0 6px 18px rgba(27,130,207,.24);position:relative}.sc-mark:after{content:"";position:absolute;inset:8px;background:#fff;border-radius:2px;opacity:.9}.sc-brand-title{font-size:15px;font-weight:800;letter-spacing:-.025em}.sc-brand-sub{font-size:8px;color:#7b8994;margin-top:2px;letter-spacing:.04em}
+        .sc-brand{display:flex;align-items:center;gap:10px}.sc-mark{width:27px;height:27px;flex:0 0 27px;transform:none;border-radius:50%;border:4px solid #1c3038;border-right-color:#5d9e9b;background:transparent;box-shadow:none;position:relative}.sc-mark:after{content:"";position:absolute;inset:4px;background:#f8f9f7;border-radius:50%;opacity:1}.sc-brand-title{font-family:Manrope,Inter,ui-sans-serif,sans-serif;font-size:17px;font-weight:700;letter-spacing:-.075em}.sc-brand-sub{font-size:8px;color:#758997;margin-top:3px;letter-spacing:.1em}
 
         .sc-nav{display:flex;gap:4px}.sc-nav button,.sc-nav a{border:0;background:transparent;color:#667681;text-decoration:none;padding:9px 12px;border-radius:9px;font-size:10px;font-weight:650;cursor:pointer}.sc-nav .active{background:#e9eff3;color:#17232d}
 
