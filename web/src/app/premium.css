@@ -797,3 +797,86 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) {
   .space-entry--arrival .space-entry__hud { animation: none !important; }
 }
+
+
+/* Mission transmissions: restrained glass HUD + live typewriter cursor. */
+.space-entry--launch {
+  background: radial-gradient(ellipse at 50% 115%, rgba(18, 50, 76, .68), transparent 58%), #02050b !important;
+}
+.space-entry--launch .space-entry__wash {
+  background:
+    linear-gradient(180deg, rgba(2, 5, 11, .1), rgba(2, 5, 11, .52)),
+    radial-gradient(ellipse at 50% 100%, rgba(30, 99, 141, .25), transparent 62%) !important;
+}
+.space-entry__hud {
+  text-shadow: 0 2px 26px rgba(0, 0, 0, .8);
+}
+.space-entry__headline span,
+.space-entry__headline em {
+  display: block;
+  min-height: 1.15em;
+}
+.space-entry__headline span {
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.space-entry__headline em {
+  margin-top: 12px;
+  max-width: 610px;
+  font-style: normal;
+  font-family: var(--font-mono, "DM Mono", monospace);
+  font-weight: 400;
+  letter-spacing: .01em;
+  line-height: 1.7;
+}
+.space-entry__typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: .88em;
+  margin-left: 5px;
+  vertical-align: -.04em;
+  background: #8edaff;
+  box-shadow: 0 0 12px rgba(101, 207, 255, .8);
+  animation: orbi-type-caret .78s steps(2, start) infinite;
+}
+.space-entry__typing-cursor--sub {
+  height: .9em;
+  width: 1px;
+  margin-left: 4px;
+  opacity: .8;
+}
+.space-entry__readout {
+  font-family: var(--font-mono, "DM Mono", monospace);
+  letter-spacing: .14em;
+}
+.space-entry__steps {
+  font-family: var(--font-mono, "DM Mono", monospace);
+  letter-spacing: .12em;
+}
+.space-entry__progress {
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(160, 205, 231, .14);
+}
+.space-entry__progress i {
+  transform-origin: left center;
+  animation: orbi-transmission-progress 5.55s cubic-bezier(.18,.72,.18,1) both !important;
+  background: linear-gradient(90deg, #66c8f2, #d9f4ff) !important;
+  box-shadow: 0 0 18px rgba(102, 200, 242, .45);
+}
+@keyframes orbi-type-caret {
+  to { opacity: 0; }
+}
+@keyframes orbi-transmission-progress {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+.space-entry--arrival .space-entry__headline span {
+  text-shadow: 0 0 34px rgba(83, 178, 231, .25);
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry__typing-cursor,
+  .space-entry__progress i {
+    animation: none !important;
+  }
+}
