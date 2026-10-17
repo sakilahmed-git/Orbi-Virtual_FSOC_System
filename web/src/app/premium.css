@@ -563,3 +563,92 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   }
   .space-entry--satellite .fpv-orbit-satellite,.space-entry--interface .fpv-orbit-satellite { opacity:1;transform:translate(-50%,-50%); }
 }
+
+
+/* Route arrival choreography: keep the real dashboard hidden until the satellite approach. */
+.orbi-transition-content { display: contents; }
+.orbi-transition-content--arrival .scintilla-console .sc-topbar,
+.orbi-transition-content--arrival .scintilla-console .sc-rail,
+.orbi-transition-content--arrival .scintilla-console .sc-endpoint,
+.orbi-transition-content--arrival .scintilla-console .sc-timeline,
+.orbi-transition-content--arrival .scintilla-console .sc-panel,
+.orbi-transition-content--arrival .scintilla-console .sc-card,
+.orbi-transition-content--arrival .scintilla-console .sc-scene-tools,
+.orbi-transition-content--arrival .scintilla-console .sc-control,
+.orbi-transition-content--arrival .scintilla-console .sc-mini-grid {
+  opacity: 0 !important; animation: none !important; transition: none !important;
+}
+.orbi-transition-content--arrival .scintilla-console .sc-space {
+  animation: fpv-dashboard-space-wake 1.25s .12s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-space {
+  animation: fpv-dashboard-space-wake 1.15s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-topbar {
+  animation: fpv-ui-pop .55s .08s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-rail {
+  animation: fpv-ui-pop .55s .2s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-scene-tools {
+  animation: fpv-ui-pop .5s .28s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-endpoint {
+  animation: fpv-ui-pop .55s .38s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-timeline {
+  animation: fpv-ui-pop .5s .48s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-card,
+.orbi-transition-content--interface .scintilla-console .sc-panel {
+  animation: fpv-ui-pop .58s .56s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.orbi-transition-content--interface .scintilla-console .sc-control,
+.orbi-transition-content--interface .scintilla-console .sc-mini-grid {
+  animation: fpv-ui-pop .5s .68s cubic-bezier(.16,.8,.2,1) both !important;
+}
+@keyframes fpv-ui-pop {
+  0% { opacity:0; transform:translate3d(0,22px,0) scale(.985); filter:blur(7px); }
+  65% { opacity:1; filter:blur(0); }
+  100% { opacity:1; transform:translate3d(0,0,0) scale(1); filter:blur(0); }
+}
+@keyframes fpv-dashboard-space-wake {
+  0% { opacity:.15; transform:scale(1.28); filter:brightness(.4) blur(5px); }
+  55% { opacity:1; filter:brightness(1.2) blur(0); }
+  100% { opacity:1; transform:scale(1); filter:brightness(1) blur(0); }
+}
+/* The satellite is the last thing in the launch overlay; it rushes close, then yields to the real scene. */
+.space-entry--satellite .fpv-orbit-satellite {
+  animation:fpv-satellite-close 1.1s .12s cubic-bezier(.16,.8,.2,1) both !important;
+}
+.space-entry--interface .fpv-orbit-satellite {
+  opacity:0 !important; transform:translate(-50%,-50%) scale(2.8) !important;
+  transition:opacity .45s ease,transform .6s cubic-bezier(.16,.8,.2,1) !important;
+}
+.space-entry--interface .fpv-flight-scene {
+  animation:fpv-scene-fade-out 1.35s .15s ease both !important;
+}
+.space-entry--interface .space-entry__hud {
+  animation:fpv-hud-out .45s ease both !important;
+}
+@keyframes fpv-satellite-close {
+  0% { opacity:0; transform:translate(-50%,-50%) translate3d(0,70px,-220px) scale(.12) rotate(-12deg); }
+  48% { opacity:1; transform:translate(-50%,-50%) translate3d(0,0,0) scale(1.15) rotate(2deg); }
+  78% { opacity:1; transform:translate(-50%,-50%) translate3d(0,0,0) scale(2.25) rotate(0); }
+  100% { opacity:1; transform:translate(-50%,-50%) translate3d(0,0,0) scale(2.8) rotate(0); }
+}
+@keyframes fpv-scene-fade-out { to { opacity:0; filter:brightness(1.8) blur(8px); transform:scale(1.12); } }
+@keyframes fpv-hud-out { to { opacity:0; transform:translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) {
+  .orbi-transition-content--arrival .scintilla-console .sc-topbar,
+  .orbi-transition-content--arrival .scintilla-console .sc-rail,
+  .orbi-transition-content--arrival .scintilla-console .sc-endpoint,
+  .orbi-transition-content--arrival .scintilla-console .sc-timeline,
+  .orbi-transition-content--arrival .scintilla-console .sc-panel,
+  .orbi-transition-content--arrival .scintilla-console .sc-card,
+  .orbi-transition-content--arrival .scintilla-console .sc-scene-tools,
+  .orbi-transition-content--arrival .scintilla-console .sc-control,
+  .orbi-transition-content--arrival .scintilla-console .sc-mini-grid {
+    opacity:1 !important; animation:none !important;
+  }
+}
