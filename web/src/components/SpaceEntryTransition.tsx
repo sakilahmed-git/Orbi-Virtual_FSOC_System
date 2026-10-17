@@ -49,13 +49,14 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("cabin");
     setPhase("launch");
 
-    // Short, precise beats: let the FPV motion do the storytelling.
-    later(() => setStage("ignition"), 800);
-    later(() => setStage("ascent"), 1550);
-    later(() => setStage("orbit"), 2350);
+    // Hold the landing-to-flight blend long enough to read as one continuous shot.
+    // The first transmission gets time to type before the rapid FPV cuts begin.
+    later(() => setStage("ignition"), 1600);
+    later(() => setStage("ascent"), 2250);
+    later(() => setStage("orbit"), 3050);
     later(() => {
       if (target.current) router.push(target.current);
-    }, 3100);
+    }, 4050);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
