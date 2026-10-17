@@ -52,9 +52,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
 
     // Give the transmission a cinematic beat: the words finish typing, breathe,
     // and remain readable while the flight visuals continue behind them.
-    later(() => setStage("ignition"), 850);
-    later(() => setStage("ascent"), 1750);
-    later(() => setStage("orbit"), 2850);
+    later(() => setStage("ignition"), 1800);
+    later(() => setStage("ascent"), 3900);
+    later(() => setStage("orbit"), 6500);
     later(() => {
       if (target.current) {
         // Persist the hand-off before navigation so the 3D scene can pick it
@@ -62,18 +62,18 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         window.sessionStorage.setItem("orbi:cinematic-entry", "1");
         router.push(target.current);
       }
-    }, 3900);
+    }, 7900);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
     if (phase === "idle") return;
     const launchMessage: [string, string] = [
-      "Buckle up. We're going to space.",
-      "FLIGHT COMPUTER  /  TRANSMISSION IN",
+      "Beyond Earth, a beam must find its target.",
+      "FREE-SPACE OPTICAL COMMUNICATION  /  FSOC",
     ];
     const arrivalMessages: Record<"satellite" | "interface", [string, string]> = {
-      satellite: ["SATELLITES IN VIEW", "OPTICAL LINK  /  STANDBY"],
-      interface: ["MISSION READY", "LIVE TELEMETRY"],
+      satellite: ["Two satellites. One narrow beam.", "ACQUIRE  /  TRACK  /  MAINTAIN THE OPTICAL LINK"],
+      interface: ["What happens when the link drifts?", "ORBI USES LEARNING TO PREDICT, REACQUIRE & RECOVER"],
     };
     const messageKey = phase === "launch" ? "launch" : isInterfaceStage ? "interface" : "satellite";
     const [headline, subline] = messageKey === "launch"
@@ -100,7 +100,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           if (sublineIndex >= subline.length) clearInterval(sublineTimer);
         }, 38);
       }
-    }, phase === "launch" ? 58 : 48);
+    }, phase === "launch" ? 86 : 72);
 
     return () => {
       clearInterval(headlineTimer);
@@ -116,11 +116,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
     // Hold the real 3D scene long enough for the acquisition message to land.
-    later(() => setStage("interface"), 2100);
+    later(() => setStage("interface"), 3200);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 3900);
+    }, 5700);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -157,6 +157,14 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
                 "--star-size": `${i % 7 === 0 ? 3 : i % 3 === 0 ? 2 : 1}px`,
               } as CSSProperties} />
             ))}
+          </div>
+          <div className="space-entry__satellite-field" aria-hidden="true">
+            <div className="space-entry__planet-horizon" />
+            <div className="space-entry__optical-beam"><i /></div>
+            <div className="space-entry__satellite space-entry__satellite--near"><span className="space-entry__solar-panel" /><b /><span className="space-entry__solar-panel" /></div>
+            <div className="space-entry__satellite space-entry__satellite--far"><span className="space-entry__solar-panel" /><b /><span className="space-entry__solar-panel" /></div>
+            <span className="space-entry__satellite-label space-entry__satellite-label--near">SPACECRAFT A / TRANSMITTER</span>
+            <span className="space-entry__satellite-label space-entry__satellite-label--far">SPACECRAFT B / RECEIVER</span>
           </div>
 
           <div className="space-entry__hud">
