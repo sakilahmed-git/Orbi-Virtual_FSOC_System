@@ -73,9 +73,10 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       satellite: ["LINK ACQUIRED", "FSO SYSTEM ONLINE"],
       interface: ["MISSION READY", "LIVE TELEMETRY"],
     };
-    const [headline, subline] = phase === "launch"
+    const messageKey = phase === "launch" ? "launch" : stage === "interface" ? "interface" : "satellite";
+    const [headline, subline] = messageKey === "launch"
       ? launchMessage
-      : arrivalMessages[stage === "interface" ? "interface" : "satellite"];
+      : arrivalMessages[messageKey];
 
     setTypedHeadline("");
     setTypedSubline("");
@@ -103,7 +104,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       clearInterval(headlineTimer);
       if (sublineTimer) clearInterval(sublineTimer);
     };
-  }, [phase]);
+  }, [phase, stage === "interface"]);
 
   useEffect(() => {
     if (phase !== "launch" || !target.current || pathname === "/" || pathname !== target.current) return;
@@ -112,12 +113,12 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
-    // Let the live scene breathe before revealing the instruments.
-    later(() => setStage("interface"), 550);
+    // Hold the real 3D scene long enough for the acquisition message to land.
+    later(() => setStage("interface"), 1450);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 1450);
+    }, 3300);
   }, [pathname, phase, clearTimers, later]);
 
 
