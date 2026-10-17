@@ -1429,7 +1429,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .space-entry--orbit .space-entry__wash {
   inset: -5% !important;
   z-index: -1 !important;
-  opacity: 0 !important;
+  opacity: 0;
   background:
     radial-gradient(ellipse at 52% 45%, rgba(195,235,255,.22), transparent 34%),
     linear-gradient(145deg, rgba(231,240,238,.38) 0%, rgba(124,163,181,.34) 28%, rgba(27,49,73,.45) 56%, rgba(2,7,17,.62) 100%) !important;
