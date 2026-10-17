@@ -221,8 +221,8 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       c.midpoint.copy(shared.current.a).add(shared.current.b).multiplyScalar(0.5);
       // Start beside the real source satellite, pass it, then pull back to frame
       // both endpoints. This is camera choreography, not a satellite spin.
-      c.start.copy(c.source).add(new THREE.Vector3(0.35, 1.15, 4.4));
-      c.pass.copy(c.source).add(new THREE.Vector3(-2.1, 1.25, 1.65));
+      c.start.copy(c.source).add(new THREE.Vector3(0.8, 1.45, 5.2));
+      c.pass.copy(c.source).add(new THREE.Vector3(-3.4, 1.65, 3.4));
       c.wide.set(0, 6.5, 18);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
@@ -308,20 +308,20 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
     if (cinematic.current.active) {
       const c = cinematic.current;
       c.elapsed += dt;
-      const t = THREE.MathUtils.clamp(c.elapsed / 3.15, 0, 1);
+      const t = THREE.MathUtils.clamp(c.elapsed / 4.35, 0, 1);
       const ease = (v: number) => v * v * (3 - 2 * v);
       const lookTarget = new THREE.Vector3();
-      if (t < 0.34) {
-        const local = ease(t / 0.34);
+      if (t < 0.29) {
+        const local = ease(t / 0.29);
         camera.position.copy(c.start).lerp(c.pass, local);
         lookTarget.copy(c.source).lerp(c.source.clone().add(new THREE.Vector3(0.8, 0.1, 0)), local);
-      } else if (t < 0.7) {
-        const local = ease((t - 0.34) / 0.36);
+      } else if (t < 0.68) {
+        const local = ease((t - 0.29) / 0.39);
         const wideStart = c.midpoint.clone().add(new THREE.Vector3(0, 2.8, 8.5));
         camera.position.copy(c.pass).lerp(wideStart, local);
         lookTarget.copy(c.source).lerp(c.midpoint, local);
       } else {
-        const local = ease((t - 0.7) / 0.3);
+        const local = ease((t - 0.68) / 0.32);
         const wideStart = c.midpoint.clone().add(new THREE.Vector3(0, 2.8, 8.5));
         camera.position.copy(wideStart).lerp(desired, local);
         lookTarget.copy(c.midpoint).lerp(new THREE.Vector3(0, 0, 0), local);
