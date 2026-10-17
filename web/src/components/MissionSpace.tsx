@@ -221,8 +221,8 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       c.midpoint.copy(shared.current.a).add(shared.current.b).multiplyScalar(0.5);
       // Start beside the real source satellite, pass it, then pull back to frame
       // both endpoints. This is camera choreography, not a satellite spin.
-      c.start.copy(c.source).add(new THREE.Vector3(0.8, 1.45, 5.2));
-      c.pass.copy(c.source).add(new THREE.Vector3(-3.4, 1.65, 3.4));
+      c.start.copy(c.source).add(new THREE.Vector3(0.4, 2.1, 9.2));
+      c.pass.copy(c.source).add(new THREE.Vector3(-3.4, 2.4, 7.2));
       c.wide.set(0, 6.5, 18);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
@@ -317,7 +317,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
         lookTarget.copy(c.source).lerp(c.source.clone().add(new THREE.Vector3(0.8, 0.1, 0)), local);
       } else if (t < 0.68) {
         const local = ease((t - 0.29) / 0.39);
-        const wideStart = c.midpoint.clone().add(new THREE.Vector3(0, 2.8, 8.5));
+        const wideStart = c.midpoint.clone().add(new THREE.Vector3(0, 4.2, 13));
         camera.position.copy(c.pass).lerp(wideStart, local);
         lookTarget.copy(c.source).lerp(c.midpoint, local);
       } else {
