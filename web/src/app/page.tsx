@@ -6,6 +6,7 @@ import { OrbitalTransitionLink } from "@/components/SpaceEntryTransition";
 import { useEffect, useState } from "react";
 import { runScenario, type RunScenarioResponse } from "@/lib/api";
 import "./landing.css";
+import "./premium.css";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8000";
 
