@@ -257,3 +257,94 @@ The work is not done until all are true:
 - Passing production build/type checks.
 - Reviewed end-to-end recording.
 - PR notes that accurately state what was changed and verified.
+
+
+---
+
+## 13. Creative direction upgrade — “Cross the Light”
+
+This section supersedes any interpretation of the plan as merely a clean, restrained UI transition. The experience must be **boldly cinematic and memorable**, while remaining visually controlled and technically credible.
+
+### Emotional target
+
+The viewer should feel a shift from the familiar world into an extraordinary orbital mission. The sequence should feel like a premium science-fiction title sequence directed around a real engineering problem—not a dashboard loading animation.
+
+Aim for:
+- Monumental scale and a sense of distance.
+- One unmistakable visual subject at a time.
+- Camera motion with anticipation, acceleration, reveal, and a controlled landing.
+- Optical light as a narrative device: a tiny, precise beam in an immense environment.
+- A seamless reveal of Mission Control as the destination of the same journey.
+
+### New cinematic beat sheet
+
+**Beat 1 — The world falls away**
+- The landing page does not simply fade to black.
+- The camera pushes toward the optical scene; the landing’s bright surfaces stretch subtly with perspective and dissolve into an atmospheric horizon.
+- Typography becomes a deliberate title card, not a slow paragraph typed over clutter.
+- A single deep-space sound cue may be used only if the product has an intentional, user-initiated audio design. The experience must still work perfectly muted and must never autoplay unexpected audio.
+
+**Beat 2 — Vastness reveal**
+- The camera emerges above the planetary limb into a large, dark orbital field.
+- The horizon curves across the lower frame; atmospheric light rolls gently along it.
+- Stars have depth and restrained parallax rather than all streaking in the same way.
+- Hold a brief, quiet reveal before showing the satellites. The contrast between vast space and tiny spacecraft creates scale.
+- Use a controlled camera move, not a pile of overlays.
+
+**Beat 3 — Satellite fly-by**
+- Reveal the near satellite in silhouette, then let a narrow rim light pick out its structure and solar panels.
+- The camera passes slightly to one side of it, establishing foreground depth.
+- Reveal the distant receiver in the opposite side of the frame, with clear separation and a credible sense of distance.
+- Do not use flat CSS rectangles as if they were photorealistic 3D models. If the actual 3D engine can render the spacecraft, use that scene; if not, use a deliberately stylized diagram rather than pretending it is a realistic render.
+
+**Beat 4 — The beam**
+- The optical beam should not be a permanent glowing line. First show the transmitter aperture aligning; then a small, precise pulse travels through space and the beam resolves toward the receiver.
+- Keep the beam narrow and crisp with a restrained atmospheric halo. The surrounding scene remains dark enough for the beam to read instantly.
+- The beam is the hero visual. Labels and HUD decorations fade back while it locks.
+- The pulse must visually travel along the actual beam direction, not move independently at an unrelated angle.
+
+**Beat 5 — The danger**
+- A disturbance introduces a subtle change in the pointing direction; the beam slips away from the receiver aperture.
+- The environment briefly becomes quieter and more still. The viewer sees the failure before reading the copy.
+- A short headline appears: **“A fraction of a degree can mean silence.”**
+- Supporting line: “Motion and pointing error can break a free-space optical link.”
+- Use this as a conceptual statement, not as a quantified claim about every FSOC system.
+
+**Beat 6 — Orbi responds**
+- A controlled tracking reticle or guidance path indicates the receiver’s position.
+- Show the workflow in three clear states: **ACQUIRE → TRACK → RECOVER**. Use restrained sequential emphasis; do not cover the spacecraft with spinning rings or fake analytics.
+- The beam returns to alignment as an illustrative recovery sequence. Never present this animation as live autonomous behavior unless that functionality is genuinely running.
+- Headline: **“Find the signal. Hold the link.”**
+- Supporting line: “Orbi makes acquisition, disturbance and recovery observable and testable.”
+
+**Beat 7 — Fly through the beam**
+- The camera follows the light path toward the receiver. The beam expands in perspective as the camera approaches, becoming a clean luminous plane/portal-like transition—not a random lens flare.
+- For a brief instant, the frame is filled by the optical light. This is the transition bridge.
+- The light resolves into the real central scene in Mission Control, matching direction, color, horizon, and camera framing.
+- The dashboard should feel revealed from inside the same world, not pasted on after an animation.
+
+**Beat 8 — Mission Control lands**
+- Camera motion decelerates into a stable view of the actual dashboard scene.
+- Navigation and data panels enter from purposeful directions, as if the interface is assembling around the scene. Keep the movement small and staggered.
+- The primary 3D scene stays the hero; panels do not overwhelm it.
+- All controls become usable as soon as the handoff completes.
+- End on a clean, stable interface—not an endless animated title card.
+
+### Cinematic craft rules
+
+- Build the experience around **one continuous camera intention**: approach → reveal → inspect → follow the beam → pass through light → settle in Mission Control.
+- Give every shot a clear focal point and visual rest. Spectacle needs contrast and quiet moments to feel spectacular.
+- Use depth and lighting before adding text overlays. The scene should still be compelling with the text hidden.
+- Keep headlines short, large, and placed in intentionally empty space. Never put a large title on top of a satellite or optical beam.
+- Use lens bloom sparingly and only at the beam/aperture. Avoid a global glow filter over the whole viewport.
+- Use cinematic easing: anticipation before acceleration, controlled momentum through the move, then a confident deceleration into the dashboard.
+- Keep the optical beam geometrically connected to the two endpoints. A detached line or unrelated moving pulse breaks the illusion.
+- Do not simulate a realistic 3D camera using conflicting transforms on many independent DOM elements. Prefer the actual scene camera where available; otherwise create a small number of coordinated compositing layers.
+- The title sequence must be visually impressive without sound and understandable without reading every label.
+- Do not trade readability, performance, accessibility, or working dashboard controls for spectacle.
+
+### Visual quality bar
+
+A shot fails review if it looks like a generic CSS animation, if the camera movement has no motivated subject, if text is unreadable, if the beam does not connect the satellites, or if the dashboard appears through an unrelated hard cut.
+
+The desired result is not “more effects.” It is a designed sequence with **scale, anticipation, reveal, tension, light, resolution, and continuity**.
