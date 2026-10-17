@@ -51,20 +51,20 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
 
     // Hold the landing-to-flight blend long enough to read as one continuous shot.
     // The first transmission gets time to type before the rapid FPV cuts begin.
-    later(() => setStage("ignition"), 620);
-    later(() => setStage("ascent"), 1120);
-    later(() => setStage("orbit"), 1740);
+    later(() => setStage("ignition"), 420);
+    later(() => setStage("ascent"), 760);
+    later(() => setStage("orbit"), 1080);
     later(() => {
       if (target.current) router.push(target.current);
-    }, 2480);
+    }, 1480);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
     const transmissions: Record<FlightStage, [string, string]> = {
       cabin: ["Buckle up. We're going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
-      ignition: ["IGNITION", "THRUST NOMINAL"],
-      ascent: ["ASCENT", "ATMOSPHERIC EXIT"],
-      orbit: ["ORBIT LOCK", "OPTICAL TARGET ACQUISITION"],
+      ignition: ["Buckle up. We\u0027re going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
+      ascent: ["Buckle up. We\u0027re going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
+      orbit: ["Buckle up. We\u0027re going to space.", "FLIGHT COMPUTER  /  TRANSMISSION IN"],
       satellite: ["LINK ACQUIRED", "FSO SYSTEM ONLINE"],
       interface: ["MISSION READY", "LIVE TELEMETRY"],
     };
@@ -95,11 +95,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // Let the live scene breathe before revealing the instruments.
-    later(() => setStage("interface"), 650);
+    later(() => setStage("interface"), 550);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 2350);
+    }, 1450);
   }, [pathname, phase, clearTimers, later]);
 
 
