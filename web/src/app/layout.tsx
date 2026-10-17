@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./premium.css";
 import { SpaceEntryTransition } from "@/components/SpaceEntryTransition";
 
 export const metadata: Metadata = {
