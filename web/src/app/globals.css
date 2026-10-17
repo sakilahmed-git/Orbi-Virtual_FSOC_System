@@ -2145,3 +2145,72 @@ a {
  .scintilla-console .sc-stage:nth-child(n+5){display:none!important}
  .scintilla-console .fp{left:8px!important;right:8px!important;top:auto!important;bottom:78px!important;width:auto!important;max-width:none!important;max-height:44dvh!important}
 }
+
+
+/* Final production guard: keep every mission surface on one deliberate palette. */
+html body .scintilla-console{background:#020711!important;color:#e3f2ff!important}
+html body .scintilla-console header.sc-topbar{
+ background:linear-gradient(110deg,rgba(7,20,34,.98),rgba(10,31,49,.96))!important;
+ border:1px solid #25465b!important;border-radius:16px!important;box-shadow:0 16px 44px #0008,inset 0 1px #a5eaff12!important
+}
+html body .scintilla-console .sc-brand-title,
+html body .scintilla-console .sc-nav .active,
+html body .scintilla-console .sc-intel b{color:#e5f5ff!important}
+html body .scintilla-console .sc-brand-sub,
+html body .scintilla-console .sc-nav button,
+html body .scintilla-console .sc-nav a,
+html body .scintilla-console .sc-intel span{color:#8ba9be!important}
+html body .scintilla-console .sc-nav .active{background:#15364d!important;box-shadow:inset 0 0 0 1px #2e6278!important}
+html body .scintilla-console .sc-search{background:#081b2c!important;border-color:#25465b!important;color:#9ab7cb!important}
+html body .scintilla-console .sc-search input{color:#e5f5ff!important}
+html body .scintilla-console .sc-intel{background:#0c2639!important;border-color:#285166!important}
+html body .scintilla-console aside.sc-rail{background:rgba(5,18,32,.94)!important;border-color:#25465b!important}
+html body .scintilla-console .sc-rail button{color:#8ba9be!important}
+html body .scintilla-console .sc-rail button.active,
+html body .scintilla-console .sc-rail button.open{background:#123b49!important;border-color:#2b6876!important;color:#8cf4e7!important}
+html body .scintilla-console .sc-status{background:rgba(6,21,35,.94)!important;border-color:#25465b!important;box-shadow:0 14px 38px #0007!important}
+html body .scintilla-console .sc-metric{border-color:#1e3a4f!important}
+html body .scintilla-console .sc-metric-label{color:#86a5bb!important}
+html body .scintilla-console .sc-metric-value{color:#e2f2ff!important}
+html body .scintilla-console .sc-tool{background:#0b2437!important;border-color:#2b4d62!important;color:#b5cede!important}
+html body .scintilla-console .sc-endpoint{background:rgba(7,24,39,.96)!important;border-color:#25465b!important;box-shadow:0 16px 36px #0007!important}
+html body .scintilla-console .sc-endpoint-name{color:#e1f3ff!important}
+html body .scintilla-console .sc-endpoint-meta{color:#8aa8bd!important}
+html body .scintilla-console .sc-endpoint-state{color:#73d7bd!important}
+html body .scintilla-console .sc-timeline{background:rgba(5,19,32,.96)!important;border-color:#25465b!important;color:#8ba9be!important}
+html body .scintilla-console .sc-stage:not(:last-of-type):after{background:#2a4a60!important}
+html body .scintilla-console .sc-stage-dot{background:#102b40!important;border-color:#416077!important}
+html body .scintilla-console .sc-stage.current{color:#e4faff!important}
+html body .scintilla-console .fp{background:#071827!important;border-color:#2b4d62!important;color:#dceefa!important;box-shadow:0 24px 70px #000a!important}
+html body .scintilla-console .fp-head{background:#0c263a!important;border-color:#25465b!important;color:#e4f4ff!important}
+html body .scintilla-console .fp-head b{color:#e4f4ff!important}
+html body .scintilla-console .fp-head button{background:#18394d!important;color:#c2d9e7!important}
+html body .scintilla-console .fp-body{background:#071827!important;color:#c4d9e8!important}
+html body .scintilla-console .fp-pad,
+html body .scintilla-console .fp-body>div{color:#c4d9e8}
+html body .scintilla-console .sc-panel,
+html body .scintilla-console .sc-card{background:#091f31!important;border-color:#25465b!important;color:#dceefa!important;box-shadow:0 12px 36px #0005!important}
+html body .scintilla-console .sc-panel-head,
+html body .scintilla-console .sc-card-head{background:#0d2a40!important;border-color:#25465b!important;color:#e2f2ff!important}
+html body .scintilla-console .sc-gauge,
+html body .scintilla-console .sc-analog,
+html body .scintilla-console .sc-mini{background:#0c2639!important;border-color:#2a4b60!important;color:#d2e7f5!important}
+html body .scintilla-console .sc-mini span,
+html body .scintilla-console .sc-analog .gauge>span{color:#8aa8bd!important}
+html body .scintilla-console .sc-mini b,
+html body .scintilla-console .sc-control-row b,
+html body .scintilla-console .sc-verified-row b{color:#e4f4ff!important}
+html body .scintilla-console .sc-secondary,
+html body .scintilla-console .sc-mode button{background:#102b40!important;border-color:#2b4d62!important;color:#b7cfdf!important}
+html body .scintilla-console .sc-mode button.active{background:#104047!important;border-color:#2b938a!important;color:#8cf4e7!important}
+html body .scintilla-console .sc-ai{background:linear-gradient(130deg,#0b2c3d,#17243e)!important;border-color:#2b5669!important}
+html body .scintilla-console .sc-ai b{color:#e2faff!important}
+html body .scintilla-console .sc-ai p,
+html body .scintilla-console .sc-advisory{color:#9ab8cb!important}
+html body .scintilla-console .sc-advisory{background:#0b2639!important;border-color:#25465b!important}
+html body .scintilla-console .gauge .ring{box-shadow:inset 0 0 0 7px #0a2234,0 2px 12px #0006!important}
+@media(max-width:760px){
+ html body .scintilla-console header.sc-topbar{left:6px!important;right:6px!important}
+ html body .scintilla-console .sc-status{left:8px!important;right:8px!important}
+ html body .scintilla-console .sc-timeline{left:8px!important;right:8px!important}
+}
