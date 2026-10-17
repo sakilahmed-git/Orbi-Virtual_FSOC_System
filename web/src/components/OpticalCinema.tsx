@@ -213,7 +213,7 @@ export default function OpticalCinema() {
     const animate = () => {
       frame = window.requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
-      const beatDuration = reducedMotion ? 100000 : 4.4;
+      const beatDuration = reducedMotion ? 100000 : 3.6;
       const beat = Math.floor(t / beatDuration) % beats.length;
       const local = (t % beatDuration) / beatDuration;
       if (beat !== lastBeat) {
