@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { SpaceEntryTransition } from "@/components/SpaceEntryTransition";
 
 export const metadata: Metadata = {
   title: "Orbi — Virtual FSOC System",
@@ -17,7 +18,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><SpaceEntryTransition>{children}</SpaceEntryTransition></body>
     </html>
   );
 }
