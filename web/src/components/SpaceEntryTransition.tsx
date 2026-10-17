@@ -51,12 +51,12 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
 
     // Hold the landing-to-flight blend long enough to read as one continuous shot.
     // The first transmission gets time to type before the rapid FPV cuts begin.
-    later(() => setStage("ignition"), 1600);
-    later(() => setStage("ascent"), 2250);
-    later(() => setStage("orbit"), 3050);
+    later(() => setStage("ignition"), 620);
+    later(() => setStage("ascent"), 1120);
+    later(() => setStage("orbit"), 1740);
     later(() => {
       if (target.current) router.push(target.current);
-    }, 4050);
+    }, 2480);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
@@ -95,11 +95,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // Let the live scene breathe before revealing the instruments.
-    later(() => setStage("interface"), 1750);
+    later(() => setStage("interface"), 650);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 3900);
+    }, 2350);
   }, [pathname, phase, clearTimers, later]);
 
 
