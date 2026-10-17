@@ -809,7 +809,7 @@ export default function MissionControl() {
  .scintilla-console *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
 }
 
-</style>
+`}</style>
         <section className="sc-space"><MissionSpace simulation={sim} ground={ground} view={view} onSelect={selectFromScene} /></section>
         <header className="sc-topbar">
             <div className="sc-brand"><span className="sc-mark" /><div><div className="sc-brand-title">orbi</div><div className="sc-brand-sub">VIRTUAL FSOC LABORATORY</div></div></div>
