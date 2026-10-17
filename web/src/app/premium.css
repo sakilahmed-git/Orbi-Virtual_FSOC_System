@@ -286,7 +286,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 .space-entry__wash {
   position: absolute !important; inset: -12% !important; z-index: -2 !important;
-  opacity: 1 !important; z-index: 0 !important;
+  opacity: 1; z-index: 0 !important;
   background: linear-gradient(180deg,#c6e5f5 0%,#8fb9d6 44%,#e7c9a7 64%,#162637 100%) !important;
   transition: background 1.8s cubic-bezier(.72,0,.2,1), opacity 1.2s ease !important;
 }
@@ -1284,4 +1284,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 .space-entry--arrival .space-entry__wash {
   z-index: 0 !important;
+}
+
+
+/* FINAL LAUNCH CASCADE FIX: keep the real landing page visible beneath the wash.
+   Opacity must remain animatable (not !important), or the blend keyframes cannot run. */
+.space-entry--launch {
+  background: transparent !important;
+}
+.space-entry--launch .space-entry__wash {
+  opacity: 0;
 }
