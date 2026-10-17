@@ -1995,7 +1995,9 @@ html body .scintilla-console .sc-mark:after {
 .orbi-cinema__steps span.is-done { color:#a8e8d5; }
 .orbi-cinema__flash { position:absolute;inset:0;z-index:8;background:#dffbff;opacity:0;pointer-events:none; }
 .orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__flash { animation:orbi-cinema-ignition .7s ease-out both; }
-.orbi-cinema--launch.orbi-cinema--ascent .orbi-cinema__wash { animation:orbi-cinema-ascent 1.8s ease-in both; }
+/* Keep one continuous world animation across React stage changes. Replacing
+   this animation mid-flight restarted its timeline and caused the sudden dark
+   flash seen in the recording. */
 .orbi-cinema--arrival { background:transparent; }
 .orbi-cinema--arrival .orbi-cinema__wash { opacity:0;animation:none; }
 .orbi-cinema--arrival .orbi-cinema__stars { opacity:.2;animation:none; }
