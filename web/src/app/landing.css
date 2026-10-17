@@ -950,3 +950,16 @@
   .orbi-landing .orbi-cinema-rec>b {animation:none;}
   .orbi-landing .orbi-cinema-beat {animation:none;}
 }
+
+.orbi-landing .orbi-cinema-cut {
+  position:absolute;inset:0;z-index:2;pointer-events:none;background:#d8f8ff;
+  opacity:0;animation:orbi-camera-cut .52s cubic-bezier(.2,.65,.3,1) both;
+}
+@keyframes orbi-camera-cut {
+  0% {opacity:0}
+  12% {opacity:.24}
+  100% {opacity:0}
+}
+@media (prefers-reduced-motion:reduce) {
+  .orbi-landing .orbi-cinema-cut {animation:none;display:none;}
+}
