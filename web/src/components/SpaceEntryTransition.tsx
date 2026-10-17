@@ -85,7 +85,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       }
     }, 29);
     return () => clearInterval(headlineTimer);
-  }, [stage]);
+  }, [stage, phase]);
 
   useEffect(() => {
     if (phase !== "launch" || !target.current || pathname === "/" || pathname !== target.current) return;
