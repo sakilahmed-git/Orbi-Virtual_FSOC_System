@@ -201,7 +201,7 @@ export default function MissionControl() {
         const m = mark.current, p = prevPhase.current, k = sim.intelligence ? "on" : "off";
         if (phase !== p) {
             if (phase === "SEARCH") { m.acq = sim.time; m.ctl = k; }
-            if (phase === "CONNECTED" && p === "TRACK" && m.acq !== undefined) { const v = sim.time - m.acq, c = m.ctl; m.acq = undefined; setStats(s => ({ ...s, [c]: { ...s[c], acq: v } })); }
+            if (phase === "CONNECTED" && p === "ALIGN" && m.acq !== undefined) { const v = sim.time - m.acq, c = m.ctl; m.acq = undefined; setStats(s => ({ ...s, [c]: { ...s[c], acq: v } })); }
             if (phase === "DISTURBANCE" && p !== "CORRECTING") { m.dist = sim.time; m.peak = 0; m.ctl = k; }
             if (phase === "CONNECTED" && p === "CORRECTING" && m.dist !== undefined) { const v = sim.time - m.dist, pk = m.peak, c = m.ctl; m.dist = undefined; setStats(s => ({ ...s, [c]: { ...s[c], rec: v, peak: pk } })); }
             prevPhase.current = phase;
