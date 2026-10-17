@@ -493,3 +493,43 @@
  .orbi-landing .ol-run-metrics>div { padding:12px; }
  .orbi-landing .ol-console-bottom { font-size:6px; }
 }
+
+
+/* Final pass: remove the toy-diagram feel and make the parameters real controls. */
+.orbi-landing .ol-hero-console { align-items:center; }
+.orbi-landing .ol-hero-console .ol-console-intro { align-self:center; }
+.orbi-landing .ol-lab-scene { isolation:isolate; }
+.orbi-landing .lab-grid {
+  background-image:linear-gradient(#4a78951b 1px,transparent 1px),linear-gradient(90deg,#4a78951b 1px,transparent 1px);
+  background-size:24px 24px;opacity:.55;
+}
+.orbi-landing .lab-target-ring.ring-a { width:200px;height:200px; }
+.orbi-landing .lab-target-ring.ring-b { width:290px;height:290px; }
+.orbi-landing .lab-target-ring.ring-c { width:390px;height:390px; }
+.orbi-landing .lab-terminal { display:none; }
+.orbi-landing .lab-transmitter,.orbi-landing .lab-receiver { display:none; }
+.orbi-landing .ol-lab-controls { gap:18px; }
+.orbi-landing .lab-parameter { cursor:pointer; }
+.orbi-landing .lab-parameter input[type="range"] {
+  display:block;width:100%;height:4px;margin:3px 0 0;appearance:none;
+  background:linear-gradient(90deg,#61dce9,#a99aff);border-radius:999px;cursor:pointer;
+  outline:none;
+}
+.orbi-landing .lab-parameter input[type="range"]::-webkit-slider-thumb {
+  appearance:none;width:12px;height:12px;border-radius:50%;background:#e7fcff;
+  border:2px solid #69dce9;box-shadow:0 0 0 4px #69dce91c,0 0 12px #69dce955;
+}
+.orbi-landing .lab-parameter input[type="range"]::-moz-range-thumb {
+  width:9px;height:9px;border-radius:50%;background:#e7fcff;border:2px solid #69dce9;
+  box-shadow:0 0 0 4px #69dce91c;
+}
+.orbi-landing .lab-parameter input[type="range"]:focus-visible { outline:1px solid #83dfea;outline-offset:6px; }
+.orbi-landing .lab-parameter>b { margin-top:-1px; }
+.orbi-landing .ol-live-console { border-radius:8px; }
+.orbi-landing .ol-console-top { min-height:83px; }
+.orbi-landing .ol-console-bottom { font-size:7px; }
+@media (max-width:620px) {
+  .orbi-landing .lab-target-ring.ring-a { width:140px;height:140px; }
+  .orbi-landing .lab-target-ring.ring-b { width:220px;height:220px; }
+  .orbi-landing .lab-target-ring.ring-c { width:300px;height:300px; }
+}
