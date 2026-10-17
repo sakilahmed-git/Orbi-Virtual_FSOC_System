@@ -75,42 +75,66 @@ export default function Home() {
 
       <section className="ol-hero ol-hero-console">
         <div className="ol-hero-copy ol-console-intro">
-          <div className="ol-eyebrow"><span /> SCINTILLA / OPTICAL LINK TESTBED</div>
-          <div className="ol-kicker-live"><i /> SOFTWARE-IN-THE-LOOP · REPRODUCIBLE RUNS</div>
-          <h1>Test the link.<br /><em>Trust the evidence.</em></h1>
-          <p>Stress a free-space optical link with vibration, clutter and sensor noise. Run the Scintilla pipeline and inspect its measured detections and controller response.</p>
+          <div className="ol-eyebrow"><span /> ORBI / VIRTUAL FSOC LABORATORY</div>
+          <div className="ol-kicker-live"><i /> MISSION SYSTEMS · EXPERIMENTAL ENVIRONMENT</div>
+          <h1>Engineer the<br /><em>invisible link.</em></h1>
+          <p>A virtual free-space optical test range for acquisition, tracking and pointing. Shape the disturbance, run a scenario, and evaluate the controller against the same conditions.</p>
           <div className="ol-hero-actions">
-            <button className="ol-button ol-button-dark" onClick={runLiveScenario} disabled={running || apiStatus !== "online"}>
-              {running ? "Running pipeline…" : "Run live experiment"} <span>↗</span>
+            <Link className="ol-button ol-button-dark" href="/mission">Enter mission lab <span>↗</span></Link>
+            <button className="ol-button ol-button-quiet" onClick={runLiveScenario} disabled={running || apiStatus !== "online"}>
+              {running ? "Executing scenario…" : "Execute a scenario"} <span>→</span>
             </button>
-            <Link className="ol-button ol-button-quiet" href="/mission">Open Mission Control <span>→</span></Link>
           </div>
-          <div className="ol-live-footnote"><span>01</span> CONFIGURE <i /> <span>02</span> COMPUTE <i /> <span>03</span> INSPECT</div>
+          <div className="ol-live-footnote"><span>01</span> DEFINE <i /><span>02</span> EXECUTE <i /><span>03</span> VALIDATE</div>
           {runError && <p className="ol-run-error" role="alert">{runError}</p>}
         </div>
-        <div className="ol-live-console">
+        <div className="ol-live-console ol-lab-console">
           <div className="ol-console-top">
-            <div><span className="ol-console-eyebrow">SCINTILLA ENGINE / RUN CONSOLE</span><strong>Optical link experiment</strong></div>
-            <span className={"ol-console-status " + (apiStatus === "online" ? "online" : "offline")}><i /> {apiStatus === "online" ? "API REACHABLE" : apiStatus === "checking" ? "CHECKING" : "API OFFLINE"}</span>
+            <div><span className="ol-console-eyebrow">MISSION LAB / 01</span><strong>Acquisition &amp; pointing dynamics</strong></div>
+            <span className={"ol-console-status " + (apiStatus === "online" ? "online" : "offline")}><i /> {apiStatus === "online" ? "ENGINE ONLINE" : apiStatus === "checking" ? "CONNECTING" : "ENGINE OFFLINE"}</span>
           </div>
-          <div className="ol-link-diagram">
-            <div className="ol-starfield" />
-            <div className="ol-link-orbit orbit-one" /><div className="ol-link-orbit orbit-two" />
-            <div className="ol-link-beam"><span /></div>
-            <div className="ol-terminal terminal-tx"><span className="terminal-core">TX</span><b>SC-01</b><small>TRANSMITTER</small></div>
-            <div className="ol-terminal terminal-rx"><span className="terminal-core">RX</span><b>SC-02</b><small>RECEIVER</small></div>
-            <div className="ol-diagram-label label-left">EVENT STREAM <b>240 FPS</b></div>
-            <div className="ol-diagram-label label-right">LINK MODE <b>FSOC / SIM</b></div>
+          <div className="ol-lab-scene">
+            <div className="lab-grid" />
+            <div className="lab-axis lab-axis-x" /><div className="lab-axis lab-axis-y" />
+            <div className="lab-target-ring ring-a" /><div className="lab-target-ring ring-b" /><div className="lab-target-ring ring-c" />
+            <div className="lab-field-label lab-label-tl">POINTING ERROR <b>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) + " px RMS" : "LIVE SENSOR FIELD"}</b></div>
+            <div className="lab-field-label lab-label-tr">SC-02 / RECEIVER <b>ACQUISITION WINDOW</b></div>
+            <svg className="lab-optics" viewBox="0 0 720 340" preserveAspectRatio="none" aria-label="Optical beam path and receiver acquisition field">
+              <defs>
+                <linearGradient id="beamGradient" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stopColor="#ff63cf"/><stop offset="52%" stopColor="#a88cff"/><stop offset="100%" stopColor="#61e6f4"/></linearGradient>
+                <filter id="beamGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <path d="M80 252 C210 225 330 133 610 78" fill="none" stroke="url(#beamGradient)" strokeWidth="2.5" filter="url(#beamGlow)"/>
+              <path d="M80 252 C210 225 330 133 610 78" fill="none" stroke="#e8fdff" strokeWidth=".7" strokeDasharray="3 9" opacity=".8"/>
+              <path d="M80 252 L610 78" fill="none" stroke="#72dff0" strokeWidth=".6" strokeDasharray="2 12" opacity=".6"/>
+              <circle cx="80" cy="252" r="23" fill="#f36acb" fillOpacity=".12" stroke="#f36acb" strokeOpacity=".8"/>
+              <circle cx="80" cy="252" r="10" fill="#111e31" stroke="#ff8add" strokeWidth="1.5"/>
+              <circle cx="80" cy="252" r="3" fill="#ff8add"/>
+              <circle cx="610" cy="78" r="44" fill="#5ce5f2" fillOpacity=".05" stroke="#5ce5f2" strokeOpacity=".65" strokeDasharray="4 5"/>
+              <circle cx="610" cy="78" r="22" fill="#112b3a" stroke="#5ce5f2" strokeWidth="1.5"/>
+              <circle cx="610" cy="78" r="7" fill="#5ce5f2" fillOpacity=".25" stroke="#a6f5fb"/>
+              <circle cx="364" cy="160" r="4" fill="#e5ffff" filter="url(#beamGlow)"/>
+              <path d="M80 252 L80 282 M65 252 L95 252 M610 78 L610 45 M594 78 L626 78" stroke="#91a9c4" strokeWidth=".7" opacity=".8"/>
+            </svg>
+            <div className="lab-terminal lab-transmitter"><span>TX</span><b>SC-01</b><small>BEACON SOURCE</small></div>
+            <div className="lab-terminal lab-receiver"><span>RX</span><b>SC-02</b><small>ACQUISITION GATE</small></div>
+            <div className="lab-scene-footer"><span><i /> OPTICAL PATH / SIMULATED GEOMETRY</span><span>RANGE <b>42.0 KM</b></span></div>
+          </div>
+          <div className="ol-lab-controls">
+            <div className="lab-control-head"><span>SCENARIO PARAMETERS</span><span>PRESET / VIBRATION + CLUTTER</span></div>
+            <div className="lab-parameter"><span>VIBRATION FREQUENCY</span><b>17.3 <small>Hz</small></b><div><i style={{width:"58%"}} /></div></div>
+            <div className="lab-parameter"><span>BEACON DISTURBANCE</span><b>3.0 <small>px</small></b><div><i style={{width:"34%"}} /></div></div>
+            <div className="lab-parameter"><span>CLUTTER DENSITY</span><b>0.35 <small>level</small></b><div><i style={{width:"35%"}} /></div></div>
           </div>
           <div className="ol-run-metrics">
-            <div><span>NOISY EVENTS</span><strong>{runResult ? runResult.events.n_noisy.toLocaleString() : "—"}</strong><small>{runResult ? "FROM COMPUTED RUN" : "AWAITING RUN"}</small></div>
-            <div><span>DETECTION HIT RATE</span><strong>{runResult ? (runResult.detections.hit_rate * 100).toFixed(1) + "%" : "—"}</strong><small>{runResult ? `${runResult.detections.n_hits} / ${runResult.detections.n_windows} WINDOWS` : "MEASURED BY MODEL"}</small></div>
-            <div><span>DOMINANT DISTURBANCE</span><strong>{runResult?.disturbance.dominant_frequency_hz != null ? runResult.disturbance.dominant_frequency_hz.toFixed(2) + " Hz" : "—"}</strong><small>{runResult ? "ESTIMATED FROM EVENTS" : "PSD ESTIMATE"}</small></div>
-            <div><span>CONTROL RMS</span><strong>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) + " px" : "—"}</strong><small>{runResult ? "SCINTILLA-ARMED" : "BACKEND RESULT"}</small></div>
+            <div><span>NOISY EVENTS</span><strong>{runResult ? runResult.events.n_noisy.toLocaleString() : "—"}</strong><small>{runResult ? "COMPUTED EVENT COUNT" : "AWAITING EXECUTION"}</small></div>
+            <div><span>DETECTION HIT RATE</span><strong>{runResult ? (runResult.detections.hit_rate * 100).toFixed(1) + "%" : "—"}</strong><small>{runResult ? runResult.detections.n_hits + " / " + runResult.detections.n_windows + " WINDOWS" : "BACKEND MEASUREMENT"}</small></div>
+            <div><span>DOMINANT DISTURBANCE</span><strong>{runResult?.disturbance.dominant_frequency_hz != null ? runResult.disturbance.dominant_frequency_hz.toFixed(2) + " Hz" : "—"}</strong><small>{runResult ? "EVENT PSD ESTIMATE" : "AWAITING MEASUREMENT"}</small></div>
+            <div><span>CONTROL RMS ERROR</span><strong>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) + " px" : "—"}</strong><small>{runResult ? "DISTURBANCE-INFORMED" : "AWAITING MEASUREMENT"}</small></div>
           </div>
           <div className="ol-console-bottom">
-            <span><i /> {runResult ? "RUN COMPLETE · RESULT RECEIVED" : running ? "PIPELINE EXECUTING" : "READY FOR EXPERIMENT"}</span>
-            <span>SEED 812 · VIBRATION 17.3 HZ</span>
+            <span><i /> {runResult ? "SCENARIO COMPLETE · MEASUREMENTS RECEIVED" : running ? "COMPUTING SCENARIO · PLEASE WAIT" : "ENGINE READY · NO RUN DATA YET"}</span>
+            <span>SEED 812 · REPEATABLE CONFIGURATION</span>
           </div>
         </div>
       </section>
