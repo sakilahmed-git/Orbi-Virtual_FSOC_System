@@ -63,11 +63,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 950);
+    later(() => setStage("interface"), 1150);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 2050);
+    }, 2950);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -75,7 +75,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
 
   return (
     <TransitionContext.Provider value={{ enterSpace }}>
-      {children}
+      <div className={`orbi-transition-content orbi-transition-content--${phase} orbi-transition-content--${stage}`}>{children}</div>
       {phase !== "idle" && (
         <div
           className={`space-entry space-entry--${phase} space-entry--${stage}`}
