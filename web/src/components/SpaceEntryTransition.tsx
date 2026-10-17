@@ -97,54 +97,6 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
             ))}
           </div>
 
-          <div className="fpv-flight-scene" aria-hidden="true">
-            <div className="fpv-cabin-glow" />
-            <div className="fpv-window">
-              <div className="fpv-window-sky" />
-              <div className="fpv-earth">
-                <div className="fpv-earth-clouds" />
-                <svg className="fpv-earth-land" viewBox="0 0 520 520" role="presentation">
-                  <path d="M104 105 150 72 195 88 215 120 198 151 220 175 202 208 168 219 153 255 125 245 108 208 81 191 76 152Z" />
-                  <path d="M208 260 243 276 260 315 249 354 230 398 213 373 205 332 187 298Z" />
-                  <path d="M275 105 312 81 352 95 378 122 414 128 430 159 403 184 366 179 346 207 311 194 288 166 260 153Z" />
-                  <path d="M335 220 373 207 408 226 416 263 397 299 379 332 353 315 340 277 317 251Z" />
-                  <path d="M431 340 457 350 468 373 448 392 426 377Z" />
-                </svg>
-              </div>
-              <div className="fpv-atmosphere-line" />
-              <div className="fpv-window-reflection" />
-              <div className="fpv-window-rim" />
-            </div>
-
-            <div className="fpv-horizon" />
-            <div className="fpv-cabin-left" />
-            <div className="fpv-cabin-right" />
-            <div className="fpv-overhead" />
-            <div className="fpv-console">
-              <div className="fpv-console-screen"><span /><i /><b /></div>
-              <div className="fpv-console-screen fpv-console-screen--small"><span /><i /></div>
-              <div className="fpv-console-lights"><i /><i /><i /><i /><i /></div>
-            </div>
-            <div className="fpv-seat fpv-seat--left" />
-            <div className="fpv-seat fpv-seat--right" />
-            <div className="fpv-seat-shoulder fpv-seat-shoulder--left" />
-            <div className="fpv-seat-shoulder fpv-seat-shoulder--right" />
-            <div className="fpv-vignette" />
-            <div className="fpv-motion-blur" />
-            <div className="fpv-ignition-flare" />
-            <div className="fpv-orbit-satellite">
-              <svg viewBox="0 0 180 112" role="presentation">
-                <defs><linearGradient id="satMetal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#f7fbff"/><stop offset="1" stopColor="#607b90"/></linearGradient></defs>
-                <g stroke="#d5e9f3" strokeWidth="2" fill="none"><path d="M90 52 90 20M90 52 118 66M90 52 62 66"/></g>
-                <rect x="75" y="34" width="30" height="35" rx="4" fill="url(#satMetal)" stroke="#f3fbff" />
-                <rect x="12" y="35" width="49" height="34" rx="2" fill="#163c60" stroke="#8bd5ed" />
-                <rect x="119" y="35" width="49" height="34" rx="2" fill="#163c60" stroke="#8bd5ed" />
-                <path d="M24 35v34M36 35v34M48 35v34M131 35v34M143 35v34M155 35v34M12 46h49M12 58h49M119 46h49M119 58h49" stroke="#5ba8d2" strokeWidth="1" />
-                <circle cx="90" cy="50" r="6" fill="#e5f8ff" /><path d="M90 69v16m-9-4h18" stroke="#e8f6fc" strokeWidth="2"/>
-              </svg>
-            </div>
-          </div>
-
           <div className="space-entry__hud">
             <span className="space-entry__brand"><b>◉</b> ORBI <i>MISSION SYSTEMS</i></span>
             <span className="space-entry__readout">
