@@ -1328,3 +1328,44 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     animation: none !important;
   }
 }
+
+
+/* FIX 2: never let the transition wash replace the page with an opaque gradient.
+   Keep the source visible through launch; the real WebGL scene takes over on route. */
+.space-entry--launch .space-entry__wash,
+.space-entry--ignition .space-entry__wash,
+.space-entry--ascent .space-entry__wash,
+.space-entry--orbit .space-entry__wash {
+  opacity: 0;
+  animation: orbi-visible-world-blend 1.48s cubic-bezier(.62,0,.22,1) both !important;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(207,240,255,.18), transparent 38%),
+    linear-gradient(145deg, rgba(231,240,238,.35), rgba(86,119,143,.3) 46%, rgba(2,6,17,.55)) !important;
+  filter: blur(0) !important;
+  backdrop-filter: blur(0) !important;
+  -webkit-backdrop-filter: blur(0) !important;
+}
+@keyframes orbi-visible-world-blend {
+  0% { opacity: 0; backdrop-filter: blur(0) brightness(1); -webkit-backdrop-filter: blur(0) brightness(1); }
+  22% { opacity: .28; backdrop-filter: blur(3px) brightness(.96); -webkit-backdrop-filter: blur(3px) brightness(.96); }
+  55% { opacity: .42; backdrop-filter: blur(7px) brightness(.72); -webkit-backdrop-filter: blur(7px) brightness(.72); }
+  100% { opacity: .16; backdrop-filter: blur(1px) brightness(.55); -webkit-backdrop-filter: blur(1px) brightness(.55); }
+}
+.space-entry--arrival .space-entry__wash {
+  animation: orbi-arrival-fast-reveal .52s ease-out both !important;
+  background: #020711 !important;
+}
+@keyframes orbi-arrival-fast-reveal {
+  0% { opacity: .72; }
+  100% { opacity: 0; }
+}
+.space-entry--arrival .space-entry__headline span {
+  font-size: clamp(13px, 1.3vw, 17px) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry--launch .space-entry__wash,
+  .space-entry--ignition .space-entry__wash,
+  .space-entry--ascent .space-entry__wash,
+  .space-entry--orbit .space-entry__wash,
+  .space-entry--arrival .space-entry__wash { animation: none !important; opacity: 0 !important; }
+}
