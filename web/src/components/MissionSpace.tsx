@@ -189,15 +189,23 @@ function CameraRig({ view }: { view: View }) {
     initialized.current = true;
   }, [view]);
   useEffect(() => {
-    const onCinematicEntry = () => {
+    let started = false;
+    const startCinematicEntry = () => {
+      if (started) return;
+      started = true;
+      window.sessionStorage.removeItem("orbi:cinematic-entry");
       cinematic.current.active = true;
       cinematic.current.elapsed = 0;
-      cinematic.current.from.copy(camera.position);
+      // Begin close to the real 3D scene, then reveal the full mission view.
+      // This runs whether MissionSpace mounted before or after the route change.
       camera.position.set(0, 1.5, 4.8);
       camera.lookAt(0, 0, 0);
     };
-    window.addEventListener("orbi:cinematic-entry", onCinematicEntry);
-    return () => window.removeEventListener("orbi:cinematic-entry", onCinematicEntry);
+    window.addEventListener("orbi:cinematic-entry", startCinematicEntry);
+    if (window.sessionStorage.getItem("orbi:cinematic-entry") === "1") {
+      startCinematicEntry();
+    }
+    return () => window.removeEventListener("orbi:cinematic-entry", startCinematicEntry);
   }, [camera]);
   useEffect(() => {
     const canvas = gl.domElement;
