@@ -90,11 +90,12 @@ function Spark({ data, color }: { data: number[]; color: string }) {
 function FloatingPanel({ id, state, onMove, onFocus, onClose, onMin, children }: { id: string; state: PanelState; onMove: (id: string, x: number, y: number) => void; onFocus: (id: string) => void; onClose: (id: string) => void; onMin: (id: string) => void; children: React.ReactNode }) {
     const drag = useRef<{ dx: number; dy: number } | null>(null);
     const m = PANEL_META[id];
-    return (<div className="fp" style={{ left: state.x, top: state.y, width: m.w, zIndex: state.z }} onPointerDown={() => onFocus(id)}>
+    return (<div className="fp" style={{ "--fp-left": `${state.x}px`, "--fp-top": `${state.y}px`, width: m.w, zIndex: state.z } as React.CSSProperties} onPointerDown={() => onFocus(id)}>
         <div className="fp-head" onDoubleClick={() => onMin(id)}
             onPointerDown={e => { if ((e.target as HTMLElement).closest("button")) return; e.currentTarget.setPointerCapture(e.pointerId); drag.current = { dx: e.clientX - state.x, dy: e.clientY - state.y }; }}
-            onPointerMove={e => { if (drag.current) onMove(id, clamp(e.clientX - drag.current.dx, 8 - m.w + 140, window.innerWidth - 140), clamp(e.clientY - drag.current.dy, 8, window.innerHeight - 48)); }}
-            onPointerUp={() => { drag.current = null; }}>
+            onPointerMove={e => { if (drag.current) onMove(id, clamp(e.clientX - drag.current.dx, 8, Math.max(8, window.innerWidth - m.w - 8)), clamp(e.clientY - drag.current.dy, 8, Math.max(8, window.innerHeight - 48))); }}
+            onPointerUp={() => { drag.current = null; }}
+            onPointerCancel={() => { drag.current = null; }}>
             <span className="fp-grip">⋮⋮</span><b style={m.accent ? { color: m.accent === "#32d8ff" ? "#0b86a8" : m.accent } : undefined}>{m.t}</b>
             <button aria-label="Collapse" onClick={() => onMin(id)}>{state.min ? "▢" : "–"}</button><button aria-label="Close" onClick={() => onClose(id)}>×</button>
         </div>
