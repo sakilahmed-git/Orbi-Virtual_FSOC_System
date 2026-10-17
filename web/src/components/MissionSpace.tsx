@@ -224,8 +224,8 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       // Keep the first frame wide enough to establish the complete optical system.
       // A close fly-by made the large solar arrays clip the viewport and felt like
       // a second motion layered on top of the transition.
-      c.start.set(2.2, 8.2, 24);
-      c.pass.set(0, 6.9, 20);
+      c.start.set(-3.4, 2.2, 4.5);
+      c.pass.set(-1.2, 5.2, 14);
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
