@@ -2409,3 +2409,65 @@ html body .scintilla-console .sc-mark:after {
     max-height: calc(44dvh - 46px) !important;
   }
 }
+
+
+/* Mission workspace component styles centralized outside JSX. */
+html body .scintilla-console .sc-analog-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  padding: 10px 12px !important;
+}
+html body .scintilla-console .sc-actions {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 7px !important;
+  padding: 0 12px 12px !important;
+}
+html body .scintilla-console .sc-hits {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 100 !important;
+  display: grid !important;
+  gap: 3px !important;
+  padding: 6px !important;
+  border: 1px solid #294b60 !important;
+  border-radius: 12px !important;
+  background: #0a2031 !important;
+  box-shadow: 0 18px 44px #0008 !important;
+  color: #d9eaf5 !important;
+}
+html body .scintilla-console .sc-hits button {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 9px 10px !important;
+  border: 0 !important;
+  border-radius: 7px !important;
+  background: transparent !important;
+  color: #d9eaf5 !important;
+  font-size: 10px !important;
+  text-align: left !important;
+}
+html body .scintilla-console .sc-hits button:hover { background: #17394c !important; }
+html body .scintilla-console .sc-hits button span {
+  flex: 0 0 auto !important;
+  color: #7fa4b9 !important;
+  font-size: 8px !important;
+}
+html body .scintilla-console .fp-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 5px 8px !important;
+  border: 1px solid #2a4b60 !important;
+  border-radius: 999px !important;
+  background: #0c2639 !important;
+  color: #b7d0df !important;
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+}
