@@ -1719,3 +1719,100 @@ html body .scintilla-console .sc-mark:after {
   background: #f8f9f7 !important;
   opacity: 1 !important;
 }
+
+
+/* FSOC cinematic narrative: satellites, optical path, and deliberate camera-like movement */
+.space-entry__satellite-field {
+  position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none;
+  perspective: 900px; transform-style: preserve-3d;
+  opacity: 0; animation: fsoc-field-reveal 1.25s 1.05s ease-out forwards;
+}
+.space-entry__planet-horizon {
+  position: absolute; width: 145vw; height: 62vw; min-height: 340px;
+  left: -22vw; bottom: -49vw; border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 0%, #3b8295 0%, #164056 13%, #071522 48%, #020711 72%);
+  border-top: 1px solid #9fe7f0a8;
+  box-shadow: 0 -15px 70px #3aa4c92a, inset 0 22px 65px #3aa4c91a;
+  transform: rotateX(8deg); animation: fsoc-horizon-drift 14s ease-in-out infinite alternate;
+}
+.space-entry__optical-beam {
+  position: absolute; left: 22%; top: 44%; width: 57%; height: 1px;
+  transform: rotate(-13deg); transform-origin: left center;
+  background: linear-gradient(90deg, transparent, #a2f8ff 15%, #72dfff 78%, #fff 100%);
+  box-shadow: 0 0 8px #68dfff, 0 0 28px #38b9f2;
+  opacity: .12; animation: fsoc-beam-lock 1.4s 2.8s ease-out forwards;
+}
+.space-entry__optical-beam i {
+  position: absolute; width: 9px; height: 9px; border-radius: 50%; top: -4px; left: 0;
+  background: #f4ffff; box-shadow: 0 0 18px 5px #73e8ff;
+  animation: fsoc-packet-travel 2.8s 3.2s ease-in-out infinite;
+}
+.space-entry__satellite {
+  position: absolute; display: flex; align-items: center; justify-content: center;
+  gap: 5px; width: 130px; height: 44px; filter: drop-shadow(0 0 14px #54c9ff36);
+  transform-style: preserve-3d;
+}
+.space-entry__satellite b {
+  display: block; width: 31px; height: 29px; border: 1px solid #d6f6ff;
+  border-radius: 5px; background: linear-gradient(135deg,#d8e7ec,#587b8d 55%,#162b3d);
+  box-shadow: inset 0 0 0 4px #142c40, 0 0 18px #5dc7f544;
+  transform: rotate(20deg);
+}
+.space-entry__solar-panel {
+  display: block; width: 43px; height: 23px; border: 1px solid #77bfd8;
+  background: repeating-linear-gradient(90deg, transparent 0 7px, #7ec8e55c 8px 9px), linear-gradient(135deg,#214d70,#11253f);
+  box-shadow: 0 0 10px #3295cb25;
+}
+.space-entry__satellite--near { left: 14%; top: 32%; transform: rotate(-16deg) scale(.9); animation: fsoc-sat-near 8s ease-in-out infinite alternate; }
+.space-entry__satellite--far { right: 12%; top: 20%; transform: rotate(18deg) scale(.66); animation: fsoc-sat-far 9s ease-in-out infinite alternate; }
+.space-entry__satellite-label {
+  position: absolute; color: #a6c9d8; font: 8px/1.4 var(--orbi-mono, "DM Mono", monospace);
+  letter-spacing: .13em; opacity: 0; white-space: nowrap;
+}
+.space-entry__satellite-label--near { left: 9%; top: 39%; animation: fsoc-label-in .7s 1.8s ease-out forwards; }
+.space-entry__satellite-label--far { right: 7%; top: 27%; animation: fsoc-label-in .7s 2.4s ease-out forwards; }
+.space-entry__headline { text-wrap: balance; text-shadow: 0 4px 35px #0009; }
+.space-entry__headline span, .space-entry__headline em { min-height: 1.1em; }
+.space-entry--launch .space-entry__satellite-field { animation: fsoc-field-reveal 1.25s 1.05s ease-out forwards, fsoc-camera-flight 7.9s cubic-bezier(.22,.68,.18,1) both; }
+.space-entry--launch .space-entry__stars { animation-duration: 7.9s !important; }
+.space-entry--launch .space-entry__wash { animation-duration: 7.9s !important; }
+.space-entry--arrival .space-entry__satellite-field { opacity: 1; animation: fsoc-arrival-push 5.7s cubic-bezier(.2,.7,.15,1) both; }
+.space-entry--arrival .space-entry__optical-beam { opacity: .8; animation: fsoc-beam-lock 1.2s .35s ease-out forwards; }
+.space-entry--satellite .space-entry__headline, .space-entry--interface .space-entry__headline { z-index: 4; }
+@keyframes fsoc-field-reveal { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fsoc-horizon-drift { from { transform: translate3d(0,0,0) rotateX(8deg); } to { transform: translate3d(0,-16px,0) rotateX(5deg); } }
+@keyframes fsoc-sat-near { from { margin-left: -1vw; margin-top: 0; } to { margin-left: 2vw; margin-top: -1.4vh; } }
+@keyframes fsoc-sat-far { from { margin-right: 0; margin-top: 0; } to { margin-right: 2vw; margin-top: 1.2vh; } }
+@keyframes fsoc-beam-lock { 0% { opacity: 0; transform: rotate(-13deg) scaleX(.04); } 65% { opacity: .95; } 100% { opacity: .72; transform: rotate(-13deg) scaleX(1); } }
+@keyframes fsoc-packet-travel { from { left: 0; } to { left: calc(57vw - 10px); } }
+@keyframes fsoc-label-in { from { opacity: 0; transform: translateY(7px); } to { opacity: .88; transform: translateY(0); } }
+@keyframes fsoc-camera-flight {
+  0% { transform: scale(1); transform-origin: 50% 50%; }
+  26% { transform: scale(1.07); transform-origin: 34% 45%; }
+  52% { transform: scale(1.19); transform-origin: 65% 32%; }
+  76% { transform: scale(1.1); transform-origin: 72% 38%; }
+  100% { transform: scale(1.02); transform-origin: 50% 50%; }
+}
+@keyframes fsoc-arrival-push {
+  0% { transform: scale(1.18); transform-origin: 72% 30%; }
+  45% { transform: scale(1.06); transform-origin: 72% 30%; }
+  100% { transform: scale(1); transform-origin: 50% 50%; }
+}
+@media (max-width: 640px) {
+  .space-entry__satellite { transform: scale(.58); }
+  .space-entry__satellite--near { left: -5%; top: 24%; }
+  .space-entry__satellite--far { right: -14%; top: 15%; }
+  .space-entry__satellite-label { font-size: 6px; }
+  .space-entry__satellite-label--near { left: 3%; top: 33%; }
+  .space-entry__satellite-label--far { right: 2%; top: 23%; }
+  .space-entry__planet-horizon { width: 190vw; left: -45vw; bottom: -58vw; }
+  .space-entry__optical-beam { left: 15%; top: 35%; width: 72%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry__satellite-field, .space-entry__planet-horizon, .space-entry__satellite,
+  .space-entry__optical-beam, .space-entry__optical-beam i, .space-entry__satellite-label {
+    animation: none !important; transition: none !important;
+  }
+  .space-entry__satellite-field { opacity: 1; }
+  .space-entry__optical-beam { opacity: .7; }
+}
