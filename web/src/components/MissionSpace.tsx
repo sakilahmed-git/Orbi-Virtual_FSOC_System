@@ -213,7 +213,8 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
     const startCinematicEntry = () => {
       if (started) return;
       started = true;
-      window.sessionStorage.removeItem("orbi:cinematic-entry");
+      const overlayEntry = window.sessionStorage.getItem("orbi:cinematic-overlay-entry") === "1";
+      window.sessionStorage.removeItem(overlayEntry ? "orbi:cinematic-overlay-entry" : "orbi:cinematic-entry");
       const c = cinematic.current;
       c.active = true;
       c.elapsed = 0;
@@ -231,7 +232,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       camera.lookAt(c.source);
     };
     window.addEventListener("orbi:cinematic-entry", startCinematicEntry);
-    if (window.sessionStorage.getItem("orbi:cinematic-entry") === "1") {
+    if (window.sessionStorage.getItem("orbi:cinematic-entry") === "1" || window.sessionStorage.getItem("orbi:cinematic-overlay-entry") === "1") {
       startCinematicEntry();
     }
     return () => window.removeEventListener("orbi:cinematic-entry", startCinematicEntry);
