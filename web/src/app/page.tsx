@@ -143,7 +143,7 @@ export default function Home() {
             <div className="orbi-result-grid">
               <div><span>Noisy events</span><strong>{runResult ? runResult.events.n_noisy.toLocaleString() : "—"}</strong><small>{runResult ? "events in computed stream" : "Run a scenario to measure"}</small></div>
               <div><span>Detection hit rate</span><strong>{runResult ? (runResult.detections.hit_rate * 100).toFixed(1) + "%" : "—"}</strong><small>{runResult ? runResult.detections.n_hits + " / " + runResult.detections.n_windows + " windows" : "Measured by backend"}</small></div>
-              <div><span>Dominant disturbance</span><strong>{runResult?.disturbance.dominant_frequency_hz != null ? runResult.disturbance.dominant_frequency_hz.toFixed(2) + " <unused>" : runResult ? "Not detected" : "—"}{runResult?.disturbance.dominant_frequency_hz != null ? <small> Hz</small> : null}</strong><small>{runResult ? "estimated from event data" : "Frequency-domain estimate"}</small></div>
+              <div><span>Dominant disturbance</span><strong>{runResult?.disturbance.dominant_frequency_hz != null ? runResult.disturbance.dominant_frequency_hz.toFixed(2) : runResult ? "Not detected" : "—"}{runResult?.disturbance.dominant_frequency_hz != null ? <small> Hz</small> : null}</strong><small>{runResult ? "estimated from event data" : "Frequency-domain estimate"}</small></div>
               <div><span>Control RMS error</span><strong>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) : "—"}{runResult ? <small> px</small> : null}</strong><small>{runResult ? "disturbance-informed controller" : "Measured by backend"}</small></div>
             </div>
             {runError && <p className="orbi-error" role="alert">{runError}</p>}
