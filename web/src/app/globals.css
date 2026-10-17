@@ -2409,3 +2409,43 @@ html body .scintilla-console .sc-mark:after {
     max-height: calc(44dvh - 46px) !important;
   }
 }
+
+
+/* Complete the optical-link stage chips used inside the floating link panel. */
+html body .scintilla-console .fp-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin: 10px 0 12px;
+}
+html body .scintilla-console .fp-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 1px solid #29475b;
+  border-radius: 999px;
+  background: #0b2030;
+  color: #8ea9bb;
+  font: 600 9px/1.2 "DM Mono", ui-monospace, monospace;
+  letter-spacing: .045em;
+  white-space: nowrap;
+}
+html body .scintilla-console .fp-chip.done {
+  border-color: #176d67;
+  background: #0b3538;
+  color: #76e3cb;
+}
+html body .scintilla-console .fp-chip.cur {
+  border-color: #258bda;
+  background: #103b59;
+  color: #c7eaff;
+  box-shadow: inset 0 0 0 1px #258bda30, 0 0 14px #1689d51c;
+}
+@media (max-width: 760px) {
+  html body .scintilla-console .fp-chips { gap: 4px; }
+  html body .scintilla-console .fp-chip { padding: 4px 6px; font-size: 8px; }
+}
