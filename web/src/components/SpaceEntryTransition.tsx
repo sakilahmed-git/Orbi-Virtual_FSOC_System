@@ -28,6 +28,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const [typedHeadline, setTypedHeadline] = useState("");
   const [typedSubline, setTypedSubline] = useState("");
+  const isInterfaceStage = stage === "interface";
 
   const clearTimers = useCallback(() => {
     timers.current.forEach(clearTimeout);
@@ -74,7 +75,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       satellite: ["SATELLITES IN VIEW", "OPTICAL LINK  /  STANDBY"],
       interface: ["MISSION READY", "LIVE TELEMETRY"],
     };
-    const messageKey = phase === "launch" ? "launch" : stage === "interface" ? "interface" : "satellite";
+    const messageKey = phase === "launch" ? "launch" : isInterfaceStage ? "interface" : "satellite";
     const [headline, subline] = messageKey === "launch"
       ? launchMessage
       : arrivalMessages[messageKey];
@@ -105,7 +106,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       clearInterval(headlineTimer);
       if (sublineTimer) clearInterval(sublineTimer);
     };
-  }, [phase, stage === "interface"]);
+  }, [phase, isInterfaceStage]);
 
   useEffect(() => {
     if (phase !== "launch" || !target.current || pathname === "/" || pathname !== target.current) return;
