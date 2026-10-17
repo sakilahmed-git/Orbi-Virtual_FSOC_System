@@ -65,12 +65,13 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
+    if (phase === "idle") return;
     const launchMessage: [string, string] = [
       "Buckle up. We're going to space.",
       "FLIGHT COMPUTER  /  TRANSMISSION IN",
     ];
     const arrivalMessages: Record<"satellite" | "interface", [string, string]> = {
-      satellite: ["LINK ACQUIRED", "FSO SYSTEM ONLINE"],
+      satellite: ["SATELLITES IN VIEW", "OPTICAL LINK  /  STANDBY"],
       interface: ["MISSION READY", "LIVE TELEMETRY"],
     };
     const messageKey = phase === "launch" ? "launch" : stage === "interface" ? "interface" : "satellite";
