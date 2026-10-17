@@ -98,3 +98,35 @@
 @media (max-width:1050px) { .ol-links { gap:16px; }.ol-api-status { display:none; }.ol-hero { min-height:700px; }.ol-hero-copy { width:54%; }.ol-hero h1 { font-size:clamp(56px,7vw,78px); }.ol-visual { width:58%;opacity:.9; }.ol-label-tx { left:13%; }.ol-platform-heading,.ol-usecases-head { align-items:flex-start;flex-direction:column;gap:18px; }.ol-platform-heading>p,.ol-usecases-head>p { max-width:620px; } }
 @media (max-width:720px) { .ol-nav { height:66px;padding:0 18px; }.ol-links { display:none; }.ol-nav-cta { min-height:39px;padding:0 15px;font-size:10px;gap:10px; }.ol-brand { font-size:25px; }.ol-mark { width:27px;height:27px; }.ol-hero { min-height:870px;padding:80px 22px 0;background:radial-gradient(ellipse at 80% 38%,#a9ceff6b,transparent 55%),#fbfcff; }.ol-hero-copy { width:100%; }.ol-hero h1 { font-size:clamp(55px,13vw,78px);margin-top:24px; }.ol-hero-copy>p { max-width:460px;font-size:14px; }.ol-hero-actions { gap:9px; }.ol-button { min-height:43px;padding:0 16px;font-size:10px;gap:12px; }.ol-proof-line { margin-top:26px;font-size:7px;letter-spacing:1.2px; }.ol-visual { top:390px;width:100%;height:390px;opacity:.9; }.ol-visual:after { background:linear-gradient(0deg,#fbfcff 0%,transparent 24%); }.ol-label-tx { left:7%;top:37%; }.ol-label-rx { right:4%;top:12%; }.ol-visual-coordinates { bottom:8%;right:7%; }.ol-hero-bottom { left:22px;right:22px;min-height:78px;gap:10px; }.ol-hero-bottom div { gap:6px;align-items:flex-start;flex-direction:column;font-size:8px;line-height:1.4;flex:1; }.ol-hero-bottom b { font-size:10px; }.ol-platform,.ol-usecases { padding:68px 22px; }.ol-platform-heading h2,.ol-workflow h2,.ol-usecases h2,.ol-research h2,.ol-final-cta h2 { font-size:39px; }.ol-capabilities,.ol-usecase-grid { grid-template-columns:1fr;gap:12px;margin-top:28px; }.ol-capabilities article { min-height:0;padding:21px; }.ol-cap-icon { margin:18px 0 14px; }.ol-workflow { padding:65px 22px;grid-template-columns:1fr;gap:30px; }.ol-workflow-steps>div { padding:18px 0; }.ol-usecases-head { gap:16px; }.ol-usecase-art { height:165px; }.ol-usecase-card p { min-height:0; }.ol-research { padding:65px 22px;grid-template-columns:1fr;gap:28px; }.ol-research-panel { padding:16px; }.ol-pipeline>div { grid-template-columns:27px 1fr 22px; }.ol-pipeline b { font-size:8px; }.ol-panel-head,.ol-panel-foot { font-size:7px;letter-spacing:.7px; }.ol-final-cta { padding:60px 22px;align-items:flex-start;flex-direction:column; }.ol-final-actions { width:100%; }.ol-footer { padding:24px 22px;flex-wrap:wrap; }.ol-footer>span { display:none; }.ol-footer>div { order:3;width:100%;flex-wrap:wrap; }.ol-footer small { width:100%; } }
 @media (prefers-reduced-motion:reduce) { .orbi-landing *, .orbi-landing *:before,.orbi-landing *:after { transition:none!important;scroll-behavior:auto!important; } }
+
+
+/* Desktop hero fit: keep the headline, link illustration and proof strip in one viewport. */
+@media (min-width: 1051px) {
+  .ol-hero {
+    min-height: min(780px, calc(100svh - 76px));
+    padding-top: clamp(72px, 9vh, 100px);
+  }
+  .ol-hero-copy {
+    width: min(570px, 48%);
+  }
+  .ol-hero h1 {
+    font-size: clamp(58px, 5.35vw, 86px);
+    line-height: .98;
+    margin-top: 26px;
+  }
+  .ol-hero-copy > p {
+    max-width: 470px;
+  }
+  .ol-proof-line {
+    margin-top: 34px;
+  }
+}
+@media (min-width: 1500px) {
+  .ol-hero {
+    min-height: min(780px, calc(100svh - 76px));
+    padding-top: clamp(72px, 9vh, 100px);
+  }
+  .ol-visual {
+    width: 61%;
+  }
+}
