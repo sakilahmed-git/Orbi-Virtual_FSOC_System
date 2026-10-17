@@ -2041,3 +2041,45 @@ html body .scintilla-console .sc-mark:after {
  .orbi-cinema__wash,.orbi-cinema__stars,.orbi-cinema__stars i,.orbi-cinema__cockpit,.orbi-cinema__satellite-field,.orbi-cinema__planet-horizon,.orbi-cinema__satellite,.orbi-cinema__optical-beam,.orbi-cinema__optical-beam i,.orbi-cinema__satellite-label,.orbi-cinema__hud,.orbi-cinema__progress i,.orbi-cinema__headline{animation:none!important;transition:none!important}
  .orbi-cinema__wash{background:#02060c;opacity:1}.orbi-cinema__satellite-field{opacity:1}
 }
+
+
+/* Cinematic contrast + cockpit/planet continuity pass. */
+.orbi-cinema__wash::after {
+  content:"";position:absolute;left:-18%;bottom:-58%;width:136%;height:100%;border-radius:50%;
+  border-top:1px solid #c4f4ffb5;
+  background:radial-gradient(ellipse at 50% 0%,#5a9baa 0%,#2a5d72 18%,#102b3d 48%,#02060c 74%);
+  box-shadow:0 -12px 65px #68d9f03a,inset 0 18px 60px #9beaff18;
+  opacity:0;animation:orbi-cinema-earth-fall 3.5s cubic-bezier(.4,0,.2,1) both;
+}
+.orbi-cinema__cockpit::before {
+  content:"";position:absolute;left:-4%;right:-4%;bottom:-7%;height:23%;
+  background:linear-gradient(180deg,#263844e8 0%,#0a1119 30%,#03070c 100%);
+  clip-path:polygon(0 46%,18% 10%,36% 0,64% 0,82% 10%,100% 46%,100% 100%,0 100%);
+  border-top:1px solid #b7d9e64d;
+  box-shadow:0 -20px 65px #02060c80;
+}
+.orbi-cinema__cockpit::after {
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 45%,transparent 28%,#02060c08 55%,#02060c9c 100%);
+}
+.orbi-cinema--launch.orbi-cinema--cabin .orbi-cinema__headline,
+.orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__headline { color:#102832;text-shadow:0 2px 26px #e9f4f5b8; }
+.orbi-cinema--launch.orbi-cinema--cabin .orbi-cinema__headline em,
+.orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__headline em { color:#304b56; }
+.orbi-cinema--launch.orbi-cinema--cabin .orbi-cinema__brand,
+.orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__brand,
+.orbi-cinema--launch.orbi-cinema--cabin .orbi-cinema__readout,
+.orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__readout { color:#233e49; }
+.orbi-cinema--launch.orbi-cinema--cabin .orbi-cinema__brand i,
+.orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__brand i { color:#47616a; }
+.orbi-cinema--launch.orbi-cinema--cabin .orbi-cinema__readout b,
+.orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__readout b { color:#193540; }
+.orbi-cinema--launch.orbi-cinema--cabin .orbi-cinema__progress,
+.orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__progress { background:#203e4b35; }
+.orbi-cinema--launch.orbi-cinema--cabin .orbi-cinema__progress i,
+.orbi-cinema--launch.orbi-cinema--ignition .orbi-cinema__progress i { background:#236b7d;box-shadow:0 0 10px #4e9daf; }
+@keyframes orbi-cinema-earth-fall {
+  0%,12%{opacity:1;transform:translateY(0) scale(1)}
+  42%{opacity:.95;transform:translateY(7%) scale(1.06)}
+  75%,100%{opacity:0;transform:translateY(20%) scale(1.12)}
+}
