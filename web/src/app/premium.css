@@ -1816,3 +1816,123 @@ html body .scintilla-console .sc-mark:after {
   .space-entry__satellite-field { opacity: 1; }
   .space-entry__optical-beam { opacity: .7; }
 }
+
+
+/* ORBI REBUILD — clean hierarchy, readable story, continuous hand-off.
+   This intentionally overrides the accumulated experimental transition rules above. */
+.space-entry {
+  position: fixed !important; inset: 0 !important; z-index: 9999 !important;
+  overflow: hidden !important; isolation: isolate !important;
+  color: #f4f8fb !important; background: #030811 !important;
+  font-family: var(--orbi-sans, Inter, sans-serif) !important;
+}
+.space-entry__wash {
+  position: absolute !important; inset: 0 !important; z-index: 0 !important;
+  opacity: 1 !important; filter: none !important; transform: none !important;
+  background: linear-gradient(180deg, rgba(244,247,245,.98) 0%, rgba(196,215,222,.94) 22%, rgba(49,78,99,.96) 48%, #071321 76%, #030811 100%) !important;
+  animation: orbi-clean-world-to-space 7.9s cubic-bezier(.65,0,.22,1) both !important;
+}
+.space-entry__stars { z-index: 1 !important; opacity: .38 !important; }
+.space-entry__cockpit { display: none !important; }
+.space-entry__satellite-field {
+  z-index: 1 !important; opacity: 0 !important; inset: 0 !important;
+  animation: orbi-clean-scene-in 1s 1.2s ease-out forwards !important;
+}
+.space-entry__planet-horizon {
+  width: 130vw !important; height: 47vw !important; min-height: 300px !important;
+  left: -15vw !important; bottom: -38vw !important;
+  background: radial-gradient(ellipse at 50% 0%, #4d92a0 0%, #1a455b 20%, #091b2b 57%, #030811 78%) !important;
+  box-shadow: 0 -10px 44px #55c5d522 !important;
+}
+.space-entry__satellite--near { left: 12% !important; top: 34% !important; }
+.space-entry__satellite--far { right: 12% !important; top: 23% !important; }
+.space-entry__optical-beam { z-index: 1 !important; }
+.space-entry__hud {
+  position: absolute !important; inset: 0 !important; z-index: 5 !important;
+  display: block !important; padding: 0 !important; pointer-events: none !important;
+  text-shadow: none !important; animation: none !important;
+}
+.space-entry__brand {
+  position: absolute !important; left: clamp(24px,5vw,72px) !important; top: 32px !important;
+  color: #f3f8fb !important; font: 600 12px/1 var(--orbi-mono,monospace) !important;
+  letter-spacing: .14em !important;
+}
+.space-entry__brand i { color: #b5c9d6 !important; font-style: normal !important; }
+.space-entry__readout {
+  position: absolute !important; right: clamp(24px,5vw,72px) !important; top: 32px !important;
+  color: #c2d3de !important; font: 9px/1.4 var(--orbi-mono,monospace) !important;
+  letter-spacing: .12em !important;
+}
+.space-entry__progress { position:absolute !important; top:58px !important; left:clamp(24px,5vw,72px) !important; right:clamp(24px,5vw,72px) !important; height:1px !important; background:#d8e9f025 !important; }
+.space-entry__progress i { display:block !important; height:1px !important; background:#a7eaff !important; box-shadow:0 0 9px #7cddff !important; }
+.space-entry__headline {
+  position: absolute !important; top: 48% !important; left: clamp(24px, 9vw, 132px) !important;
+  right: auto !important; bottom: auto !important; transform: translateY(-50%) !important;
+  width: min(540px, 52vw) !important; max-width: 540px !important;
+  display: flex !important; flex-direction: column !important; align-items: flex-start !important;
+  gap: 14px !important; text-align: left !important; color: #f5f9fc !important;
+  text-shadow: 0 2px 24px #02081180 !important;
+}
+.space-entry__headline span {
+  display: block !important; min-height: 2.35em !important; max-width: 12ch !important;
+  font: 500 clamp(34px,4.4vw,64px)/1.06 var(--orbi-sans,Inter,sans-serif) !important;
+  letter-spacing: -.065em !important; text-wrap: balance !important;
+}
+.space-entry__headline em {
+  display:block !important; max-width: 40ch !important; min-height: 2.6em !important;
+  color: #c6dbe6 !important; font: 10px/1.8 var(--orbi-mono,monospace) !important;
+  letter-spacing: .12em !important; font-style: normal !important;
+}
+.space-entry__typing-cursor { border-color:#a7eaff !important; }
+.space-entry__steps {
+  position:absolute !important; left:clamp(24px,5vw,72px) !important; bottom:32px !important;
+  display:flex !important; gap:22px !important; color:#8ea6b5 !important;
+  font:9px/1.4 var(--orbi-mono,monospace) !important; letter-spacing:.1em !important;
+}
+.space-entry__steps span { display:flex !important; align-items:center !important; gap:8px !important; }
+.space-entry__steps span i { width:5px !important; height:5px !important; border-radius:50% !important; background:#425b6c !important; }
+.space-entry__steps span.is-current { color:#edf8ff !important; }
+.space-entry__steps span.is-current i { background:#a7eaff !important; box-shadow:0 0 9px #7cddff !important; }
+.space-entry__flash { display:none !important; }
+.space-entry--arrival .space-entry__wash,
+.space-entry--satellite .space-entry__wash,
+.space-entry--interface .space-entry__wash {
+  opacity: 0 !important; animation: none !important;
+}
+.space-entry--arrival .space-entry__satellite-field { opacity:1 !important; animation:none !important; transform:none !important; }
+.space-entry--arrival .space-entry__hud { opacity:1 !important; animation:none !important; }
+.space-entry--arrival .space-entry__headline { top:48% !important; }
+.space-entry--arrival .space-entry__headline span,
+.space-entry--satellite .space-entry__headline span,
+.space-entry--interface .space-entry__headline span { font-size:clamp(34px,4.4vw,64px) !important; }
+.space-entry--flight .space-entry__headline { left:clamp(24px,9vw,132px) !important; right:auto !important; top:48% !important; width:min(540px,52vw) !important; max-width:540px !important; transform:translateY(-50%) !important; }
+@keyframes orbi-clean-world-to-space {
+  0% { opacity:0; transform:scale(1); filter:none; }
+  8% { opacity:1; }
+  35% { background-color:#526f83; }
+  68% { opacity:1; }
+  100% { opacity:1; transform:scale(1.04); filter:none; background:#030811; }
+}
+@keyframes orbi-clean-scene-in { from {opacity:0;} to {opacity:1;} }
+@media (max-width: 680px) {
+  .space-entry__brand { top:22px !important; left:20px !important; }
+  .space-entry__readout { top:22px !important; right:20px !important; font-size:7px !important; }
+  .space-entry__progress { top:44px !important; left:20px !important; right:20px !important; }
+  .space-entry__headline,
+  .space-entry--flight .space-entry__headline {
+    top:auto !important; left:24px !important; right:24px !important; bottom:105px !important;
+    width:auto !important; max-width:480px !important; transform:none !important;
+  }
+  .space-entry__headline span { font-size:clamp(32px,9vw,46px) !important; }
+  .space-entry__headline em { font-size:8px !important; }
+  .space-entry__steps { left:20px !important; right:20px !important; bottom:24px !important; gap:12px !important; font-size:7px !important; }
+  .space-entry__satellite--near { left:-5% !important; top:24% !important; }
+  .space-entry__satellite--far { right:-12% !important; top:15% !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry__wash, .space-entry__satellite-field, .space-entry__planet-horizon,
+  .space-entry__satellite, .space-entry__optical-beam, .space-entry__optical-beam i,
+  .space-entry__satellite-label { animation:none !important; transition:none !important; }
+  .space-entry__wash { opacity:1 !important; background:#030811 !important; }
+  .space-entry__satellite-field { opacity:1 !important; }
+}
