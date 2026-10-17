@@ -33,6 +33,7 @@ export default function MissionSpace({
     manualA: false,
     manualB: false,
   });
+  const grid = useRef<THREE.GridHelper>(null);
   /*
    * Keep simulation positions synchronized until the user manually
    * moves a satellite. Once moved, the manual position remains stable.
@@ -46,6 +47,16 @@ export default function MissionSpace({
       s.b.set(...simulation.target);
     }
   }, [simulation.source, simulation.target]);
+  useEffect(() => {
+    const material = grid.current?.material;
+    const materials = Array.isArray(material) ? material : material ? [material] : [];
+    materials.forEach((item) => {
+      item.transparent = true;
+      item.opacity = 0.22;
+      item.depthWrite = false;
+      item.needsUpdate = true;
+    });
+  }, []);
   return (
     <Canvas
       dpr={[1, 2]}
@@ -84,7 +95,7 @@ export default function MissionSpace({
         intensity={1.8}
         color="#3159ff"
       />
-      <CameraRig view={view} />
+      <CameraRig view={view} shared={shared} />
       <Starfield />
 {/* Background interaction surface.
           Satellites are closer to the camera, so their pointer events
@@ -136,11 +147,12 @@ export default function MissionSpace({
         <GhostMarker position={simulation.ghost} />
       )}
       <gridHelper
+        ref={grid}
         args={[
           42,
           42,
-          "#17355e",
-          "#0c1d3d",
+          "#102b43",
+          "#091a2b",
         ]}
         position={[0, -5, 0]}
       />
@@ -151,7 +163,7 @@ export default function MissionSpace({
 /* -------------------------------------------------------------------------- */
 /* CAMERA                                                                      */
 /* -------------------------------------------------------------------------- */
-function CameraRig({ view }: { view: View }) {
+function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObject<SharedState> }) {
   const { camera, gl } = useThree();
   const orbit = useRef({
     yaw: 0,
@@ -162,7 +174,15 @@ function CameraRig({ view }: { view: View }) {
     lastY: 0,
   });
   const initialized = useRef(false);
-  const cinematic = useRef({ active: false, elapsed: 0, from: new THREE.Vector3(0, 1.5, 4.8) });
+  const cinematic = useRef({
+    active: false,
+    elapsed: 0,
+    start: new THREE.Vector3(),
+    pass: new THREE.Vector3(),
+    wide: new THREE.Vector3(),
+    source: new THREE.Vector3(),
+    midpoint: new THREE.Vector3(),
+  });
   const presets: Record<
     View,
     [number, number, number]
@@ -194,19 +214,25 @@ function CameraRig({ view }: { view: View }) {
       if (started) return;
       started = true;
       window.sessionStorage.removeItem("orbi:cinematic-entry");
-      cinematic.current.active = true;
-      cinematic.current.elapsed = 0;
-      // Begin close to the real 3D scene, then reveal the full mission view.
-      // This runs whether MissionSpace mounted before or after the route change.
-      camera.position.set(0, 1.5, 4.8);
-      camera.lookAt(0, 0, 0);
+      const c = cinematic.current;
+      c.active = true;
+      c.elapsed = 0;
+      c.source.copy(shared.current.a);
+      c.midpoint.copy(shared.current.a).add(shared.current.b).multiplyScalar(0.5);
+      // Start beside the real source satellite, pass it, then pull back to frame
+      // both endpoints. This is camera choreography, not a satellite spin.
+      c.start.copy(c.source).add(new THREE.Vector3(0.35, 1.15, 4.4));
+      c.pass.copy(c.source).add(new THREE.Vector3(-2.1, 1.25, 1.65));
+      c.wide.set(0, 6.5, 18);
+      camera.position.copy(c.start);
+      camera.lookAt(c.source);
     };
     window.addEventListener("orbi:cinematic-entry", startCinematicEntry);
     if (window.sessionStorage.getItem("orbi:cinematic-entry") === "1") {
       startCinematicEntry();
     }
     return () => window.removeEventListener("orbi:cinematic-entry", startCinematicEntry);
-  }, [camera]);
+  }, [camera, shared]);
   useEffect(() => {
     const canvas = gl.domElement;
     const onWheel = (event: WheelEvent) => {
@@ -280,14 +306,28 @@ function CameraRig({ view }: { view: View }) {
       o.distance * cp * cy
     );
     if (cinematic.current.active) {
-      cinematic.current.elapsed += dt;
-      const t = THREE.MathUtils.clamp(cinematic.current.elapsed / 1.65, 0, 1);
-      const eased = 1 - Math.pow(1 - t, 3);
-      const start = new THREE.Vector3(0, 1.5, 4.8);
-      const end = desired;
-      camera.position.copy(start).lerp(end, eased);
-      camera.lookAt(0, 0, 0);
-      if (t >= 1) cinematic.current.active = false;
+      const c = cinematic.current;
+      c.elapsed += dt;
+      const t = THREE.MathUtils.clamp(c.elapsed / 3.15, 0, 1);
+      const ease = (v: number) => v * v * (3 - 2 * v);
+      const lookTarget = new THREE.Vector3();
+      if (t < 0.34) {
+        const local = ease(t / 0.34);
+        camera.position.copy(c.start).lerp(c.pass, local);
+        lookTarget.copy(c.source).lerp(c.source.clone().add(new THREE.Vector3(0.8, 0.1, 0)), local);
+      } else if (t < 0.7) {
+        const local = ease((t - 0.34) / 0.36);
+        const wideStart = c.midpoint.clone().add(new THREE.Vector3(0, 2.8, 8.5));
+        camera.position.copy(c.pass).lerp(wideStart, local);
+        lookTarget.copy(c.source).lerp(c.midpoint, local);
+      } else {
+        const local = ease((t - 0.7) / 0.3);
+        const wideStart = c.midpoint.clone().add(new THREE.Vector3(0, 2.8, 8.5));
+        camera.position.copy(wideStart).lerp(desired, local);
+        lookTarget.copy(c.midpoint).lerp(new THREE.Vector3(0, 0, 0), local);
+      }
+      camera.lookAt(lookTarget);
+      if (t >= 1) c.active = false;
       return;
     }
     camera.position.lerp(
@@ -454,17 +494,8 @@ function EndpointSystem({
         1 - Math.exp(-dt * 7)
       );
     }
-    if (
-      disturbance &&
-      !dragging
-    ) {
-      group.current.rotation.z +=
-        Math.sin(
-          performance.now() * 0.017
-        ) *
-        disturbance *
-        0.003;
-    }
+    // Keep the satellite body orientation stable. Disturbance is visualized
+    // by the optical-link/simulation indicators rather than spinning the whole craft.
   });
   useEffect(() => {
     const onMove = (event: PointerEvent) => {
