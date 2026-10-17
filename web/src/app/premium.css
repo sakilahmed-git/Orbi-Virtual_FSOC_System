@@ -1024,7 +1024,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .space-entry--launch .space-entry__wash {
   inset: -8% !important;
   z-index: -1 !important;
-  opacity: 0 !important;
+  opacity: 0;
   background:
     radial-gradient(ellipse at 50% 45%, rgba(207,240,255,.22), transparent 36%),
     linear-gradient(145deg, #e7f0ee 0%, #a9c7d2 26%, #425d75 48%, #101c30 70%, #020611 100%) !important;
