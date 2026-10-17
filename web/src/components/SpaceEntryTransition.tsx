@@ -55,7 +55,12 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     later(() => setStage("ascent"), 760);
     later(() => setStage("orbit"), 1080);
     later(() => {
-      if (target.current) router.push(target.current);
+      if (target.current) {
+        // Persist the hand-off before navigation so the 3D scene can pick it
+        // up even if it mounts after the transition component dispatches events.
+        window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+        router.push(target.current);
+      }
     }, 1480);
   }, [clearTimers, later, pathname, phase, router]);
 
