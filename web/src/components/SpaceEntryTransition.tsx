@@ -52,9 +52,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
 
     // Give the transmission a cinematic beat: the words finish typing, breathe,
     // and remain readable while the flight visuals continue behind them.
-    later(() => setStage("ignition"), 850);
-    later(() => setStage("ascent"), 1750);
-    later(() => setStage("orbit"), 2850);
+    later(() => setStage("ignition"), 620);
+    later(() => setStage("ascent"), 1420);
+    later(() => setStage("orbit"), 2740);
     later(() => {
       if (target.current) {
         // Persist the hand-off before navigation so the 3D scene can pick it
@@ -62,7 +62,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         window.sessionStorage.setItem("orbi:cinematic-entry", "1");
         router.push(target.current);
       }
-    }, 3900);
+    }, 4300);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
