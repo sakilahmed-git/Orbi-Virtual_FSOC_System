@@ -1584,3 +1584,69 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     background: #020711 !important;
   }
 }
+
+
+/* STABLE FLIGHT CLASS: stage changes must not restart the long launch animation.
+   The previous stage-scoped selectors reset the wash every 0.9–1.1 seconds,
+   leaving the same blue-black screen frozen until route navigation. */
+.space-entry--flight .space-entry__wash {
+  inset: -6% !important;
+  z-index: 0 !important;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse at 50% 44%, rgba(104,190,242,.16) 0%, transparent 40%),
+    linear-gradient(150deg, #dce8e6 0%, #9ab7c8 20%, #3e5a74 39%, #101e34 60%, #020711 82%, #020711 100%) !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: orbi-final-departure 5.8s cubic-bezier(.5,0,.18,1) both !important;
+  will-change: opacity, transform, filter;
+}
+.space-entry--flight .space-entry__stars {
+  display: block !important;
+  opacity: 0;
+  animation: orbi-flight-starfield 4.2s 1.25s cubic-bezier(.16,.72,.2,1) both !important;
+}
+.space-entry--flight .space-entry__stars i {
+  animation: orbi-flight-star-streak 3.9s 1.25s cubic-bezier(.12,.72,.18,1) both !important;
+}
+.space-entry--flight .space-entry__cockpit {
+  animation: orbi-cockpit-enter .8s .75s ease-out both !important;
+}
+.space-entry--flight .space-entry__hud {
+  animation: orbi-transmission-in .65s .28s ease-out both !important;
+}
+.space-entry--flight .space-entry__headline {
+  position: absolute !important;
+  left: auto !important;
+  right: clamp(26px, 6vw, 100px) !important;
+  top: 50% !important;
+  bottom: auto !important;
+  width: min(340px, 38vw) !important;
+  max-width: 38vw !important;
+  transform: translateY(-50%) !important;
+  text-align: left !important;
+}
+.space-entry--flight .space-entry__headline span {
+  font-size: clamp(13px, 1.15vw, 16px) !important;
+  line-height: 1.6 !important;
+}
+.space-entry--flight .space-entry__headline em {
+  margin-top: 10px !important;
+  color: rgba(180,220,241,.68) !important;
+  letter-spacing: .16em !important;
+}
+.space-entry--flight .space-entry__cockpit-top,
+.space-entry--flight .space-entry__cockpit-bottom {
+  opacity: .78 !important;
+}
+@media (max-width: 680px) {
+  .space-entry--flight .space-entry__headline {
+    right: 22px !important;
+    top: auto !important;
+    bottom: 112px !important;
+    width: min(280px, 72vw) !important;
+    max-width: 72vw !important;
+    transform: none !important;
+  }
+}
