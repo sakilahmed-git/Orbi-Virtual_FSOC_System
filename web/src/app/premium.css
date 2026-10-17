@@ -1699,3 +1699,23 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) {
   .orbi-launch-trigger { animation: none !important; }
 }
+
+
+/* Keep the workspace mark identical to the light landing-page wordmark. */
+html body .scintilla-console .sc-mark {
+  width: 27px !important;
+  height: 27px !important;
+  flex: 0 0 27px !important;
+  border: 4px solid #1c3038 !important;
+  border-right-color: #5d9e9b !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+html body .scintilla-console .sc-mark:after {
+  inset: 4px !important;
+  border-radius: 50% !important;
+  background: #f8f9f7 !important;
+  opacity: 1 !important;
+}
