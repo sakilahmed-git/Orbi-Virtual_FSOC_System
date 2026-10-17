@@ -11,7 +11,10 @@ export default function Home() {
   const [apiStatus, setApiStatus] = useState<"checking" | "online" | "offline">("checking");
   const [runResult, setRunResult] = useState<RunScenarioResponse | null>(null);
   const [running, setRunning] = useState(false);
-  const [runError, setRunError] = useState(""); 
+  const [runError, setRunError] = useState("");
+  const [vibrationHz, setVibrationHz] = useState(17.3);
+  const [disturbancePx, setDisturbancePx] = useState(3);
+  const [clutter, setClutter] = useState(0.35);
 
   async function runLiveScenario() {
     setRunning(true);
@@ -20,9 +23,9 @@ export default function Home() {
       const result = await runScenario({
         duration_s: 2,
         fps: 240,
-        vibration_freq_hz: 17.3,
-        vibration_amp_px: 3,
-        clutter_level: 0.35,
+        vibration_freq_hz: vibrationHz,
+        vibration_amp_px: disturbancePx,
+        clutter_level: clutter,
         noise_rate_hz_per_px: 5,
         seed: 812,
         scintilla_enabled: true,
@@ -99,32 +102,41 @@ export default function Home() {
             <div className="lab-target-ring ring-a" /><div className="lab-target-ring ring-b" /><div className="lab-target-ring ring-c" />
             <div className="lab-field-label lab-label-tl">POINTING ERROR <b>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) + " px RMS" : "LIVE SENSOR FIELD"}</b></div>
             <div className="lab-field-label lab-label-tr">SC-02 / RECEIVER <b>ACQUISITION WINDOW</b></div>
-            <svg className="lab-optics" viewBox="0 0 720 340" preserveAspectRatio="none" aria-label="Optical beam path and receiver acquisition field">
+            <svg className="lab-optics" viewBox="0 0 720 340" preserveAspectRatio="none" aria-label="Curved optical beam between a transmitter telescope and receiver telescope">
               <defs>
-                <linearGradient id="beamGradient" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stopColor="#ff63cf"/><stop offset="52%" stopColor="#a88cff"/><stop offset="100%" stopColor="#61e6f4"/></linearGradient>
+                <linearGradient id="beamGradient" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stopColor="#ff6ad5"/><stop offset="48%" stopColor="#a28cff"/><stop offset="100%" stopColor="#66eff5"/></linearGradient>
+                <linearGradient id="beamCone" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#ff6ad5" stopOpacity=".02"/><stop offset="55%" stopColor="#8eafff" stopOpacity=".1"/><stop offset="100%" stopColor="#66eff5" stopOpacity=".18"/></linearGradient>
                 <filter id="beamGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
               </defs>
-              <path d="M80 252 C210 225 330 133 610 78" fill="none" stroke="url(#beamGradient)" strokeWidth="2.5" filter="url(#beamGlow)"/>
-              <path d="M80 252 C210 225 330 133 610 78" fill="none" stroke="#e8fdff" strokeWidth=".7" strokeDasharray="3 9" opacity=".8"/>
-              <path d="M80 252 L610 78" fill="none" stroke="#72dff0" strokeWidth=".6" strokeDasharray="2 12" opacity=".6"/>
-              <circle cx="80" cy="252" r="23" fill="#f36acb" fillOpacity=".12" stroke="#f36acb" strokeOpacity=".8"/>
-              <circle cx="80" cy="252" r="10" fill="#111e31" stroke="#ff8add" strokeWidth="1.5"/>
-              <circle cx="80" cy="252" r="3" fill="#ff8add"/>
-              <circle cx="610" cy="78" r="44" fill="#5ce5f2" fillOpacity=".05" stroke="#5ce5f2" strokeOpacity=".65" strokeDasharray="4 5"/>
-              <circle cx="610" cy="78" r="22" fill="#112b3a" stroke="#5ce5f2" strokeWidth="1.5"/>
-              <circle cx="610" cy="78" r="7" fill="#5ce5f2" fillOpacity=".25" stroke="#a6f5fb"/>
-              <circle cx="364" cy="160" r="4" fill="#e5ffff" filter="url(#beamGlow)"/>
-              <path d="M80 252 L80 282 M65 252 L95 252 M610 78 L610 45 M594 78 L626 78" stroke="#91a9c4" strokeWidth=".7" opacity=".8"/>
-            </svg>
-            <div className="lab-terminal lab-transmitter"><span>TX</span><b>SC-01</b><small>BEACON SOURCE</small></div>
+              <path d="M82 250 C190 236 270 183 360 163 S515 108 612 78 L612 91 C510 123 440 151 360 174 S190 249 82 263 Z" fill="url(#beamCone)"/>
+              <path d="M82 256 C188 242 268 184 360 168 S514 111 612 84" fill="none" stroke="url(#beamGradient)" strokeWidth="2.6" filter="url(#beamGlow)"/>
+              <path d="M82 256 C188 242 268 184 360 168 S514 111 612 84" fill="none" stroke="#e9fdff" strokeWidth=".7" strokeDasharray="2 8" opacity=".9"/>
+              <path d="M82 256 Q360 330 612 84" fill="none" stroke="#74cde9" strokeWidth=".7" strokeDasharray="3 9" opacity=".25"/>
+              <g transform="translate(82 256) rotate(-16)">
+                <circle r="29" fill="#f36acb" fillOpacity=".08" stroke="#f36acb" strokeOpacity=".8"/>
+                <circle r="17" fill="#102637" stroke="#ff8add" strokeWidth="1.2"/>
+                <circle r="7" fill="#ff8add" fillOpacity=".25" stroke="#ffd6f4"/>
+                <circle r="2.5" fill="#fff"/>
+                <path d="M-37 0H-20 M20 0H37 M0 -37V-20 M0 20V37" stroke="#ff8add" strokeWidth=".8" opacity=".8"/>
+              </g>
+              <g transform="translate(612 84) rotate(12)">
+                <circle r="48" fill="#5ce5f2" fillOpacity=".035" stroke="#5ce5f2" strokeOpacity=".7" strokeDasharray="4 5"/>
+                <circle r="29" fill="#5ce5f2" fillOpacity=".05" stroke="#5ce5f2" strokeOpacity=".45"/>
+                <circle r="17" fill="#112b3a" stroke="#5ce5f2" strokeWidth="1.5"/>
+                <circle r="8" fill="#5ce5f2" fillOpacity=".22" stroke="#c4fbff"/>
+                <circle r="3" fill="#d9ffff"/>
+                <path d="M-56 0H-34 M34 0H56 M0 -56V-34 M0 34V56" stroke="#6ce4ee" strokeWidth=".8" opacity=".7"/>
+              </g>
+              <g transform="translate(360 168)"><circle r="5" fill="#eaffff" filter="url(#beamGlow)"/><circle r="12" fill="#9beeff" fillOpacity=".12"/></g>
+            </svg>           <div className="lab-terminal lab-transmitter"><span>TX</span><b>SC-01</b><small>BEACON SOURCE</small></div>
             <div className="lab-terminal lab-receiver"><span>RX</span><b>SC-02</b><small>ACQUISITION GATE</small></div>
             <div className="lab-scene-footer"><span><i /> OPTICAL PATH / SIMULATED GEOMETRY</span><span>RANGE <b>42.0 KM</b></span></div>
           </div>
           <div className="ol-lab-controls">
-            <div className="lab-control-head"><span>SCENARIO PARAMETERS</span><span>PRESET / VIBRATION + CLUTTER</span></div>
-            <div className="lab-parameter"><span>VIBRATION FREQUENCY</span><b>17.3 <small>Hz</small></b><div><i style={{width:"58%"}} /></div></div>
-            <div className="lab-parameter"><span>BEACON DISTURBANCE</span><b>3.0 <small>px</small></b><div><i style={{width:"34%"}} /></div></div>
-            <div className="lab-parameter"><span>CLUTTER DENSITY</span><b>0.35 <small>level</small></b><div><i style={{width:"35%"}} /></div></div>
+            <div className="lab-control-head"><span>SCENARIO PARAMETERS</span><span>ADJUST BEFORE EXECUTION</span></div>
+            <label className="lab-parameter"><span>VIBRATION FREQUENCY</span><b>{vibrationHz.toFixed(1)} <small>Hz</small></b><input aria-label="Vibration frequency" type="range" min="1" max="30" step=".1" value={vibrationHz} onChange={(e) => setVibrationHz(Number(e.target.value))} /></label>
+            <label className="lab-parameter"><span>BEACON DISTURBANCE</span><b>{disturbancePx.toFixed(1)} <small>px</small></b><input aria-label="Beacon disturbance" type="range" min=".2" max="8" step=".1" value={disturbancePx} onChange={(e) => setDisturbancePx(Number(e.target.value))} /></label>
+            <label className="lab-parameter"><span>CLUTTER DENSITY</span><b>{clutter.toFixed(2)} <small>level</small></b><input aria-label="Clutter density" type="range" min="0" max="1" step=".01" value={clutter} onChange={(e) => setClutter(Number(e.target.value))} /></label>
           </div>
           <div className="ol-run-metrics">
             <div><span>NOISY EVENTS</span><strong>{runResult ? runResult.events.n_noisy.toLocaleString() : "—"}</strong><small>{runResult ? "COMPUTED EVENT COUNT" : "AWAITING EXECUTION"}</small></div>
