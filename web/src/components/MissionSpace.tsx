@@ -162,6 +162,7 @@ function CameraRig({ view }: { view: View }) {
     lastY: 0,
   });
   const initialized = useRef(false);
+  const cinematic = useRef({ active: false, elapsed: 0, from: new THREE.Vector3(0, 1.5, 4.8) });
   const presets: Record<
     View,
     [number, number, number]
@@ -187,6 +188,17 @@ function CameraRig({ view }: { view: View }) {
     );
     initialized.current = true;
   }, [view]);
+  useEffect(() => {
+    const onCinematicEntry = () => {
+      cinematic.current.active = true;
+      cinematic.current.elapsed = 0;
+      cinematic.current.from.copy(camera.position);
+      camera.position.set(0, 1.5, 4.8);
+      camera.lookAt(0, 0, 0);
+    };
+    window.addEventListener("orbi:cinematic-entry", onCinematicEntry);
+    return () => window.removeEventListener("orbi:cinematic-entry", onCinematicEntry);
+  }, [camera]);
   useEffect(() => {
     const canvas = gl.domElement;
     const onWheel = (event: WheelEvent) => {
@@ -259,6 +271,17 @@ function CameraRig({ view }: { view: View }) {
       o.distance * sp,
       o.distance * cp * cy
     );
+    if (cinematic.current.active) {
+      cinematic.current.elapsed += dt;
+      const t = THREE.MathUtils.clamp(cinematic.current.elapsed / 1.65, 0, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const start = new THREE.Vector3(0, 1.5, 4.8);
+      const end = desired;
+      camera.position.copy(start).lerp(end, eased);
+      camera.lookAt(0, 0, 0);
+      if (t >= 1) cinematic.current.active = false;
+      return;
+    }
     camera.position.lerp(
       desired,
       1 - Math.exp(-dt * 5)
