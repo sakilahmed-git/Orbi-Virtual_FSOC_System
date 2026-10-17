@@ -1295,3 +1295,36 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .space-entry--launch .space-entry__wash {
   opacity: 0;
 }
+
+
+/* TRANSITION REPAIR: one continuous cover animation, shorter handoff, no black hold. */
+.space-entry--launch .space-entry__wash {
+  animation: orbi-world-blend 2.48s cubic-bezier(.62,0,.22,1) both !important;
+  will-change: opacity, filter, backdrop-filter, transform;
+}
+.space-entry--ignition .space-entry__wash,
+.space-entry--ascent .space-entry__wash,
+.space-entry--orbit .space-entry__wash {
+  animation: orbi-world-blend 2.48s cubic-bezier(.62,0,.22,1) both !important;
+}
+.space-entry--launch .space-entry__stars {
+  animation-delay: .55s !important;
+}
+.space-entry--launch .space-entry__stars i {
+  animation-delay: .55s !important;
+}
+.orbi-transition-content--arrival .scintilla-console .sc-space {
+  animation-duration: .62s !important;
+  animation-delay: 0s !important;
+}
+.space-entry--arrival .space-entry__wash {
+  animation-duration: .62s !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry--launch .space-entry__wash,
+  .space-entry--ignition .space-entry__wash,
+  .space-entry--ascent .space-entry__wash,
+  .space-entry--orbit .space-entry__wash {
+    animation: none !important;
+  }
+}
