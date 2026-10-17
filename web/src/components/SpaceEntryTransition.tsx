@@ -98,9 +98,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           sublineIndex += 1;
           setTypedSubline(subline.slice(0, sublineIndex));
           if (sublineIndex >= subline.length) clearInterval(sublineTimer);
-        }, 38);
+        }, 24);
       }
-    }, phase === "launch" ? 86 : 72);
+    }, phase === "launch" ? 68 : 44);
 
     return () => {
       clearInterval(headlineTimer);
@@ -116,11 +116,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
     // Hold the real 3D scene long enough for the acquisition message to land.
-    later(() => setStage("interface"), 2400);
+    later(() => setStage("interface"), 3400);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 4400);
+    }, 6400);
   }, [pathname, phase, clearTimers, later]);
 
 
