@@ -740,3 +740,60 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     inset: 0 !important;
   }
 }
+
+
+/* REAL-SCENE TRANSITION FIX
+   Do not render a substitute cabin, planet, or SVG satellite. During arrival,
+   the only scene is MissionControl's own live MissionSpace/WebGL canvas. */
+.space-entry--launch {
+  background: #020711 !important;
+}
+.space-entry--launch .space-entry__wash {
+  background: radial-gradient(ellipse at 50% 110%, #102a3b 0%, #050b14 48%, #02040a 82%) !important;
+}
+.space-entry__stars { display: none !important; }
+.space-entry__flash { display: none !important; }
+.space-entry--arrival,
+.space-entry--interface {
+  background: transparent !important;
+  pointer-events: none !important;
+}
+.space-entry--arrival .space-entry__wash,
+.space-entry--interface .space-entry__wash {
+  opacity: 0 !important;
+  background: transparent !important;
+}
+.space-entry--arrival .space-entry__hud {
+  animation: orbi-real-scene-caption-in .45s ease both !important;
+}
+.space-entry--arrival .space-entry__brand,
+.space-entry--arrival .space-entry__readout,
+.space-entry--arrival .space-entry__progress,
+.space-entry--arrival .space-entry__steps {
+  display: none !important;
+}
+.space-entry--arrival .space-entry__headline {
+  left: clamp(24px, 6vw, 88px) !important;
+  bottom: clamp(30px, 7vh, 72px) !important;
+  top: auto !important;
+  max-width: min(760px, 86vw) !important;
+}
+.space-entry--arrival .space-entry__headline span {
+  color: #f2f8ff !important;
+  font-size: clamp(25px, 3.6vw, 48px) !important;
+}
+.space-entry--arrival .space-entry__headline em {
+  color: #a9c0d4 !important;
+  font-size: clamp(12px, 1.2vw, 15px) !important;
+}
+.space-entry--interface .space-entry__hud {
+  opacity: 0 !important;
+  animation: none !important;
+}
+@keyframes orbi-real-scene-caption-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry--arrival .space-entry__hud { animation: none !important; }
+}
