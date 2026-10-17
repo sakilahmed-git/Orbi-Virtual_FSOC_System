@@ -2471,3 +2471,19 @@ html body .scintilla-console .fp-chip {
   font-size: 9px !important;
   line-height: 1.2 !important;
 }
+
+
+/* Drag interaction repair: panel coordinates must win over the old fixed dock rules. */
+html body .scintilla-console .fp {
+  left: var(--fp-left) !important;
+  top: var(--fp-top) !important;
+  right: auto !important;
+  touch-action: auto;
+}
+html body .scintilla-console .fp-head {
+  cursor: grab !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  touch-action: none !important;
+}
+html body .scintilla-console .fp-head:active { cursor: grabbing !important; }
