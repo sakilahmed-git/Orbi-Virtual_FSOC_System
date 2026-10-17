@@ -768,3 +768,113 @@
 .orbi-landing .ol-workflow-copy h2,
 .orbi-landing .ol-usecases-head h2,
 .orbi-landing .ol-final-cta h2 { text-wrap:balance; }
+
+
+/* Living optical link: an always-on acquisition → lock → tracking → adaptive-control cycle. */
+.orbi-landing .orbi-space-scene { perspective:1100px; transform-style:preserve-3d; }
+.orbi-landing .orbi-earth-horizon { animation:orbi-horizon-drift 18s ease-in-out infinite alternate; }
+.orbi-landing .orbi-scene-stars { animation:orbi-star-drift 34s linear infinite; }
+.orbi-landing .orbi-beam-art { transform-origin:50% 50%; animation:orbi-scene-float 9s ease-in-out infinite; }
+.orbi-landing .orbi-beam-core { animation:orbi-beam-shimmer 3.2s ease-in-out infinite; }
+.orbi-landing .orbi-beam-packet { animation:orbi-packet-travel 3.6s linear infinite; }
+.orbi-landing .orbi-tx-lock-ring { transform-box:fill-box;transform-origin:center;animation:orbi-tx-pulse 3s ease-out infinite; }
+.orbi-landing .orbi-rx-lock-ring { transform-box:fill-box;transform-origin:center;animation:orbi-rx-lock 6s ease-in-out infinite; }
+.orbi-landing .orbi-rx-core { transform-box:fill-box;transform-origin:center;animation:orbi-core-breathe 2.5s ease-in-out infinite; }
+.orbi-landing .orbi-phase-readout {
+  position:absolute;z-index:5;top:16px;left:16px;min-width:175px;min-height:32px;
+  display:flex;align-items:center;padding:0 10px;overflow:hidden;
+  background:#071C29D9;border:1px solid #B6D4DE42;border-radius:5px;
+  box-shadow:0 5px 18px #06172228;backdrop-filter:blur(10px);
+}
+.orbi-landing .orbi-phase {
+  position:absolute;inset:0;display:flex;align-items:center;gap:8px;padding:0 10px;
+  color:#DCEBF0;font:8px "DM Mono",monospace;letter-spacing:.7px;
+  opacity:0;animation:orbi-phase-cycle 16s infinite;
+}
+.orbi-landing .orbi-phase b {margin-left:auto;color:#83D9D0;font-size:8px;font-weight:500;}
+.orbi-landing .orbi-phase i {width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:#8DC9D2;box-shadow:0 0 0 3px #8dc9d21b;}
+.orbi-landing .phase-connect {animation-delay:0s;}
+.orbi-landing .phase-acquire {animation-delay:4s;}
+.orbi-landing .phase-track {animation-delay:8s;}
+.orbi-landing .phase-intelligence {animation-delay:12s;}
+.orbi-landing .phase-acquire i {background:#D9A45D;box-shadow:0 0 0 3px #d9a45d24;}
+.orbi-landing .phase-track i,.orbi-landing .phase-intelligence i {background:#66C9B8;box-shadow:0 0 0 3px #66c9b824;}
+.orbi-landing .orbi-acquisition-sweep {
+  position:absolute;z-index:1;left:49%;top:45%;width:74%;aspect-ratio:1;border:1px solid #8DE0D54A;border-radius:50%;
+  transform:translate(-50%,-50%) scale(.45);opacity:0;pointer-events:none;
+  background:conic-gradient(from 0deg,transparent 0 72%,#77D6C52D 83%,transparent 90% 100%);
+  animation:orbi-sweep-cycle 16s ease-in-out infinite;
+  mask-image:radial-gradient(circle,transparent 0 53%,#000 54% 55%,transparent 56% 100%);
+}
+.orbi-landing .orbi-intelligence-orbit {
+  position:absolute;z-index:2;left:49%;top:49%;width:190px;height:190px;
+  transform:translate(-50%,-50%);border:1px solid #9EDDD51A;border-radius:50%;
+  opacity:0;pointer-events:none;animation:orbi-intelligence-cycle 16s ease-in-out infinite;
+}
+.orbi-landing .orbi-intelligence-orbit:before,.orbi-landing .orbi-intelligence-orbit:after {
+  content:"";position:absolute;inset:18px;border:1px dashed #8FE1D64C;border-radius:50%;transform:rotateX(62deg) rotateZ(20deg);
+}
+.orbi-landing .orbi-intelligence-orbit:after {inset:37px;transform:rotateX(67deg) rotateZ(-32deg);border-style:solid;}
+.orbi-landing .orbi-intelligence-orbit span {position:absolute;width:5px;height:5px;border-radius:50%;background:#A7F0E4;box-shadow:0 0 10px #8AE0D9;animation:orbi-node-orbit 5s linear infinite;}
+.orbi-landing .orbi-intelligence-orbit span:nth-child(1) {left:18%;top:22%;}
+.orbi-landing .orbi-intelligence-orbit span:nth-child(2) {right:15%;top:55%;animation-delay:-1.7s;}
+.orbi-landing .orbi-intelligence-orbit span:nth-child(3) {left:48%;bottom:10%;animation-delay:-3.1s;}
+@keyframes orbi-phase-cycle {
+  0%,4% {opacity:0;transform:translateY(5px)}
+  7%,20% {opacity:1;transform:translateY(0)}
+  24%,100% {opacity:0;transform:translateY(-5px)}
+}
+@keyframes orbi-packet-travel {
+  0% {stroke-dashoffset:850;opacity:0}
+  8% {opacity:1}
+  85% {opacity:1}
+  100% {stroke-dashoffset:0;opacity:0}
+}
+@keyframes orbi-beam-shimmer {
+  0%,100% {opacity:.62}
+  50% {opacity:1}
+}
+@keyframes orbi-tx-pulse {
+  0% {transform:scale(.7);opacity:.85}
+  72%,100% {transform:scale(1.75);opacity:0}
+}
+@keyframes orbi-rx-lock {
+  0%,24% {transform:scale(.72);opacity:.48}
+  38%,68% {transform:scale(1.18);opacity:1}
+  80%,100% {transform:scale(1);opacity:.8}
+}
+@keyframes orbi-core-breathe {
+  0%,100% {transform:scale(.8);opacity:.7}
+  50% {transform:scale(1.22);opacity:1}
+}
+@keyframes orbi-sweep-cycle {
+  0%,20% {opacity:0;transform:translate(-50%,-50%) scale(.35) rotate(0deg)}
+  28% {opacity:.9;transform:translate(-50%,-50%) scale(.8) rotate(55deg)}
+  42% {opacity:.25;transform:translate(-50%,-50%) scale(1.04) rotate(145deg)}
+  48%,100% {opacity:0;transform:translate(-50%,-50%) scale(1.12) rotate(210deg)}
+}
+@keyframes orbi-intelligence-cycle {
+  0%,72% {opacity:0;transform:translate(-50%,-50%) scale(.65) rotate(-8deg)}
+  80%,95% {opacity:.95;transform:translate(-50%,-50%) scale(1) rotate(0deg)}
+  100% {opacity:0;transform:translate(-50%,-50%) scale(1.08) rotate(8deg)}
+}
+@keyframes orbi-node-orbit {to {transform:rotate(360deg) translateX(10px) rotate(-360deg)}}
+@keyframes orbi-scene-float {
+  0%,100% {transform:translate3d(0,0,0) rotateX(0deg) rotateY(0deg)}
+  50% {transform:translate3d(0,-2px,0) rotateX(.6deg) rotateY(-.35deg)}
+}
+@keyframes orbi-horizon-drift {0% {transform:rotate(-4deg) translateY(0)}100% {transform:rotate(-2.5deg) translateY(-8px)}}
+@keyframes orbi-star-drift {0% {background-position:9px 4px,28px 32px}100% {background-position:70px 61px,-69px 115px}}
+@media (prefers-reduced-motion:reduce) {
+  .orbi-landing .orbi-earth-horizon,.orbi-landing .orbi-scene-stars,.orbi-landing .orbi-beam-art,
+  .orbi-landing .orbi-beam-core,.orbi-landing .orbi-beam-packet,.orbi-landing .orbi-tx-lock-ring,
+  .orbi-landing .orbi-rx-lock-ring,.orbi-landing .orbi-rx-core,.orbi-landing .orbi-phase,
+  .orbi-landing .orbi-acquisition-sweep,.orbi-landing .orbi-intelligence-orbit,
+  .orbi-landing .orbi-intelligence-orbit span {animation:none!important;}
+  .orbi-landing .phase-connect {opacity:1;}
+}
+@media (max-width:560px) {
+  .orbi-landing .orbi-phase-readout {top:10px;left:10px;min-width:155px;min-height:29px;}
+  .orbi-landing .orbi-phase {font-size:7px;}
+  .orbi-landing .orbi-intelligence-orbit {width:130px;height:130px;}
+}
