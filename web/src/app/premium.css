@@ -1213,3 +1213,64 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
     animation: none !important;
   }
 }
+
+
+/* ORBITAL HANDOFF v3 — one continuous cover/reveal, no exposed route cut. */
+.space-entry--launch .space-entry__wash {
+  animation: orbi-world-blend 4.05s cubic-bezier(.62,0,.22,1) both !important;
+  will-change: opacity, filter, backdrop-filter, transform;
+}
+.space-entry--ignition .space-entry__wash {
+  animation: orbi-ignition-cut .48s ease-in-out both !important;
+}
+.space-entry--ascent .space-entry__wash {
+  animation: orbi-ascent-cut .55s cubic-bezier(.22,.7,.18,1) both !important;
+}
+.space-entry--orbit .space-entry__wash {
+  animation: orbi-orbit-cut .68s cubic-bezier(.7,0,.2,1) both !important;
+}
+@keyframes orbi-ignition-cut {
+  0% { opacity: 1; filter: brightness(.16) blur(0); }
+  35% { opacity: .82; filter: brightness(1.8) blur(7px); }
+  100% { opacity: 1; filter: brightness(.12) blur(2px); }
+}
+@keyframes orbi-ascent-cut {
+  0% { opacity: 1; transform: scale(1.05); filter: brightness(.12) blur(2px); }
+  45% { opacity: .78; transform: scale(1.12); filter: brightness(1.7) blur(8px); }
+  100% { opacity: 1; transform: scale(1.2); filter: brightness(.08) blur(0); }
+}
+@keyframes orbi-orbit-cut {
+  0% { opacity: 1; filter: brightness(.08) blur(0); }
+  30% { opacity: .72; filter: brightness(2) blur(10px); }
+  100% { opacity: 1; filter: brightness(.06) blur(0); }
+}
+/* Keep the launch cover over the route swap, then dissolve onto the real WebGL scene. */
+.space-entry--arrival .space-entry__wash {
+  inset: 0 !important;
+  z-index: 1 !important;
+  opacity: 1 !important;
+  background: #020711 !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  animation: orbi-scene-reveal 1.65s cubic-bezier(.22,.72,.2,1) both !important;
+}
+@keyframes orbi-scene-reveal {
+  0% { opacity: 1; }
+  58% { opacity: .94; }
+  100% { opacity: 0; }
+}
+.space-entry--arrival .space-entry__hud {
+  z-index: 3 !important;
+}
+.space-entry--arrival .space-entry__cockpit,
+.space-entry--interface .space-entry__cockpit {
+  display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry--launch .space-entry__wash,
+  .space-entry--arrival .space-entry__wash {
+    animation: none !important;
+  }
+  .space-entry--arrival .space-entry__wash { opacity: 0 !important; }
+}
