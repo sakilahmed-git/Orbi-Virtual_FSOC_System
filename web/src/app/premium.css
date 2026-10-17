@@ -281,17 +281,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .space-entry {
   position: fixed !important; inset: 0 !important; z-index: 9999 !important;
   display: block !important; overflow: hidden !important; isolation: isolate !important;
-  color: #f2f7fb !important; background: #dce9f1 !important;
+  color: #f2f7fb !important; background: #020711 !important;
   perspective: 1200px; transform: translateZ(0);
 }
 .space-entry__wash {
   position: absolute !important; inset: -12% !important; z-index: -2 !important;
-  opacity: 1 !important;
+  opacity: 1 !important; z-index: 0 !important;
   background: linear-gradient(180deg,#c6e5f5 0%,#8fb9d6 44%,#e7c9a7 64%,#162637 100%) !important;
   transition: background 1.8s cubic-bezier(.72,0,.2,1), opacity 1.2s ease !important;
 }
 .fpv-flight-scene {
-  position: absolute; inset: 0; overflow: hidden; transform-style: preserve-3d;
+  position: absolute; z-index: 1; inset: 0; overflow: hidden; transform-style: preserve-3d;
   transform: scale(1.035); animation: fpv-scene-settle 1.1s cubic-bezier(.16,.7,.2,1) both;
   background: linear-gradient(#a9d5f0 0%,#e6d5bd 55%,#17212d 100%);
 }
@@ -441,7 +441,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .fpv-orbit-satellite svg { display:block;width:100%;overflow:visible; }
 .space-entry__stars {
   position:absolute !important; inset:0 !important; z-index:2 !important;
-  opacity:0 !important; pointer-events:none; transition:opacity 1.6s ease !important;
+  opacity:0 !important; z-index:4 !important; pointer-events:none; transition:opacity 1.6s ease !important;
 }
 .space-entry__stars i {
   position:absolute; left:var(--star-x); top:var(--star-y); width:var(--star-size); height:var(--star-size);
@@ -507,7 +507,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 /* Stage 4: black space settles in. Earth is now a distant blue curve below. */
 .space-entry--orbit .fpv-flight-scene { animation:fpv-orbit-settle 1.2s cubic-bezier(.16,.8,.2,1) both; }
-.space-entry--orbit .fpv-window { border-color:#0b1521;box-shadow:0 0 0 2px #21394b,0 0 0 7px #03070c,inset 0 0 60px #000; }
+.space-entry--orbit .fpv-window { background:#020711; border-color:#0b1521;box-shadow:0 0 0 2px #21394b,0 0 0 7px #03070c,inset 0 0 60px #000; }
 .space-entry--orbit .fpv-window-sky { opacity:0;background:#020711; }
 .space-entry--orbit .fpv-earth { top:118%;width:62%;opacity:.92;filter:brightness(.75); }
 .space-entry--orbit .fpv-atmosphere-line { opacity:.2; }
@@ -518,7 +518,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 /* Arrival: satellite first; controls are intentionally held back until it resolves. */
 .space-entry--satellite .fpv-flight-scene,.space-entry--interface .fpv-flight-scene { animation:fpv-orbit-settle .8s ease both; }
 .space-entry--satellite .fpv-orbit-satellite { animation:fpv-satellite-arrive 1.15s .1s cubic-bezier(.16,.8,.2,1) both; }
-.space-entry--satellite .fpv-window { border-color:#07101b; }
+.space-entry--satellite .fpv-window { background:#020711; border-color:#07101b; }
 .space-entry--satellite .fpv-earth,.space-entry--interface .fpv-earth { top:122%;width:52%; }
 .space-entry--satellite .space-entry__wash,.space-entry--interface .space-entry__wash { background:radial-gradient(ellipse at 50% 45%,#102537 0%,#03070e 68%,#010309 100%) !important; }
 .space-entry--satellite .space-entry__stars,.space-entry--interface .space-entry__stars { opacity:1 !important; }
