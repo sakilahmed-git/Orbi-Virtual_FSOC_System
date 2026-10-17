@@ -71,6 +71,8 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
               <i key={i} style={{
                 "--star-x": `${(i * 37 + 11) % 100}%`,
                 "--star-y": `${(i * 53 + 7) % 100}%`,
+                "--star-dx": `${(((i * 37 + 11) % 100) - 50) * 0.34}vw`,
+                "--star-dy": `${(((i * 53 + 7) % 100) - 50) * 0.25}vh`,
                 "--star-delay": `${(i % 9) * -0.11}s`,
                 "--star-size": `${i % 5 === 0 ? 3 : i % 3 === 0 ? 2 : 1}px`,
               } as CSSProperties} />
