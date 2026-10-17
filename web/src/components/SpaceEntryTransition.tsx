@@ -1,221 +1,88 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type MouseEvent,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 type TransitionContextValue = { enterSpace: (href: string) => void };
-type TransitionPhase = "idle" | "launch" | "arrival";
-type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interface";
-
+type Phase = "idle" | "launch" | "arrival";
 const TransitionContext = createContext<TransitionContextValue | null>(null);
 
 export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [phase, setPhase] = useState<TransitionPhase>("idle");
-  const [stage, setStage] = useState<FlightStage>("cabin");
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [arrival, setArrival] = useState(false);
   const target = useRef<string | null>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const [typedHeadline, setTypedHeadline] = useState("");
-  const [typedSubline, setTypedSubline] = useState("");
-  const isInterfaceStage = stage === "interface";
-
-  const clearTimers = useCallback(() => {
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
-  }, []);
-
-  const later = useCallback((fn: () => void, ms: number) => {
-    timers.current.push(setTimeout(fn, ms));
-  }, []);
+  const clearTimers = useCallback(() => { timers.current.forEach(clearTimeout); timers.current = []; }, []);
+  const later = useCallback((fn: () => void, ms: number) => { timers.current.push(setTimeout(fn, ms)); }, []);
 
   const enterSpace = useCallback((href: string) => {
     if (phase !== "idle" || href === pathname) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      router.push(href);
-      return;
-    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { router.push(href); return; }
     clearTimers();
     target.current = href;
-    setStage("cabin");
+    setArrival(false);
     setPhase("launch");
-
-    // Give the transmission a cinematic beat: the words finish typing, breathe,
-    // and remain readable while the flight visuals continue behind them.
-    later(() => setStage("ignition"), 1600);
-    later(() => setStage("ascent"), 3400);
-    later(() => setStage("orbit"), 6100);
+    // A single 7.2-second optical-path sequence. The scene advances via CSS,
+    // not React stage changes, so animations cannot restart at each beat.
     later(() => {
-      if (target.current) {
-        // Persist the hand-off before navigation so the 3D scene can pick it
-        // up even if it mounts after the transition component dispatches events.
-        window.sessionStorage.setItem("orbi:cinematic-entry", "1");
-        router.push(target.current);
-      }
-    }, 8200);
-  }, [clearTimers, later, pathname, phase, router]);
-
-  useEffect(() => {
-    if (phase === "idle") return;
-    const launchMessage: [string, string] = [
-      "Beyond Earth, a beam must find its target.",
-      "FREE-SPACE OPTICAL COMMUNICATION  /  FSOC",
-    ];
-    const arrivalMessages: Record<"satellite" | "interface", [string, string]> = {
-      satellite: ["Two satellites. One narrow beam.", "ACQUIRE  /  TRACK  /  MAINTAIN THE OPTICAL LINK"],
-      interface: ["What happens when the link drifts?", "ORBI USES LEARNING TO PREDICT, REACQUIRE & RECOVER"],
-    };
-    const messageKey = phase === "launch" ? "launch" : isInterfaceStage ? "interface" : "satellite";
-    const [headline, subline] = messageKey === "launch"
-      ? launchMessage
-      : arrivalMessages[messageKey];
-
-    setTypedHeadline("");
-    setTypedSubline("");
-    let headlineIndex = 0;
-    let sublineIndex = 0;
-    let sublineTimer: ReturnType<typeof setInterval> | undefined;
-
-    // Slow, deliberate typewriter timing. Crucially, depend on phase rather
-    // than every flight stage, so ignition/ascent/orbit never reset the text.
-    const headlineTimer = setInterval(() => {
-      headlineIndex += 1;
-      setTypedHeadline(headline.slice(0, headlineIndex));
-      if (headlineIndex >= headline.length) {
-        clearInterval(headlineTimer);
-        // A short dramatic pause before the smaller transmission line begins.
-        sublineTimer = setInterval(() => {
-          sublineIndex += 1;
-          setTypedSubline(subline.slice(0, sublineIndex));
-          if (sublineIndex >= subline.length) clearInterval(sublineTimer);
-        }, 24);
-      }
-    }, phase === "launch" ? 68 : 44);
-
-    return () => {
-      clearInterval(headlineTimer);
-      if (sublineTimer) clearInterval(sublineTimer);
-    };
-  }, [phase, isInterfaceStage]);
+      if (!target.current) return;
+      window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+      router.push(target.current);
+    }, 7200);
+  }, [phase, pathname, router, clearTimers, later]);
 
   useEffect(() => {
     if (phase !== "launch" || !target.current || pathname === "/" || pathname !== target.current) return;
     target.current = null;
+    setArrival(true);
     setPhase("arrival");
-    setStage("satellite");
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
-    // Hold the real 3D scene long enough for the acquisition message to land.
-    later(() => setStage("interface"), 3400);
-    later(() => {
-      setPhase("idle");
-      setStage("cabin");
-    }, 6400);
+    // The actual 3D viewport is now behind the optical line; the overlay clears
+    // only after the dashboard's existing staged reveal has completed.
+    later(() => setPhase("idle"), 3600);
   }, [pathname, phase, clearTimers, later]);
-
 
   useEffect(() => () => clearTimers(), [clearTimers]);
 
   return (
     <TransitionContext.Provider value={{ enterSpace }}>
-      <div className={`orbi-transition-content orbi-transition-content--${phase} orbi-transition-content--${stage}`}>{children}</div>
+      <div className={`orbi-transition-content orbi-transition-content--${phase} ${arrival ? "orbi-transition-content--arrival" : ""}`}>{children}</div>
       {phase !== "idle" && (
-        <div
-          className={`orbi-transition-overlay orbi-transition-overlay--${phase} orbi-transition-overlay--${stage} ${phase === "launch" ? "orbi-transition-overlay--flight" : ""}`}
-          aria-live="polite"
-          role="status"
-          aria-label="Orbital launch sequence"
-        >
-          <div className="orbi-cinema__wash" />
-          <div className="orbi-cinema__cockpit" aria-hidden="true">
-            <div className="orbi-cinema__cockpit-top"><span>ORBI / FPV</span><span>CAM 01 · LIVE</span></div>
-            <i className="orbi-cinema__cockpit-corner orbi-cinema__cockpit-corner--tl" />
-            <i className="orbi-cinema__cockpit-corner orbi-cinema__cockpit-corner--tr" />
-            <i className="orbi-cinema__cockpit-corner orbi-cinema__cockpit-corner--bl" />
-            <i className="orbi-cinema__cockpit-corner orbi-cinema__cockpit-corner--br" />
-            <div className="orbi-cinema__reticle"><i /></div>
-            <div className="orbi-cinema__cockpit-bottom"><span>ATTITUDE <b>STABLE</b></span><span>VELOCITY <b>INCREASING</b></span></div>
+        <div className={`orbi-optical-transition orbi-optical-transition--${phase}`} role="status" aria-label="Establishing optical communication link">
+          <div className="optical-transition__field" aria-hidden="true">
+            <div className="optical-transition__glow" />
+            <div className="optical-transition__horizon" />
+            <div className="optical-transition__grid" />
+            <div className="optical-transition__path"><i /><b /></div>
+            <div className="optical-transition__terminal optical-transition__terminal--tx"><i /><b /><span /></div>
+            <div className="optical-transition__terminal optical-transition__terminal--rx"><i /><b /><span /></div>
+            <div className="optical-transition__acquire"><i /><b /><span /></div>
           </div>
-          <div className="orbi-cinema__stars" aria-hidden="true">
-            {Array.from({ length: 76 }, (_, i) => (
-              <i key={i} style={{
-                "--star-x": `${(i * 37 + 11) % 100}%`,
-                "--star-y": `${(i * 53 + 7) % 100}%`,
-                "--star-dx": `${(((i * 37 + 11) % 100) - 50) * 0.7}vw`,
-                "--star-dy": `${(((i * 53 + 7) % 100) - 50) * 0.7}vh`,
-                "--star-delay": `${(i % 11) * -0.09}s`,
-                "--star-size": `${i % 7 === 0 ? 3 : i % 3 === 0 ? 2 : 1}px`,
-              } as CSSProperties} />
-            ))}
+          <div className="optical-transition__top"><span><i /> ORBI <b>OPTICAL SYSTEMS</b></span><span>FSOC / LINK ACQUISITION</span></div>
+          <div className="optical-transition__copy">
+            <span className="optical-transition__eyebrow">{arrival ? "SYSTEM ONLINE / LIVE TELEMETRY" : "FREE-SPACE OPTICAL COMMUNICATION"}</span>
+            <h2>{arrival ? "A link you can understand." : "The light finds its way."}</h2>
+            <p>{arrival ? "Observe. Predict. Acquire. Recover." : "One beam. Two terminals. A connection held with precision."}</p>
           </div>
-          <div className="orbi-cinema__satellite-field" aria-hidden="true">
-            <div className="orbi-cinema__planet-horizon" />
-            <div className="orbi-cinema__optical-beam"><i /></div>
-            <div className="orbi-cinema__satellite orbi-cinema__satellite--near"><span className="orbi-cinema__solar-panel" /><b /><span className="orbi-cinema__solar-panel" /></div>
-            <div className="orbi-cinema__satellite orbi-cinema__satellite--far"><span className="orbi-cinema__solar-panel" /><b /><span className="orbi-cinema__solar-panel" /></div>
-            <span className="orbi-cinema__satellite-label orbi-cinema__satellite-label--near">SPACECRAFT A / TRANSMITTER</span>
-            <span className="orbi-cinema__satellite-label orbi-cinema__satellite-label--far">SPACECRAFT B / RECEIVER</span>
-          </div>
-
-          <div className="orbi-cinema__hud">
-            <span className="orbi-cinema__brand"><b>◉</b> ORBI <i>MISSION SYSTEMS</i></span>
-            <span className="orbi-cinema__readout">
-              {stage === "cabin" ? "CABIN SECURE" : stage === "ignition" ? "ENGINE IGNITION" : stage === "ascent" ? "ATMOSPHERIC ASCENT" : stage === "orbit" ? "ORBITAL INSERTION" : stage === "satellite" ? "ORBIT ESTABLISHED" : "MISSION CONTROL"}
-              <b>{stage === "cabin" ? "01—06" : stage === "ignition" ? "02—06" : stage === "ascent" ? "03—06" : stage === "orbit" ? "04—06" : stage === "satellite" ? "05—06" : "06—06"}</b>
-            </span>
-            <div className="orbi-cinema__progress"><i /></div>
-            <strong className="orbi-cinema__headline" aria-live="polite">
-              <span>{typedHeadline}<i className="orbi-cinema__typing-cursor" aria-hidden="true" /></span>
-              <em>{typedSubline}{typedSubline.length > 0 && <i className="orbi-cinema__typing-cursor orbi-cinema__typing-cursor--sub" aria-hidden="true" />}</em>
-            </strong>
-            <div className="orbi-cinema__steps">
-              <span className={["cabin", "ignition", "ascent"].includes(stage) ? "is-current" : "is-done"}><i /> ASCENT</span>
-              <span className={["orbit"].includes(stage) ? "is-current" : ["satellite", "interface"].includes(stage) ? "is-done" : ""}><i /> ORBIT</span>
-              <span className={stage === "interface" ? "is-current" : ""}><i /> MISSION CONTROL</span>
-            </div>
-          </div>
-          <div className="orbi-cinema__flash" aria-hidden="true" />
+          <div className="optical-transition__bottom"><span><i /> TRANSMITTER <b>→</b> RECEIVER</span><span>{arrival ? "MISSION CONTROL" : "ACQUIRING OPTICAL PATH"}</span></div>
         </div>
       )}
     </TransitionContext.Provider>
   );
 }
 
-export function OrbitalTransitionLink({
-  href, className, children, onClick, ...props
-}: {
-  href: string;
-  className?: string;
-  children: ReactNode;
-  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
-  "aria-label"?: string;
+export function OrbitalTransitionLink({ href, className, children, onClick, ...props }: {
+  href: string; className?: string; children: ReactNode; onClick?: (event: MouseEvent<HTMLAnchorElement>) => void; "aria-label"?: string;
 }) {
   const context = useContext(TransitionContext);
   if (!context) throw new Error("OrbitalTransitionLink must be inside SpaceEntryTransition");
-  return (
-    <a
-      href={href}
-      className={className}
-      onClick={(event) => {
-        onClick?.(event);
-        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-        event.preventDefault();
-        event.currentTarget.classList.add("orbi-launch-trigger");
-        context.enterSpace(href);
-      }}
-      {...props}
-    >
-      {children}
-    </a>
-  );
+  return <a href={href} className={className} onClick={(event) => {
+    onClick?.(event);
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    context.enterSpace(href);
+  }} {...props}>{children}</a>;
 }
