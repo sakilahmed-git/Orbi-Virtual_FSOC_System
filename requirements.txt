@@ -2,7 +2,7 @@ numpy>=2.0
 pandas>=2.0
 matplotlib>=3.8
 scipy>=1.13
-scikit-learn==1.8.0
+scikit-learn==1.9.1
 joblib>=1.4
 fastapi>=0.115
 uvicorn>=0.30

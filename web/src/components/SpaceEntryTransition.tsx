@@ -38,7 +38,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setPhase("launch");
     launchTimer.current = setTimeout(() => {
       if (target.current) router.push(target.current);
-    }, 1420);
+    }, 720);
   }, [pathname, phase, router]);
 
   useEffect(() => {
@@ -85,8 +85,8 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
             <span className="space-entry__readout">TRANSIT SEQUENCE <b>01—04</b></span>
             <div className="space-entry__progress"><i /></div>
             <strong className="space-entry__headline">
-              <span>Leaving the atmosphere.</span>
-              <em>Entering the link.</em>
+              <span>We're leaving Earth.</span>
+              <em>Buckle up. Your mission begins now.</em>
             </strong>
             <div className="space-entry__steps">
               <span><i /> ASCENT</span><span><i /> ORBITAL INSERTION</span><span><i /> MISSION CONTROL</span>
