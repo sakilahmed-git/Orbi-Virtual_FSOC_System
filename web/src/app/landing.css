@@ -257,3 +257,138 @@
   .ol-visual:after { background: linear-gradient(0deg,#080d17 0%,transparent 24%); }
   .ol-hero h1 { font-size: clamp(56px, 13vw, 78px); }
 }
+
+
+/* Product-led hero: functional experiment console, not a decorative marketing illustration. */
+.orbi-landing { background:#070b12; color:#e8f1ff; }
+.orbi-landing .ol-nav { background:#080e18; border-bottom:1px solid #253347; color:#edf4ff; }
+.orbi-landing .ol-mark { border-color:#eaf4ff; border-right-color:#62e4f0; }
+.orbi-landing .ol-mark i { background:#080e18; }
+.orbi-landing .ol-links a { color:#a3b4cc; }
+.orbi-landing .ol-hero-console {
+  min-height: min(820px, calc(100svh - 76px));
+  padding: clamp(48px,7vh,84px) clamp(22px,5.2vw,84px) 100px;
+  display:grid;
+  grid-template-columns:minmax(330px,.78fr) minmax(0,1.22fr);
+  align-items:center;
+  gap:clamp(28px,4vw,68px);
+  background:
+    radial-gradient(ellipse at 76% 45%,#0b2940 0%,#0b1728 34%,transparent 64%),
+    #080d16;
+}
+.orbi-landing .ol-console-intro { width:100%; max-width:590px; z-index:3; }
+.orbi-landing .ol-kicker-live {
+  display:flex;align-items:center;gap:9px;margin-top:26px;
+  color:#7f9bb8;font-size:9px;letter-spacing:1.7px;font-weight:600;
+}
+.orbi-landing .ol-kicker-live i,.orbi-landing .ol-console-status i {
+  width:7px;height:7px;border-radius:50%;display:inline-block;background:#5ce1ef;
+  box-shadow:0 0 12px #5ce1ef88;
+}
+.orbi-landing .ol-hero-console h1 {
+  font-size:clamp(48px,5.3vw,78px);line-height:.98;letter-spacing:-.07em;
+  margin:24px 0 24px;font-weight:650;
+}
+.orbi-landing .ol-hero-console h1 em {
+  font-family:"Playfair Display",Georgia,serif;font-weight:400;
+  background:linear-gradient(100deg,#62e5ee,#88baff 60%,#b4a2ff);
+  background-clip:text;-webkit-background-clip:text;color:transparent;
+}
+.orbi-landing .ol-hero-console .ol-hero-copy>p,
+.orbi-landing .ol-console-intro>p {
+  color:#a7b7cd;font-size:15px;line-height:1.8;max-width:500px;
+}
+.orbi-landing .ol-hero-console .ol-button { min-height:48px;padding:0 19px;gap:12px;cursor:pointer; }
+.orbi-landing .ol-hero-console .ol-button-dark { background:#dff8ff;color:#07111d!important; }
+.orbi-landing .ol-hero-console .ol-button-dark:hover { background:#67e5ef; }
+.orbi-landing .ol-hero-console .ol-button-dark:disabled { opacity:.55;cursor:wait;transform:none; }
+.orbi-landing .ol-hero-console .ol-button-quiet { background:#101b2a;border-color:#2c3d53;color:#dceaff; }
+.orbi-landing .ol-live-footnote { margin-top:34px;display:flex;align-items:center;gap:9px;color:#6f849f;font-size:8px;letter-spacing:1.2px; }
+.orbi-landing .ol-live-footnote span { color:#d4e4f9;font-weight:700; }
+.orbi-landing .ol-live-footnote i { width:22px;height:1px;background:#30445d; }
+.orbi-landing .ol-run-error { color:#ff9ca7!important;font-size:12px!important;overflow-wrap:anywhere; }
+.orbi-landing .ol-live-console {
+  min-width:0;position:relative;z-index:2;overflow:hidden;
+  border:1px solid #2c4058;border-radius:16px;
+  background:linear-gradient(145deg,#111d2d,#0a111d 75%);
+  box-shadow:0 28px 90px #0008,0 0 0 1px #ffffff04;
+}
+.orbi-landing .ol-console-top {
+  display:flex;justify-content:space-between;align-items:center;gap:18px;
+  padding:21px 23px;border-bottom:1px solid #25364b;
+}
+.orbi-landing .ol-console-top>div { display:grid;gap:7px; }
+.orbi-landing .ol-console-eyebrow { color:#7f97b5;font-size:8px;letter-spacing:1.6px; }
+.orbi-landing .ol-console-top strong { color:#eff6ff;font-size:15px;font-weight:550;letter-spacing:-.2px; }
+.orbi-landing .ol-console-status { display:flex;align-items:center;gap:7px;white-space:nowrap;color:#91a8c2;font-size:8px;letter-spacing:1px; }
+.orbi-landing .ol-console-status.offline i { background:#e87a82;box-shadow:0 0 10px #e87a8266; }
+.orbi-landing .ol-link-diagram {
+  height:clamp(230px,29vw,330px);max-height:330px;min-height:220px;
+  position:relative;overflow:hidden;
+  background:radial-gradient(ellipse at 52% 52%,#143957 0%,#0d1c2d 48%,#0a121e 100%);
+}
+.orbi-landing .ol-starfield {
+  position:absolute;inset:0;opacity:.65;
+  background-image:radial-gradient(circle,#c2e8ff 1px,transparent 1.5px),radial-gradient(circle,#8baee2 1px,transparent 1.5px);
+  background-size:73px 61px,113px 97px;background-position:12px 8px,42px 27px;
+}
+.orbi-landing .ol-link-orbit { position:absolute;width:74%;height:76%;left:13%;top:12%;border:1px solid #5a8eae35;border-radius:50%;transform:rotate(-22deg); }
+.orbi-landing .ol-link-orbit.orbit-two { width:56%;height:110%;left:22%;top:-5%;transform:rotate(24deg);border-color:#7a9bb32a; }
+.orbi-landing .ol-link-beam {
+  position:absolute;left:21%;top:52%;width:60%;height:2px;transform:rotate(-19deg);
+  transform-origin:left center;background:linear-gradient(90deg,#ed77d5,#83baff 58%,#63e7f1);
+  box-shadow:0 0 9px #60dff088,0 0 24px #60dff033;
+}
+.orbi-landing .ol-link-beam span { position:absolute;left:42%;top:-3px;width:7px;height:7px;border-radius:50%;background:#e9fbff;box-shadow:0 0 13px 4px #6de4f477; }
+.orbi-landing .ol-terminal { position:absolute;display:grid;grid-template-columns:38px auto;grid-template-rows:auto auto;column-gap:10px;align-items:center; }
+.orbi-landing .terminal-tx { left:15%;top:58%; }
+.orbi-landing .terminal-rx { right:13%;top:20%; }
+.orbi-landing .ol-terminal .terminal-core {
+  grid-row:1/3;width:38px;height:38px;display:grid;place-items:center;
+  border:1px solid #70dbe8;border-radius:9px;background:#122e42;
+  color:#9df3fb;font-size:10px;font-weight:700;letter-spacing:1px;
+  box-shadow:0 0 0 7px #65dce914,0 0 25px #52cde833;
+}
+.orbi-landing .ol-terminal b { color:#eef6ff;font-size:10px;letter-spacing:1px; }
+.orbi-landing .ol-terminal small { margin-top:4px;color:#86a2bd;font-size:7px;letter-spacing:1.1px; }
+.orbi-landing .ol-diagram-label { position:absolute;display:flex;gap:8px;align-items:center;padding:7px 9px;border:1px solid #2d4b64;background:#0a1725d9;color:#88a5c0;font-size:7px;letter-spacing:1px;border-radius:5px; }
+.orbi-landing .ol-diagram-label b { color:#dcecff;font-size:7px; }
+.orbi-landing .label-left { left:18px;top:17px; }.orbi-landing .label-right { right:18px;bottom:17px; }
+.orbi-landing .ol-run-metrics { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid #25364b; }
+.orbi-landing .ol-run-metrics>div { min-width:0;padding:17px 21px;border-bottom:1px solid #25364b; }
+.orbi-landing .ol-run-metrics>div:nth-child(odd) { border-right:1px solid #25364b; }
+.orbi-landing .ol-run-metrics>div:nth-child(n+3) { border-bottom:0; }
+.orbi-landing .ol-run-metrics span,.orbi-landing .ol-run-metrics small { display:block;color:#8198b5;font-size:8px;letter-spacing:1.15px; }
+.orbi-landing .ol-run-metrics strong { display:block;margin:9px 0 6px;color:#f0f6ff;font-size:clamp(19px,2vw,27px);line-height:1.1;font-weight:550;letter-spacing:-.7px;overflow-wrap:anywhere; }
+.orbi-landing .ol-run-metrics small { color:#5e7896;font-size:7px;letter-spacing:.8px; }
+.orbi-landing .ol-console-bottom { display:flex;justify-content:space-between;gap:12px;padding:13px 21px;background:#0a111b;color:#7088a4;font-size:7px;letter-spacing:1px; }
+.orbi-landing .ol-console-bottom>span:first-child { display:flex;align-items:center;gap:7px; }
+.orbi-landing .ol-console-bottom i { width:6px;height:6px;border-radius:50%;background:#62e5bd;display:inline-block; }
+.orbi-landing .ol-platform,.orbi-landing .ol-usecases { background:#0a111c; }
+.orbi-landing .ol-platform-heading h2,.orbi-landing .ol-workflow h2,.orbi-landing .ol-usecases h2,.orbi-landing .ol-research h2,.orbi-landing .ol-final-cta h2 { color:#edf4ff; }
+.orbi-landing .ol-platform-heading h2 em,.orbi-landing .ol-workflow h2 em,.orbi-landing .ol-usecases h2 em,.orbi-landing .ol-research h2 em,.orbi-landing .ol-final-cta h2 em { color:#70dce9; }
+.orbi-landing .ol-capabilities article,.orbi-landing .ol-usecase-card { background:#101a28;border-color:#28394e;box-shadow:none; }
+.orbi-landing .ol-capabilities p,.orbi-landing .ol-usecase-card p,.orbi-landing .ol-platform-heading>p,.orbi-landing .ol-usecases-head>p { color:#9cacc2; }
+.orbi-landing .ol-workflow { background:radial-gradient(ellipse at 80% 10%,#10344a,transparent 44%),#0c1624; }
+.orbi-landing .ol-research { background:radial-gradient(ellipse at 75% 35%,#12364b,transparent 44%),#070c14; }
+.orbi-landing .ol-final-cta { background:#0d1725; }
+.orbi-landing .ol-footer { background:#070b12;border-top-color:#243247; }
+.orbi-landing .ol-footer>span,.orbi-landing .ol-footer small,.orbi-landing .ol-footer>div { color:#7e91aa; }
+@media (min-width:1500px) {
+  .orbi-landing .ol-hero-console { grid-template-columns:minmax(390px,.78fr) minmax(0,1.22fr); }
+}
+@media (max-width:1000px) {
+  .orbi-landing .ol-hero-console { grid-template-columns:1fr;gap:36px;padding-bottom:100px; }
+  .orbi-landing .ol-console-intro { max-width:720px; }
+  .orbi-landing .ol-hero-console h1 { font-size:clamp(52px,8vw,76px); }
+  .orbi-landing .ol-live-console { width:100%; }
+}
+@media (max-width:720px) {
+  .orbi-landing .ol-hero-console { padding:54px 18px 90px; }
+  .orbi-landing .ol-hero-console h1 { font-size:clamp(44px,11vw,64px); }
+  .orbi-landing .ol-console-top { padding:17px;align-items:flex-start;flex-direction:column;gap:12px; }
+  .orbi-landing .ol-link-diagram { height:245px; }
+  .orbi-landing .ol-run-metrics>div { padding:14px; }
+  .orbi-landing .ol-console-bottom { flex-direction:column; }
+  .orbi-landing .ol-live-footnote { flex-wrap:wrap; }
+}
