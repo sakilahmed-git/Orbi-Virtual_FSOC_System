@@ -1369,3 +1369,48 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .space-entry--orbit .space-entry__wash,
   .space-entry--arrival .space-entry__wash { animation: none !important; opacity: 0 !important; }
 }
+
+
+/* CINEMATIC ARRIVAL: the old opaque wash caused the post-satellite blackout.
+   Keep the real WebGL scene visible and use a brief light-streak pass instead. */
+.space-entry--arrival,
+.space-entry--interface {
+  background: transparent !important;
+  isolation: isolate !important;
+}
+.space-entry--arrival .space-entry__wash,
+.space-entry--interface .space-entry__wash {
+  display: none !important;
+  opacity: 0 !important;
+  background: transparent !important;
+  animation: none !important;
+}
+.space-entry--arrival::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse at 52% 48%, rgba(117,205,255,.22), transparent 28%),
+    repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg 11deg, rgba(143,218,255,.12) 11.15deg 11.28deg, transparent 11.5deg 22deg);
+  mask-image: radial-gradient(ellipse at center, transparent 0 8%, black 44%, transparent 76%);
+  animation: orbi-cinematic-arrival-streak 1.05s ease-out both;
+}
+@keyframes orbi-cinematic-arrival-streak {
+  0% { opacity: 0; transform: scale(.35); filter: blur(8px); }
+  28% { opacity: .72; }
+  100% { opacity: 0; transform: scale(1.7); filter: blur(1px); }
+}
+.space-entry--arrival .space-entry__hud {
+  z-index: 3 !important;
+  text-shadow: 0 2px 22px rgba(0,0,0,.8);
+}
+.space-entry--arrival .space-entry__headline span {
+  font-size: clamp(13px, 1.3vw, 17px) !important;
+  letter-spacing: -.02em !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry--arrival::after { animation: none !important; display: none !important; }
+}
