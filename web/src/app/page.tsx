@@ -76,78 +76,85 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="ol-hero ol-hero-console">
-        <div className="ol-hero-copy ol-console-intro">
-          <div className="ol-eyebrow"><span /> ORBI / VIRTUAL FSOC LABORATORY</div>
-          <div className="ol-kicker-live"><i /> MISSION SYSTEMS · EXPERIMENTAL ENVIRONMENT</div>
-          <h1>Engineer the<br /><em>invisible link.</em></h1>
-          <p>A virtual free-space optical test range for acquisition, tracking and pointing. Shape the disturbance, run a scenario, and evaluate the controller against the same conditions.</p>
-          <div className="ol-hero-actions">
-            <Link className="ol-button ol-button-dark" href="/mission">Enter mission lab <span>↗</span></Link>
-            <button className="ol-button ol-button-quiet" onClick={runLiveScenario} disabled={running || apiStatus !== "online"}>
-              {running ? "Executing scenario…" : "Execute a scenario"} <span>→</span>
-            </button>
+      <section className="orbi-showcase" aria-labelledby="hero-title">
+        <div className="orbi-hero-stage">
+          <div className="orbi-hero-copy">
+            <div className="orbi-eyebrow"><span /> VIRTUAL FSOC LABORATORY <span className="orbi-eyebrow-rule" /></div>
+            <h1 id="hero-title">Engineer the next generation of <em>optical links.</em></h1>
+            <p>A software-in-the-loop testbed for acquisition, tracking and control of free-space optical communication links.</p>
+            <div className="orbi-hero-actions">
+              <button className="orbi-primary-action" onClick={runLiveScenario} disabled={running || apiStatus !== "online"}>
+                {running ? "Running experiment…" : "Run live experiment"} <span>↗</span>
+              </button>
+              <Link className="orbi-secondary-action" href="/mission">Explore the workspace <span>→</span></Link>
+            </div>
+            <div className="orbi-trust-line"><span><i /> Reproducible scenarios</span><span><i /> Measured outcomes</span><span><i /> Backend-powered</span></div>
+            {runError && <p className="orbi-error" role="alert">{runError}</p>}
           </div>
-          <div className="ol-live-footnote"><span>01</span> DEFINE <i /><span>02</span> EXECUTE <i /><span>03</span> VALIDATE</div>
-          {runError && <p className="ol-run-error" role="alert">{runError}</p>}
+          <div className="orbi-hero-visual" aria-label="Conceptual free-space optical link visualization">
+            <div className="orbi-visual-topline"><span>OPTICAL LINK / SC-01 → SC-02</span><span className={"orbi-live-state " + (apiStatus === "online" ? "is-live" : "")}><i /> {apiStatus === "online" ? "ENGINE ONLINE" : apiStatus === "checking" ? "CONNECTING" : "ENGINE OFFLINE"}</span></div>
+            <div className="orbi-space-scene">
+              <div className="orbi-earth-horizon"><div className="orbi-earth-atmosphere" /><div className="orbi-earth-continent continent-a" /><div className="orbi-earth-continent continent-b" /></div>
+              <div className="orbi-scene-stars" />
+              <svg className="orbi-beam-art" viewBox="0 0 760 420" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="orbiBeam" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stopColor="#D9A45D"/><stop offset="45%" stopColor="#77A8DC"/><stop offset="100%" stopColor="#3C9F96"/></linearGradient>
+                  <linearGradient id="orbiBeamCone" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#D9A45D" stopOpacity=".02"/><stop offset="100%" stopColor="#72C8BF" stopOpacity=".2"/></linearGradient>
+                  <filter id="orbiBeamSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                </defs>
+                <path d="M112 247 Q330 235 630 88 L630 111 Q330 255 112 260Z" fill="url(#orbiBeamCone)"/>
+                <path d="M112 253 Q330 245 630 100" stroke="url(#orbiBeam)" strokeWidth="2.4" fill="none" filter="url(#orbiBeamSoft)"/>
+                <path d="M112 253 Q330 245 630 100" stroke="#F5FFFF" strokeWidth=".65" strokeDasharray="3 8" opacity=".85" fill="none"/>
+                <path d="M112 253 Q370 340 630 100" stroke="#A9D9D7" strokeWidth=".7" strokeDasharray="3 9" opacity=".25" fill="none"/>
+                <g transform="translate(112 253)">
+                  <circle r="31" fill="#D9A45D" fillOpacity=".08" stroke="#E4BD83" strokeWidth="1.2"/>
+                  <circle r="18" fill="#102331" stroke="#E4BD83" strokeWidth="1.2"/>
+                  <circle r="8" fill="#D9A45D" fillOpacity=".3" stroke="#F5D7A8"/>
+                  <circle r="3" fill="#FFF6E7"/>
+                  <path d="M-42 0H-23 M23 0H42 M0 -42V-23 M0 23V42" stroke="#E4BD83" strokeWidth=".8"/>
+                </g>
+                <g transform="translate(630 100)">
+                  <circle r="51" fill="#3C9F96" fillOpacity=".04" stroke="#6FC7BE" strokeDasharray="4 5" strokeWidth="1.2"/>
+                  <circle r="31" fill="#3C9F96" fillOpacity=".08" stroke="#6FC7BE" strokeWidth="1.2"/>
+                  <circle r="17" fill="#102A32" stroke="#8AD7CF" strokeWidth="1.4"/>
+                  <circle r="7" fill="#3C9F96" fillOpacity=".45" stroke="#C7F6EF"/>
+                  <circle r="2.5" fill="#FFFFFF"/>
+                  <path d="M-59 0H-36 M36 0H59 M0 -59V-36 M0 36V59" stroke="#7DCFC6" strokeWidth=".8"/>
+                </g>
+                <circle cx="372" cy="211" r="4" fill="#F6FFFF" filter="url(#orbiBeamSoft)"/>
+              </svg>
+              <div className="orbi-terminal-tag tag-tx"><span>TX</span><div><b>SC-01</b><small>TRANSMITTER</small></div></div>
+              <div className="orbi-terminal-tag tag-rx"><span>RX</span><div><b>SC-02</b><small>RECEIVER</small></div></div>
+              <div className="orbi-scene-caption"><span>CONCEPTUAL LINK GEOMETRY</span><span>NOT TO SCALE</span></div>
+            </div>
+            <div className="orbi-visual-foot"><span><i /> SCENARIO-DRIVEN VISUALIZATION</span><span>REAL MEASUREMENTS APPEAR AFTER EXECUTION</span></div>
+          </div>
         </div>
-        <div className="ol-live-console ol-lab-console">
-          <div className="ol-console-top">
-            <div><span className="ol-console-eyebrow">MISSION LAB / 01</span><strong>Acquisition &amp; pointing dynamics</strong></div>
-            <span className={"ol-console-status " + (apiStatus === "online" ? "online" : "offline")}><i /> {apiStatus === "online" ? "ENGINE ONLINE" : apiStatus === "checking" ? "CONNECTING" : "ENGINE OFFLINE"}</span>
-          </div>
-          <div className="ol-lab-scene">
-            <div className="lab-grid" />
-            <div className="lab-axis lab-axis-x" /><div className="lab-axis lab-axis-y" />
-            <div className="lab-target-ring ring-a" /><div className="lab-target-ring ring-b" /><div className="lab-target-ring ring-c" />
-            <div className="lab-field-label lab-label-tl">POINTING ERROR <b>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) + " px RMS" : "LIVE SENSOR FIELD"}</b></div>
-            <div className="lab-field-label lab-label-tr">SC-02 / RECEIVER <b>ACQUISITION WINDOW</b></div>
-            <svg className="lab-optics" viewBox="0 0 720 340" preserveAspectRatio="none" aria-label="Curved optical beam between a transmitter telescope and receiver telescope">
-              <defs>
-                <linearGradient id="beamGradient" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stopColor="#ff6ad5"/><stop offset="48%" stopColor="#a28cff"/><stop offset="100%" stopColor="#66eff5"/></linearGradient>
-                <linearGradient id="beamCone" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#ff6ad5" stopOpacity=".02"/><stop offset="55%" stopColor="#8eafff" stopOpacity=".1"/><stop offset="100%" stopColor="#66eff5" stopOpacity=".18"/></linearGradient>
-                <filter id="beamGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              </defs>
-              <path d="M82 250 C190 236 270 183 360 163 S515 108 612 78 L612 91 C510 123 440 151 360 174 S190 249 82 263 Z" fill="url(#beamCone)"/>
-              <path d="M82 256 C188 242 268 184 360 168 S514 111 612 84" fill="none" stroke="url(#beamGradient)" strokeWidth="2.6" filter="url(#beamGlow)"/>
-              <path d="M82 256 C188 242 268 184 360 168 S514 111 612 84" fill="none" stroke="#e9fdff" strokeWidth=".7" strokeDasharray="2 8" opacity=".9"/>
-              <path d="M82 256 Q360 330 612 84" fill="none" stroke="#74cde9" strokeWidth=".7" strokeDasharray="3 9" opacity=".25"/>
-              <g transform="translate(82 256) rotate(-16)">
-                <circle r="29" fill="#f36acb" fillOpacity=".08" stroke="#f36acb" strokeOpacity=".8"/>
-                <circle r="17" fill="#102637" stroke="#ff8add" strokeWidth="1.2"/>
-                <circle r="7" fill="#ff8add" fillOpacity=".25" stroke="#ffd6f4"/>
-                <circle r="2.5" fill="#fff"/>
-                <path d="M-37 0H-20 M20 0H37 M0 -37V-20 M0 20V37" stroke="#ff8add" strokeWidth=".8" opacity=".8"/>
-              </g>
-              <g transform="translate(612 84) rotate(12)">
-                <circle r="48" fill="#5ce5f2" fillOpacity=".035" stroke="#5ce5f2" strokeOpacity=".7" strokeDasharray="4 5"/>
-                <circle r="29" fill="#5ce5f2" fillOpacity=".05" stroke="#5ce5f2" strokeOpacity=".45"/>
-                <circle r="17" fill="#112b3a" stroke="#5ce5f2" strokeWidth="1.5"/>
-                <circle r="8" fill="#5ce5f2" fillOpacity=".22" stroke="#c4fbff"/>
-                <circle r="3" fill="#d9ffff"/>
-                <path d="M-56 0H-34 M34 0H56 M0 -56V-34 M0 34V56" stroke="#6ce4ee" strokeWidth=".8" opacity=".7"/>
-              </g>
-              <g transform="translate(360 168)"><circle r="5" fill="#eaffff" filter="url(#beamGlow)"/><circle r="12" fill="#9beeff" fillOpacity=".12"/></g>
-            </svg>           <div className="lab-terminal lab-transmitter"><span>TX</span><b>SC-01</b><small>BEACON SOURCE</small></div>
-            <div className="lab-terminal lab-receiver"><span>RX</span><b>SC-02</b><small>ACQUISITION GATE</small></div>
-            <div className="lab-scene-footer"><span><i /> OPTICAL PATH / SIMULATED GEOMETRY</span><span>RANGE <b>42.0 KM</b></span></div>
-          </div>
-          <div className="ol-lab-controls">
-            <div className="lab-control-head"><span>SCENARIO PARAMETERS</span><span>ADJUST BEFORE EXECUTION</span></div>
-            <label className="lab-parameter"><span>VIBRATION FREQUENCY</span><b>{vibrationHz.toFixed(1)} <small>Hz</small></b><input aria-label="Vibration frequency" type="range" min="1" max="30" step=".1" value={vibrationHz} onChange={(e) => setVibrationHz(Number(e.target.value))} /></label>
-            <label className="lab-parameter"><span>BEACON DISTURBANCE</span><b>{disturbancePx.toFixed(1)} <small>px</small></b><input aria-label="Beacon disturbance" type="range" min=".2" max="8" step=".1" value={disturbancePx} onChange={(e) => setDisturbancePx(Number(e.target.value))} /></label>
-            <label className="lab-parameter"><span>CLUTTER DENSITY</span><b>{clutter.toFixed(2)} <small>level</small></b><input aria-label="Clutter density" type="range" min="0" max="1" step=".01" value={clutter} onChange={(e) => setClutter(Number(e.target.value))} /></label>
-          </div>
-          <div className="ol-run-metrics">
-            <div><span>NOISY EVENTS</span><strong>{runResult ? runResult.events.n_noisy.toLocaleString() : "—"}</strong><small>{runResult ? "COMPUTED EVENT COUNT" : "AWAITING EXECUTION"}</small></div>
-            <div><span>DETECTION HIT RATE</span><strong>{runResult ? (runResult.detections.hit_rate * 100).toFixed(1) + "%" : "—"}</strong><small>{runResult ? runResult.detections.n_hits + " / " + runResult.detections.n_windows + " WINDOWS" : "BACKEND MEASUREMENT"}</small></div>
-            <div><span>DOMINANT DISTURBANCE</span><strong>{runResult?.disturbance.dominant_frequency_hz != null ? runResult.disturbance.dominant_frequency_hz.toFixed(2) + " Hz" : "—"}</strong><small>{runResult ? "EVENT PSD ESTIMATE" : "AWAITING MEASUREMENT"}</small></div>
-            <div><span>CONTROL RMS ERROR</span><strong>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) + " px" : "—"}</strong><small>{runResult ? "DISTURBANCE-INFORMED" : "AWAITING MEASUREMENT"}</small></div>
-          </div>
-          <div className="ol-console-bottom">
-            <span><i /> {runResult ? "SCENARIO COMPLETE · MEASUREMENTS RECEIVED" : running ? "COMPUTING SCENARIO · PLEASE WAIT" : "ENGINE READY · NO RUN DATA YET"}</span>
-            <span>SEED 812 · REPEATABLE CONFIGURATION</span>
-          </div>
+        <div className="orbi-data-rail">
+          <section className="orbi-data-card orbi-controls-card" aria-label="Scenario parameters">
+            <div className="orbi-card-heading"><div><span>01 / CONFIGURE</span><h2>Scenario parameters</h2></div><span className="orbi-card-meta">EDITABLE INPUTS</span></div>
+            <label className="orbi-range-control"><span>Vibration frequency <b>{vibrationHz.toFixed(1)} <small>Hz</small></b></span><input type="range" min="1" max="30" step=".1" value={vibrationHz} onChange={(e) => setVibrationHz(Number(e.target.value))} aria-label="Vibration frequency" /><small className="orbi-range-limits"><span>1 Hz</span><span>30 Hz</span></small></label>
+            <label className="orbi-range-control"><span>Beacon disturbance <b>{disturbancePx.toFixed(1)} <small>px</small></b></span><input type="range" min=".2" max="8" step=".1" value={disturbancePx} onChange={(e) => setDisturbancePx(Number(e.target.value))} aria-label="Beacon disturbance" /><small className="orbi-range-limits"><span>0.2 px</span><span>8 px</span></small></label>
+            <label className="orbi-range-control"><span>Clutter density <b>{clutter.toFixed(2)}</b></span><input type="range" min="0" max="1" step=".01" value={clutter} onChange={(e) => setClutter(Number(e.target.value))} aria-label="Clutter density" /><small className="orbi-range-limits"><span>Low</span><span>High</span></small></label>
+            <button className="orbi-run-button" onClick={runLiveScenario} disabled={running || apiStatus !== "online"}>{running ? "Executing…" : "Execute this scenario"} <span>↗</span></button>
+          </section>
+          <section className="orbi-data-card orbi-results-card" aria-label="Latest backend result">
+            <div className="orbi-card-heading"><div><span>02 / MEASURE</span><h2>{runResult ? "Latest result" : "Awaiting first run"}</h2></div><span className={"orbi-result-badge " + (runResult ? "has-result" : "")}>{runResult ? "COMPLETED" : "NO DATA"}</span></div>
+            <div className="orbi-result-grid">
+              <div><span>Noisy events</span><strong>{runResult ? runResult.events.n_noisy.toLocaleString() : "—"}</strong><small>{runResult ? "events in computed stream" : "Run a scenario to measure"}</small></div>
+              <div><span>Detection hit rate</span><strong>{runResult ? (runResult.detections.hit_rate * 100).toFixed(1) + "%" : "—"}</strong><small>{runResult ? runResult.detections.n_hits + " / " + runResult.detections.n_windows + " windows" : "Measured by backend"}</small></div>
+              <div><span>Dominant disturbance</span><strong>{runResult?.disturbance.dominant_frequency_hz != null ? runResult.disturbance.dominant_frequency_hz.toFixed(2) + " <unused>" : runResult ? "Not detected" : "—"}{runResult?.disturbance.dominant_frequency_hz != null ? <small> Hz</small> : null}</strong><small>{runResult ? "estimated from event data" : "Frequency-domain estimate"}</small></div>
+              <div><span>Control RMS error</span><strong>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) : "—"}{runResult ? <small> px</small> : null}</strong><small>{runResult ? "disturbance-informed controller" : "Measured by backend"}</small></div>
+            </div>
+            {runError && <p className="orbi-error" role="alert">{runError}</p>}
+            <div className="orbi-result-footer"><span><i /> {runResult ? "RESULT RECEIVED FROM API" : "NO VALUES ARE SIMULATED HERE"}</span><Link href="/compare">Compare controllers →</Link></div>
+          </section>
+          <section className="orbi-data-card orbi-process-card" aria-label="Experiment workflow">
+            <div className="orbi-card-heading"><div><span>03 / VALIDATE</span><h2>Experiment workflow</h2></div><Link href="/demo">Open demo ↗</Link></div>
+            <div className="orbi-process-steps"><div className="complete"><i>1</i><span>Configure</span></div><div className={running ? "active" : ""}><i>2</i><span>Execute</span></div><div className={runResult ? "complete" : ""}><i>3</i><span>Inspect</span></div></div>
+            <div className="orbi-process-note">{running ? "The backend is processing the selected scenario." : runResult ? "The run completed. Inspect the measured results or compare controllers." : "Set the disturbance profile, then execute a reproducible backend run."}</div>
+            <Link className="orbi-text-link" href="/mission">Explore Mission Control <span>→</span></Link>
+          </section>
         </div>
       </section>
 
