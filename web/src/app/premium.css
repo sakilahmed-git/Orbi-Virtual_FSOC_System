@@ -1850,3 +1850,56 @@ html body .scintilla-console .sc-mark:after {
     animation-duration: .01ms !important;
   }
 }
+
+
+/* The actual WebGL mission scene now bridges launch and workspace; no gradient-only cut. */
+.space-entry__scene {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  background: #020817 !important;
+  transition: opacity .6s ease !important;
+}
+.space-entry__scene > div,
+.space-entry__scene canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+.space-entry__scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 48%, transparent 25%, rgba(1,7,17,.16) 64%, rgba(1,5,12,.8) 115%),
+    linear-gradient(180deg, rgba(2,7,17,.2), transparent 35%, rgba(2,7,17,.15));
+}
+.space-entry--launch.space-entry--ignition .space-entry__scene,
+.space-entry--launch.space-entry--ascent .space-entry__scene,
+.space-entry--launch.space-entry--orbit .space-entry__scene {
+  opacity: 1 !important;
+}
+.space-entry--launch.space-entry--ignition .space-entry__wash,
+.space-entry--launch.space-entry--ascent .space-entry__wash,
+.space-entry--launch.space-entry--orbit .space-entry__wash {
+  opacity: .22 !important;
+  background: radial-gradient(ellipse at 50% 48%, rgba(23,76,120,.12), rgba(2,7,17,.12) 55%, rgba(2,7,17,.38)) !important;
+}
+.space-entry--launch.space-entry--cabin .space-entry__scene { opacity: 0 !important; }
+.space-entry--arrival .space-entry__scene { opacity: 0 !important; transition: opacity .55s ease !important; }
+.space-entry--launch.space-entry--ignition .space-entry__scene { animation: orbi-scene-ignition .7s ease-out both; }
+.space-entry--launch.space-entry--ascent .space-entry__scene { filter: saturate(1.18) contrast(1.06); }
+.space-entry--launch.space-entry--ascent .space-entry__scene::after {
+  background:
+    radial-gradient(ellipse at 50% 48%, transparent 18%, rgba(1,7,17,.12) 60%, rgba(1,5,12,.72) 115%),
+    linear-gradient(180deg, rgba(2,7,17,.08), transparent 35%, rgba(2,7,17,.22));
+}
+@keyframes orbi-scene-ignition {
+  0% { opacity: 0; filter: brightness(2.1) blur(2px); transform: scale(1.035); }
+  22% { opacity: 1; filter: brightness(1.45) blur(0); }
+  100% { opacity: 1; filter: brightness(1) blur(0); transform: scale(1); }
+}
