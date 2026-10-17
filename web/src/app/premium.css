@@ -1950,7 +1950,7 @@ html body .scintilla-console .sc-mark:after {
   transform:scale(1.02); animation:orbi-cinema-world 8.2s cubic-bezier(.62,0,.2,1) both;
 }
 .orbi-cinema__stars { position:absolute; inset:0; z-index:1; opacity:0; animation:orbi-cinema-stars 5.8s 2.3s ease-out both; }
-.orbi-cinema__stars i { position:absolute; left:var(--star-x); top:var(--star-y); width:var(--star-size); height:var(--star-size); border-radius:50%; background:#e7f8ff; opacity:.75; animation:orbi-cinema-streak 2.2s calc(var(--star-delay) * -1) ease-out both; }
+.orbi-cinema__stars i { position:absolute; left:var(--star-x); top:var(--star-y); width:var(--star-size); height:var(--star-size); border-radius:50%; background:#e7f8ff; opacity:.75; animation:orbi-cinema-streak 2.2s var(--star-delay) ease-out both; }
 .orbi-cinema__cockpit { position:absolute; inset:0; z-index:2; opacity:0; animation:orbi-cinema-cockpit 3.5s ease-out both; }
 .orbi-cinema__cockpit-top,.orbi-cinema__cockpit-bottom { position:absolute; left:4%; right:4%; display:flex; justify-content:space-between; color:#e0edf2a8; font:8px var(--orbi-mono,monospace); letter-spacing:.15em; }
 .orbi-cinema__cockpit-top { top:4%; } .orbi-cinema__cockpit-bottom { bottom:4%; }
