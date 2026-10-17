@@ -1853,3 +1853,171 @@ a {
 @keyframes orbi-arrival-flash{0%{opacity:0}22%{opacity:.16}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){.space-entry,.space-entry *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 @media(max-width:600px){.space-entry__headline{top:39%;left:24px}.space-entry__readout{font-size:7px}.space-entry__brand>i{font-size:7px}.space-entry__steps{flex-direction:column;gap:10px}.space-entry__earth{min-width:900px;min-height:900px}}
+
+
+/* Mission Control visual redesign */
+/* ── Lunar Precision mission workspace: clear zones, calm surfaces, one focal scene ── */
+.scintilla-console{
+  background:#f4f6f8!important;
+  background-image:radial-gradient(ellipse at 28% 0%,#ffffff 0%,#f4f6f8 58%,#eaf0f3 100%)!important;
+  color:#172632!important;
+}
+.scintilla-console .sc-space{
+  left:88px!important;right:368px!important;top:91px!important;bottom:82px!important;
+  width:auto!important;height:auto!important;min-height:0!important;
+  border:1px solid #193343!important;border-radius:22px!important;
+  background:#061421!important;box-shadow:0 18px 44px rgba(15,39,54,.16),0 1px 0 rgba(255,255,255,.65)!important;
+  overflow:hidden!important;
+}
+.scintilla-console .sc-space:after{
+  content:"ORBITAL VIEW  /  LIVE SIMULATION";position:absolute;top:18px;left:20px;z-index:4;
+  color:#91adbc;font:600 9px "DM Mono",monospace;letter-spacing:.14em;pointer-events:none;
+}
+.scintilla-console .sc-topbar{
+  top:12px!important;left:12px!important;right:12px!important;height:64px!important;
+  grid-template-columns:190px auto minmax(180px,1fr) auto!important;gap:18px!important;
+  padding:0 20px!important;border-radius:17px!important;
+  background:rgba(255,255,255,.94)!important;border-color:#dfe6ea!important;
+  box-shadow:0 5px 20px rgba(23,43,56,.045),inset 0 1px #fff!important;
+}
+.scintilla-console .sc-nav button,.scintilla-console .sc-nav a{font-size:10px!important;padding:10px 12px!important}
+.scintilla-console .sc-search{height:38px!important;background:#f5f8fa!important;border-color:#e2e9ed!important}
+.scintilla-console .sc-intel{
+  display:flex!important;align-items:center!important;gap:10px!important;min-width:215px!important;
+  padding:7px 10px!important;border:1px solid #dcebe8!important;border-radius:12px!important;background:#f5fbf9!important;
+}
+.scintilla-console .sc-intel>div{min-width:0!important;cursor:pointer!important}
+.scintilla-console .sc-intel b{display:block!important;color:#29434b!important;font-size:10px!important;line-height:1.35!important;white-space:nowrap!important}
+.scintilla-console .sc-intel span{display:block!important;margin-top:2px!important;color:#758b90!important;font-size:8px!important;line-height:1.3!important;white-space:nowrap!important}
+.scintilla-console .sc-main{display:contents!important}
+.scintilla-console .sc-rail{
+  position:absolute!important;z-index:45!important;left:12px!important;top:91px!important;bottom:82px!important;width:64px!important;
+  padding:12px 6px!important;gap:5px!important;overflow:hidden!important;
+  border:1px solid #dfe6ea!important;border-radius:17px!important;background:rgba(255,255,255,.94)!important;
+  box-shadow:0 5px 20px rgba(23,43,56,.045)!important;
+}
+.scintilla-console .sc-rail button{width:50px!important;height:57px!important;flex:0 0 57px!important;border-radius:12px!important;font-size:8px!important;color:#7b8d97!important}
+.scintilla-console .sc-rail button span{font-size:17px!important}
+.scintilla-console .sc-rail button.open{background:#eaf5f3!important;border-color:#d2e8e3!important;color:#217d78!important}
+.scintilla-console .sc-status{
+  top:103px!important;left:104px!important;width:min(630px,calc(100% - 500px))!important;
+  grid-template-columns:1.25fr repeat(4,minmax(65px,1fr))!important;
+  border:1px solid #e0e8ec!important;border-radius:13px!important;
+  background:rgba(255,255,255,.96)!important;box-shadow:0 6px 22px rgba(5,20,31,.12)!important;
+  backdrop-filter:blur(18px)!important;
+}
+.scintilla-console .sc-metric{padding:10px 12px!important;border-color:#edf1f3!important}
+.scintilla-console .sc-metric-label{font-size:7px!important;letter-spacing:.09em!important;color:#7c909b!important}
+.scintilla-console .sc-metric-value{font-size:12px!important;color:#203640!important;margin-top:5px!important}
+.scintilla-console .sc-scene-tools{top:103px!important;right:386px!important;gap:6px!important}
+.scintilla-console .sc-tool{
+  height:32px!important;padding:0 12px!important;border-radius:999px!important;
+  border-color:#dfe7eb!important;background:rgba(255,255,255,.96)!important;color:#536b77!important;
+  box-shadow:0 4px 12px rgba(5,20,31,.09)!important;font-size:9px!important;
+}
+.scintilla-console .sc-tool:hover{background:#eaf5f3!important;color:#1d7774!important;border-color:#cfe5e1!important}
+.scintilla-console .sc-endpoint{
+  top:auto!important;bottom:100px!important;width:178px!important;padding:12px 13px!important;
+  border-radius:12px!important;background:rgba(255,255,255,.96)!important;border-color:#dce6ea!important;
+  box-shadow:0 8px 22px rgba(4,18,29,.13)!important;cursor:pointer!important;
+}
+.scintilla-console .sc-endpoint.a{left:104px!important;border-left:3px solid #d7a25f!important}
+.scintilla-console .sc-endpoint.b{left:auto!important;right:386px!important;border-left:3px solid #55bdb6!important}
+.scintilla-console .sc-endpoint-name{font-size:10px!important;color:#203641!important}
+.scintilla-console .sc-endpoint-meta{font-size:8px!important;color:#718792!important}
+.scintilla-console .sc-endpoint-state{font-size:8px!important;letter-spacing:.06em!important}
+.scintilla-console .sc-timeline{
+  left:104px!important;right:368px!important;bottom:18px!important;height:54px!important;
+  grid-template-columns:repeat(7,minmax(0,1fr)) 142px!important;padding:0 10px!important;
+  border:1px solid #dce6eb!important;border-radius:15px!important;
+  background:rgba(255,255,255,.97)!important;color:#718691!important;
+  box-shadow:0 8px 24px rgba(23,43,56,.07)!important;backdrop-filter:blur(18px)!important;
+}
+.scintilla-console .sc-stage{font-size:8px!important;color:#8b9ca5!important;gap:5px!important}
+.scintilla-console .sc-stage:not(:last-of-type):after{background:#dce5e9!important}
+.scintilla-console .sc-stage-dot{width:13px!important;height:13px!important;border-color:#c3d2d9!important;background:#fff!important;color:#64808b!important}
+.scintilla-console .sc-stage.done .sc-stage-dot{background:#d9eeea!important;border-color:#a9d9d0!important;color:#247c76!important}
+.scintilla-console .sc-stage.current{color:#1f7774!important;font-weight:750!important}
+.scintilla-console .sc-stage.current .sc-stage-dot{background:#238f87!important;border-color:#238f87!important;color:#fff!important;box-shadow:0 0 0 4px #238f871b!important}
+.scintilla-console .sc-action{
+  height:36px!important;border-radius:999px!important;background:#238f87!important;
+  box-shadow:0 5px 12px #238f8724!important;font-size:9px!important;letter-spacing:.025em!important;
+}
+.scintilla-console .sc-action:hover{background:#197b75!important}
+.scintilla-console .sc-action.danger{background:#a84c56!important;box-shadow:0 5px 12px #a84c5624!important}
+.scintilla-console .fp{
+  position:fixed!important;left:auto!important;right:20px!important;top:132px!important;width:328px!important;
+  max-width:calc(100vw - 108px)!important;max-height:calc(100dvh - 154px)!important;
+  overflow:hidden!important;border:1px solid #dce6eb!important;border-radius:17px!important;
+  background:rgba(255,255,255,.97)!important;box-shadow:0 12px 32px rgba(20,43,56,.10),0 1px 0 #fff inset!important;
+  color:#243943!important;backdrop-filter:blur(22px)!important;
+}
+.scintilla-console .fp-head{
+  min-height:43px!important;padding:0 13px!important;gap:8px!important;
+  background:#fff!important;border-bottom:1px solid #e8eef1!important;color:#263f4b!important;
+  cursor:grab!important;font-size:9px!important;letter-spacing:.035em!important;
+}
+.scintilla-console .fp-grip{color:#a3b2ba!important;letter-spacing:-2px!important}
+.scintilla-console .fp-head b{font-size:9px!important;letter-spacing:.04em!important;color:#29434f!important}
+.scintilla-console .fp-head button{
+  width:24px!important;height:24px!important;border:1px solid #e4ebee!important;border-radius:7px!important;
+  background:#f8fafb!important;color:#6f828c!important;font-size:14px!important;line-height:1!important;
+}
+.scintilla-console .fp-head button:hover{background:#eaf5f3!important;color:#207c77!important}
+.scintilla-console .fp-body{
+  overflow:auto!important;max-height:calc(100dvh - 204px)!important;padding:0!important;
+  scrollbar-width:thin!important;scrollbar-color:#d1dfe4 transparent!important;
+}
+.scintilla-console .fp-body .panel-head{padding:13px 14px!important;font-size:10px!important}
+.scintilla-console .fp-body .gauges{gap:8px!important;margin:10px 12px!important}
+.scintilla-console .fp-body .gauge{padding:10px 5px!important;border:1px solid #e4ecef!important;border-radius:12px!important;background:#f8fbfc!important}
+.scintilla-console .fp-body .ring{width:64px!important;height:64px!important;font-size:12px!important}
+.scintilla-console .fp-body .tele-bottom{padding:11px 12px!important;font-size:8px!important}
+.scintilla-console .fp-body .tele-bottom b{font-size:10px!important}
+.scintilla-console .fp-body button{transition:background .18s,border-color .18s,transform .18s!important}
+.scintilla-console .fp-body button:hover{filter:brightness(.98)!important}
+@media(max-width:1320px){
+ .scintilla-console .sc-topbar{grid-template-columns:165px auto minmax(100px,1fr) auto!important;gap:10px!important;padding:0 14px!important}
+ .scintilla-console .sc-brand-sub{font-size:7px!important}
+ .scintilla-console .sc-nav button,.scintilla-console .sc-nav a{padding:9px 9px!important;font-size:9px!important}
+ .scintilla-console .sc-intel{min-width:185px!important}
+ .scintilla-console .sc-space{right:344px!important}
+ .scintilla-console .sc-timeline{right:344px!important}
+ .scintilla-console .sc-scene-tools{right:360px!important}
+ .scintilla-console .sc-endpoint.b{right:360px!important}
+ .scintilla-console .sc-status{width:min(570px,calc(100% - 455px))!important}
+}
+@media(max-width:1050px){
+ .scintilla-console .sc-space{left:80px!important;right:12px!important;top:91px!important;bottom:80px!important}
+ .scintilla-console .sc-status{left:92px!important;width:calc(100% - 112px)!important;grid-template-columns:1.2fr repeat(2,minmax(65px,1fr))!important}
+ .scintilla-console .sc-metric:nth-child(4),.scintilla-console .sc-metric:nth-child(5){display:none!important}
+ .scintilla-console .sc-scene-tools{right:22px!important;top:152px!important}
+ .scintilla-console .sc-endpoint.b{right:22px!important}
+ .scintilla-console .sc-timeline{left:92px!important;right:12px!important;bottom:14px!important}
+ .scintilla-console .fp{top:auto!important;bottom:82px!important;right:20px!important;width:310px!important;max-height:42dvh!important}
+ .scintilla-console .fp-body{max-height:calc(42dvh - 50px)!important}
+}
+@media(max-width:700px){
+ .scintilla-console .sc-topbar{height:58px!important;top:7px!important;left:7px!important;right:7px!important;padding:0 11px!important;grid-template-columns:1fr auto!important;gap:8px!important}
+ .scintilla-console .sc-nav,.scintilla-console .sc-search{display:none!important}
+ .scintilla-console .sc-brand-title{font-size:16px!important}
+ .scintilla-console .sc-intel{min-width:0!important;padding:5px!important;border:0!important;background:transparent!important}
+ .scintilla-console .sc-intel>div{display:none!important}
+ .scintilla-console .sc-intel button{width:34px!important}
+ .scintilla-console .sc-rail{display:none!important}
+ .scintilla-console .sc-space{left:7px!important;right:7px!important;top:74px!important;bottom:70px!important;border-radius:17px!important}
+ .scintilla-console .sc-space:after{font-size:7px!important;top:12px!important;left:12px!important}
+ .scintilla-console .sc-status{top:104px!important;left:14px!important;width:calc(100% - 28px)!important;grid-template-columns:1.1fr 1fr 1fr!important}
+ .scintilla-console .sc-metric{padding:7px 8px!important}
+ .scintilla-console .sc-metric-label{font-size:6px!important}
+ .scintilla-console .sc-metric-value{font-size:10px!important}
+ .scintilla-console .sc-scene-tools{top:auto!important;left:14px!important;right:14px!important;bottom:82px!important;gap:5px!important}
+ .scintilla-console .sc-tool{flex:1!important;padding:0 6px!important;font-size:8px!important}
+ .scintilla-console .sc-endpoint{display:none!important}
+ .scintilla-console .sc-timeline{left:14px!important;right:14px!important;bottom:12px!important;height:50px!important;grid-template-columns:repeat(4,minmax(0,1fr)) 112px!important;padding:0 5px!important}
+ .scintilla-console .sc-stage{font-size:6px!important}
+ .scintilla-console .sc-stage:nth-child(n+5){display:none!important}
+ .scintilla-console .fp{left:8px!important;right:8px!important;top:auto!important;bottom:76px!important;width:auto!important;max-width:none!important;max-height:42dvh!important}
+ .scintilla-console .fp-body{max-height:calc(42dvh - 48px)!important}
+}
+@media(prefers-reduced-motion:reduce){.scintilla-console *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
