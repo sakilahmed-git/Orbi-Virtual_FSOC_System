@@ -878,3 +878,75 @@
   .orbi-landing .orbi-phase {font-size:7px;}
   .orbi-landing .orbi-intelligence-orbit {width:130px;height:130px;}
 }
+
+
+/* CINEMA MODE — a dedicated 3D viewport with editorial camera cuts, not layered 2D stickers. */
+.orbi-landing .orbi-cinema {
+  position:relative;isolation:isolate;width:100%;height:clamp(330px,34vw,470px);
+  overflow:hidden;background:#071724;color:#edf8fc;contain:layout paint;
+}
+.orbi-landing .orbi-cinema-canvas {position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;}
+.orbi-landing .orbi-cinema-vignette {
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,#06131d9c 0%,transparent 18%,transparent 67%,#06131dbd 100%),linear-gradient(90deg,#06131d54,transparent 55%,#06131d1c);
+}
+.orbi-landing .orbi-cinema-top {
+  position:absolute;z-index:3;top:15px;left:17px;right:17px;display:flex;justify-content:space-between;align-items:center;gap:12px;
+  color:#b6d0dc;font:8px "DM Mono",monospace;letter-spacing:1.05px;text-shadow:0 1px 8px #06131d;
+}
+.orbi-landing .orbi-cinema-top>span:first-child {display:flex;align-items:center;gap:8px;}
+.orbi-landing .orbi-cinema-top>span:first-child i {display:block;width:5px;height:5px;border-radius:50%;background:#6be0cf;box-shadow:0 0 12px #6be0cf;}
+.orbi-landing .orbi-cinema-rec {display:flex;align-items:center;gap:6px;}
+.orbi-landing .orbi-cinema-rec>b {width:6px;height:6px;border-radius:50%;background:#f08d82;box-shadow:0 0 10px #f08d82;animation:orbi-rec-pulse 1.4s ease-in-out infinite;}
+.orbi-landing .orbi-cinema-rec strong {font-weight:500;color:#eaf6fa;}
+.orbi-landing .orbi-cinema-beat {
+  position:absolute;z-index:3;left:18px;bottom:54px;max-width:min(370px,75%);
+  padding:0 0 0 12px;border-left:2px solid #6bd7cc;
+  animation:orbi-title-in .65s cubic-bezier(.16,1,.3,1) both;
+  pointer-events:none;text-shadow:0 2px 18px #04121d;
+}
+.orbi-landing .orbi-cinema-kicker {display:block;color:#83dfd4;font:9px "DM Mono",monospace;letter-spacing:1.15px;margin-bottom:7px;}
+.orbi-landing .orbi-cinema-beat h3 {margin:0;color:#f4fbff;font:600 clamp(19px,2.15vw,29px)/1.1 "Manrope",sans-serif;letter-spacing:-.045em;}
+.orbi-landing .orbi-cinema-beat p {margin:7px 0 0;color:#b9d1dc;font:8px "DM Mono",monospace;letter-spacing:.55px;line-height:1.6;}
+.orbi-landing .orbi-cinema-coordinates {
+  position:absolute;z-index:3;right:17px;bottom:57px;display:flex;align-items:center;gap:8px;
+  color:#b5d0dc;font:7px "DM Mono",monospace;letter-spacing:.55px;text-shadow:0 1px 8px #06131d;
+}
+.orbi-landing .orbi-cinema-coordinates i {display:block;width:3px;height:3px;border-radius:50%;background:#6bd7cc;}
+.orbi-landing .orbi-cinema-bottom {
+  position:absolute;z-index:3;left:17px;right:17px;bottom:16px;display:flex;align-items:center;gap:13px;
+  color:#9bb9c7;font:7px "DM Mono",monospace;letter-spacing:.65px;
+}
+.orbi-landing .orbi-cinema-bottom>span:first-child {white-space:nowrap;}
+.orbi-landing .orbi-cinema-bottom>span:first-child b {color:#69d6ca;}
+.orbi-landing .orbi-cinema-progress {display:flex;align-items:center;gap:4px;flex:1;}
+.orbi-landing .orbi-cinema-progress i {display:block;height:2px;flex:1;background:#9bb9c740;transition:background .3s,box-shadow .3s;}
+.orbi-landing .orbi-cinema-progress i.active {background:#7de2d6;box-shadow:0 0 8px #70dacf80;}
+.orbi-landing .orbi-cinema-bottom>span:last-child {white-space:nowrap;}
+.orbi-landing .orbi-cinema-corner {position:absolute;z-index:3;color:#9bb9c7;font:6px "DM Mono",monospace;letter-spacing:.7px;opacity:.65;pointer-events:none;}
+.orbi-landing .orbi-cinema-corner.top-left {top:49px;left:18px;}
+.orbi-landing .orbi-cinema-corner.bottom-right {right:17px;bottom:39px;}
+@keyframes orbi-title-in {
+  from {opacity:0;transform:translate3d(0,15px,0);filter:blur(4px)}
+  to {opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+@keyframes orbi-rec-pulse {0%,100%{opacity:1}50%{opacity:.35}}
+@media (max-width:850px) {
+  .orbi-landing .orbi-cinema {height:clamp(330px,55vw,440px);}
+  .orbi-landing .orbi-cinema-beat {max-width:70%;}
+}
+@media (max-width:560px) {
+  .orbi-landing .orbi-cinema {height:330px;}
+  .orbi-landing .orbi-cinema-top {top:11px;left:11px;right:11px;font-size:7px;letter-spacing:.5px;}
+  .orbi-landing .orbi-cinema-beat {left:12px;bottom:52px;max-width:80%;padding-left:9px;}
+  .orbi-landing .orbi-cinema-beat h3 {font-size:21px;}
+  .orbi-landing .orbi-cinema-beat p {font-size:7px;}
+  .orbi-landing .orbi-cinema-coordinates {display:none;}
+  .orbi-landing .orbi-cinema-bottom {left:11px;right:11px;bottom:13px;gap:8px;font-size:6px;}
+  .orbi-landing .orbi-cinema-bottom>span:first-child {max-width:45%;white-space:normal;line-height:1.4;}
+  .orbi-landing .orbi-cinema-corner.bottom-right {display:none;}
+}
+@media (prefers-reduced-motion:reduce) {
+  .orbi-landing .orbi-cinema-rec>b {animation:none;}
+  .orbi-landing .orbi-cinema-beat {animation:none;}
+}
