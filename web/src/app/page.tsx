@@ -2,12 +2,38 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { runScenario, type RunScenarioResponse } from "@/lib/api";
 import "./landing.css";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8000";
 
 export default function Home() {
   const [apiStatus, setApiStatus] = useState<"checking" | "online" | "offline">("checking");
+  const [runResult, setRunResult] = useState<RunScenarioResponse | null>(null);
+  const [running, setRunning] = useState(false);
+  const [runError, setRunError] = useState(""); 
+
+  async function runLiveScenario() {
+    setRunning(true);
+    setRunError("");
+    try {
+      const result = await runScenario({
+        duration_s: 2,
+        fps: 240,
+        vibration_freq_hz: 17.3,
+        vibration_amp_px: 3,
+        clutter_level: 0.35,
+        noise_rate_hz_per_px: 5,
+        seed: 812,
+        scintilla_enabled: true,
+      });
+      setRunResult(result);
+    } catch (error) {
+      setRunError(error instanceof Error ? error.message : "Scenario request failed.");
+    } finally {
+      setRunning(false);
+    }
+  }
 
   useEffect(() => {
     const controller = new AbortController();
@@ -47,69 +73,45 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="ol-hero">
-        <div className="ol-hero-copy">
-          <div className="ol-eyebrow"><span /> SCINTILLA / SOFTWARE-IN-THE-LOOP OPTICAL TESTBED</div>
-          <h1>Acquire.<br /><em>Track.</em> Recover.</h1>
-          <p>Run repeatable free-space optical link experiments. Stress acquisition with vibration, clutter and sensor noise, then inspect detection and control results from the Scintilla backend.</p>
+      <section className="ol-hero ol-hero-console">
+        <div className="ol-hero-copy ol-console-intro">
+          <div className="ol-eyebrow"><span /> SCINTILLA / OPTICAL LINK TESTBED</div>
+          <div className="ol-kicker-live"><i /> SOFTWARE-IN-THE-LOOP · REPRODUCIBLE RUNS</div>
+          <h1>Test the link.<br /><em>Trust the evidence.</em></h1>
+          <p>Stress a free-space optical link with vibration, clutter and sensor noise. Run the Scintilla pipeline and inspect its measured detections and controller response.</p>
           <div className="ol-hero-actions">
-            <Link className="ol-button ol-button-dark" href="/mission">Open Mission Control <span>→</span></Link>
-            <Link className="ol-button ol-button-quiet" href="/demo">Run a backend scenario <span>↗</span></Link>
+            <button className="ol-button ol-button-dark" onClick={runLiveScenario} disabled={running || apiStatus !== "online"}>
+              {running ? "Running pipeline…" : "Run live experiment"} <span>↗</span>
+            </button>
+            <Link className="ol-button ol-button-quiet" href="/mission">Open Mission Control <span>→</span></Link>
           </div>
-          <div className="ol-proof-line"><span className="ol-proof-glyph">⌁</span> CONFIGURE THE DISTURBANCE. RUN THE PIPELINE. INSPECT THE EVIDENCE.</div>
+          <div className="ol-live-footnote"><span>01</span> CONFIGURE <i /> <span>02</span> COMPUTE <i /> <span>03</span> INSPECT</div>
+          {runError && <p className="ol-run-error" role="alert">{runError}</p>}
         </div>
-
-        <div className="ol-visual" aria-label="Illustration of two optical terminals connected by a laser link">
-          <div className="ol-nebula ol-nebula-blue" />
-          <div className="ol-nebula ol-nebula-pink" />
-          <svg className="ol-orbits" viewBox="0 0 900 650" aria-hidden="true">
-            <defs>
-              <linearGradient id="ol-beam" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stopColor="#ff72cb" />
-                <stop offset=".48" stopColor="#b79bff" />
-                <stop offset="1" stopColor="#62d8ff" />
-              </linearGradient>
-              <filter id="ol-beam-glow" x="-40%" y="-400%" width="180%" height="900%">
-                <feGaussianBlur stdDeviation="8" />
-              </filter>
-            </defs>
-            <ellipse cx="500" cy="320" rx="330" ry="238" transform="rotate(-27 500 320)" fill="none" stroke="#ffffff" strokeOpacity=".45" />
-            <ellipse cx="500" cy="320" rx="255" ry="185" transform="rotate(22 500 320)" fill="none" stroke="#d9d7ff" strokeOpacity=".36" />
-            <path d="M190 414 C330 360 488 322 720 205" stroke="url(#ol-beam)" strokeWidth="20" strokeOpacity=".22" filter="url(#ol-beam-glow)" fill="none" />
-            <path d="M190 414 C330 360 488 322 720 205" stroke="url(#ol-beam)" strokeWidth="3" fill="none" />
-            <path d="M190 414 C330 360 488 322 720 205" stroke="#ffffff" strokeWidth=".8" strokeOpacity=".9" fill="none" />
-            <g transform="translate(190 414) rotate(-17)">
-              <rect x="-18" y="-18" width="36" height="36" rx="5" fill="#d6e8f8" stroke="#ffffff" strokeWidth="1.5" />
-              <rect x="-12" y="-12" width="24" height="24" rx="3" fill="#233e5b" />
-              <rect x="-76" y="-16" width="50" height="32" fill="#142c49" stroke="#b6d7f2" />
-              <rect x="26" y="-16" width="50" height="32" fill="#142c49" stroke="#b6d7f2" />
-              {Array.from({ length: 5 }, (_, i) => <g key={i} stroke="#6486a7" strokeWidth=".8"><path d={`M${-68 + i * 9} -16 v32`} /><path d={`M${34 + i * 9} -16 v32`} /></g>)}
-              <circle cx="0" cy="0" r="4" fill="#ff81d2" />
-            </g>
-            <g transform="translate(720 205) rotate(14)">
-              <rect x="-18" y="-18" width="36" height="36" rx="5" fill="#d6e8f8" stroke="#ffffff" strokeWidth="1.5" />
-              <rect x="-12" y="-12" width="24" height="24" rx="3" fill="#233e5b" />
-              <rect x="-76" y="-16" width="50" height="32" fill="#142c49" stroke="#b6d7f2" />
-              <rect x="26" y="-16" width="50" height="32" fill="#142c49" stroke="#b6d7f2" />
-              {Array.from({ length: 5 }, (_, i) => <g key={i} stroke="#6486a7" strokeWidth=".8"><path d={`M${-68 + i * 9} -16 v32`} /><path d={`M${34 + i * 9} -16 v32`} /></g>)}
-              <circle cx="0" cy="0" r="4" fill="#6ee5ff" />
-            </g>
-            <circle cx="190" cy="414" r="35" fill="none" stroke="#ff7fd2" strokeOpacity=".6" />
-            <circle cx="190" cy="414" r="53" fill="none" stroke="#ff7fd2" strokeOpacity=".3" />
-            <circle cx="720" cy="205" r="35" fill="none" stroke="#70ddff" strokeOpacity=".6" />
-            <circle cx="720" cy="205" r="53" fill="none" stroke="#70ddff" strokeOpacity=".3" />
-            <g fill="#ffffff" opacity=".8">{Array.from({ length: 35 }, (_, i) => <circle key={i} cx={(i * 137 + 29) % 880} cy={(i * 83 + 19) % 610} r={i % 5 === 0 ? 1.6 : .8} />)}</g>
-          </svg>
-          <div className="ol-visual-label ol-label-tx"><span className="ol-pulse pink" /> TRANSMITTER <b>SC-1</b><small>EVENT-BASED BEACON</small></div>
-          <div className="ol-visual-label ol-label-rx"><span className="ol-pulse cyan" /> RECEIVER <b>SC-2</b><small>TRACK &amp; ACQUIRE</small></div>
-          <div className="ol-visual-coordinates">LINK GEOMETRY / CONCEPT VIEW<br />NOT TO SCALE</div>
-          <div className="ol-visual-index">01 <span /> 04</div>
-        </div>
-
-        <div className="ol-hero-bottom">
-          <div><b>01</b><span>Define mission conditions</span></div>
-          <div><b>02</b><span>Run the verified pipeline</span></div>
-          <div><b>03</b><span>Inspect measured outcomes</span></div>
+        <div className="ol-live-console">
+          <div className="ol-console-top">
+            <div><span className="ol-console-eyebrow">SCINTILLA ENGINE / RUN CONSOLE</span><strong>Optical link experiment</strong></div>
+            <span className={"ol-console-status " + (apiStatus === "online" ? "online" : "offline")}><i /> {apiStatus === "online" ? "API REACHABLE" : apiStatus === "checking" ? "CHECKING" : "API OFFLINE"}</span>
+          </div>
+          <div className="ol-link-diagram">
+            <div className="ol-starfield" />
+            <div className="ol-link-orbit orbit-one" /><div className="ol-link-orbit orbit-two" />
+            <div className="ol-link-beam"><span /></div>
+            <div className="ol-terminal terminal-tx"><span className="terminal-core">TX</span><b>SC-01</b><small>TRANSMITTER</small></div>
+            <div className="ol-terminal terminal-rx"><span className="terminal-core">RX</span><b>SC-02</b><small>RECEIVER</small></div>
+            <div className="ol-diagram-label label-left">EVENT STREAM <b>240 FPS</b></div>
+            <div className="ol-diagram-label label-right">LINK MODE <b>FSOC / SIM</b></div>
+          </div>
+          <div className="ol-run-metrics">
+            <div><span>NOISY EVENTS</span><strong>{runResult ? runResult.events.n_noisy.toLocaleString() : "—"}</strong><small>{runResult ? "FROM COMPUTED RUN" : "AWAITING RUN"}</small></div>
+            <div><span>DETECTION HIT RATE</span><strong>{runResult ? (runResult.detections.hit_rate * 100).toFixed(1) + "%" : "—"}</strong><small>{runResult ? `${runResult.detections.n_hits} / ${runResult.detections.n_windows} WINDOWS` : "MEASURED BY MODEL"}</small></div>
+            <div><span>DOMINANT DISTURBANCE</span><strong>{runResult?.disturbance.dominant_frequency_hz != null ? runResult.disturbance.dominant_frequency_hz.toFixed(2) + " Hz" : "—"}</strong><small>{runResult ? "ESTIMATED FROM EVENTS" : "PSD ESTIMATE"}</small></div>
+            <div><span>CONTROL RMS</span><strong>{runResult ? runResult.control_comparison.disturbance_armed.rms_error_px.toFixed(3) + " px" : "—"}</strong><small>{runResult ? "SCINTILLA-ARMED" : "BACKEND RESULT"}</small></div>
+          </div>
+          <div className="ol-console-bottom">
+            <span><i /> {runResult ? "RUN COMPLETE · RESULT RECEIVED" : running ? "PIPELINE EXECUTING" : "READY FOR EXPERIMENT"}</span>
+            <span>SEED 812 · VIBRATION 17.3 HZ</span>
+          </div>
         </div>
       </section>
 
