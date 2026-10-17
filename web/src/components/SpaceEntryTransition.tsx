@@ -52,9 +52,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
 
     // Give the transmission a cinematic beat: the words finish typing, breathe,
     // and remain readable while the flight visuals continue behind them.
-    later(() => setStage("ignition"), 1800);
-    later(() => setStage("ascent"), 3900);
-    later(() => setStage("orbit"), 6500);
+    later(() => setStage("ignition"), 1600);
+    later(() => setStage("ascent"), 3400);
+    later(() => setStage("orbit"), 6100);
     later(() => {
       if (target.current) {
         // Persist the hand-off before navigation so the 3D scene can pick it
@@ -62,7 +62,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         window.sessionStorage.setItem("orbi:cinematic-entry", "1");
         router.push(target.current);
       }
-    }, 7900);
+    }, 8200);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
@@ -116,11 +116,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
     // Hold the real 3D scene long enough for the acquisition message to land.
-    later(() => setStage("interface"), 3200);
+    later(() => setStage("interface"), 2400);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 5700);
+    }, 4400);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -131,22 +131,22 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       <div className={`orbi-transition-content orbi-transition-content--${phase} orbi-transition-content--${stage}`}>{children}</div>
       {phase !== "idle" && (
         <div
-          className={`space-entry space-entry--${phase} space-entry--${stage} ${phase === "launch" ? "space-entry--flight" : ""}`}
+          className={`orbi-cinema orbi-cinema--${phase} orbi-cinema--${stage} ${phase === "launch" ? "orbi-cinema--flight" : ""}`}
           aria-live="polite"
           role="status"
           aria-label="Orbital launch sequence"
         >
-          <div className="space-entry__wash" />
-          <div className="space-entry__cockpit" aria-hidden="true">
-            <div className="space-entry__cockpit-top"><span>ORBI / FPV</span><span>CAM 01 · LIVE</span></div>
-            <i className="space-entry__cockpit-corner space-entry__cockpit-corner--tl" />
-            <i className="space-entry__cockpit-corner space-entry__cockpit-corner--tr" />
-            <i className="space-entry__cockpit-corner space-entry__cockpit-corner--bl" />
-            <i className="space-entry__cockpit-corner space-entry__cockpit-corner--br" />
-            <div className="space-entry__reticle"><i /></div>
-            <div className="space-entry__cockpit-bottom"><span>ATTITUDE <b>STABLE</b></span><span>VELOCITY <b>INCREASING</b></span></div>
+          <div className="orbi-cinema__wash" />
+          <div className="orbi-cinema__cockpit" aria-hidden="true">
+            <div className="orbi-cinema__cockpit-top"><span>ORBI / FPV</span><span>CAM 01 · LIVE</span></div>
+            <i className="orbi-cinema__cockpit-corner orbi-cinema__cockpit-corner--tl" />
+            <i className="orbi-cinema__cockpit-corner orbi-cinema__cockpit-corner--tr" />
+            <i className="orbi-cinema__cockpit-corner orbi-cinema__cockpit-corner--bl" />
+            <i className="orbi-cinema__cockpit-corner orbi-cinema__cockpit-corner--br" />
+            <div className="orbi-cinema__reticle"><i /></div>
+            <div className="orbi-cinema__cockpit-bottom"><span>ATTITUDE <b>STABLE</b></span><span>VELOCITY <b>INCREASING</b></span></div>
           </div>
-          <div className="space-entry__stars" aria-hidden="true">
+          <div className="orbi-cinema__stars" aria-hidden="true">
             {Array.from({ length: 76 }, (_, i) => (
               <i key={i} style={{
                 "--star-x": `${(i * 37 + 11) % 100}%`,
@@ -158,33 +158,33 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
               } as CSSProperties} />
             ))}
           </div>
-          <div className="space-entry__satellite-field" aria-hidden="true">
-            <div className="space-entry__planet-horizon" />
-            <div className="space-entry__optical-beam"><i /></div>
-            <div className="space-entry__satellite space-entry__satellite--near"><span className="space-entry__solar-panel" /><b /><span className="space-entry__solar-panel" /></div>
-            <div className="space-entry__satellite space-entry__satellite--far"><span className="space-entry__solar-panel" /><b /><span className="space-entry__solar-panel" /></div>
-            <span className="space-entry__satellite-label space-entry__satellite-label--near">SPACECRAFT A / TRANSMITTER</span>
-            <span className="space-entry__satellite-label space-entry__satellite-label--far">SPACECRAFT B / RECEIVER</span>
+          <div className="orbi-cinema__satellite-field" aria-hidden="true">
+            <div className="orbi-cinema__planet-horizon" />
+            <div className="orbi-cinema__optical-beam"><i /></div>
+            <div className="orbi-cinema__satellite orbi-cinema__satellite--near"><span className="orbi-cinema__solar-panel" /><b /><span className="orbi-cinema__solar-panel" /></div>
+            <div className="orbi-cinema__satellite orbi-cinema__satellite--far"><span className="orbi-cinema__solar-panel" /><b /><span className="orbi-cinema__solar-panel" /></div>
+            <span className="orbi-cinema__satellite-label orbi-cinema__satellite-label--near">SPACECRAFT A / TRANSMITTER</span>
+            <span className="orbi-cinema__satellite-label orbi-cinema__satellite-label--far">SPACECRAFT B / RECEIVER</span>
           </div>
 
-          <div className="space-entry__hud">
-            <span className="space-entry__brand"><b>◉</b> ORBI <i>MISSION SYSTEMS</i></span>
-            <span className="space-entry__readout">
+          <div className="orbi-cinema__hud">
+            <span className="orbi-cinema__brand"><b>◉</b> ORBI <i>MISSION SYSTEMS</i></span>
+            <span className="orbi-cinema__readout">
               {stage === "cabin" ? "CABIN SECURE" : stage === "ignition" ? "ENGINE IGNITION" : stage === "ascent" ? "ATMOSPHERIC ASCENT" : stage === "orbit" ? "ORBITAL INSERTION" : stage === "satellite" ? "ORBIT ESTABLISHED" : "MISSION CONTROL"}
               <b>{stage === "cabin" ? "01—06" : stage === "ignition" ? "02—06" : stage === "ascent" ? "03—06" : stage === "orbit" ? "04—06" : stage === "satellite" ? "05—06" : "06—06"}</b>
             </span>
-            <div className="space-entry__progress"><i /></div>
-            <strong className="space-entry__headline" aria-live="polite">
-              <span>{typedHeadline}<i className="space-entry__typing-cursor" aria-hidden="true" /></span>
-              <em>{typedSubline}{typedSubline.length > 0 && <i className="space-entry__typing-cursor space-entry__typing-cursor--sub" aria-hidden="true" />}</em>
+            <div className="orbi-cinema__progress"><i /></div>
+            <strong className="orbi-cinema__headline" aria-live="polite">
+              <span>{typedHeadline}<i className="orbi-cinema__typing-cursor" aria-hidden="true" /></span>
+              <em>{typedSubline}{typedSubline.length > 0 && <i className="orbi-cinema__typing-cursor orbi-cinema__typing-cursor--sub" aria-hidden="true" />}</em>
             </strong>
-            <div className="space-entry__steps">
+            <div className="orbi-cinema__steps">
               <span className={["cabin", "ignition", "ascent"].includes(stage) ? "is-current" : "is-done"}><i /> ASCENT</span>
               <span className={["orbit"].includes(stage) ? "is-current" : ["satellite", "interface"].includes(stage) ? "is-done" : ""}><i /> ORBIT</span>
               <span className={stage === "interface" ? "is-current" : ""}><i /> MISSION CONTROL</span>
             </div>
           </div>
-          <div className="space-entry__flash" aria-hidden="true" />
+          <div className="orbi-cinema__flash" aria-hidden="true" />
         </div>
       )}
     </TransitionContext.Provider>
