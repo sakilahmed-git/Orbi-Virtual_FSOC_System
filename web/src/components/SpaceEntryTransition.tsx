@@ -58,7 +58,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     }
     clearTimers();
     target.current = href;
-    window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+    window.sessionStorage.setItem("orbi:cinematic-overlay-entry", "1");
     setStage("cabin");
     setPhase("launch");
 
@@ -125,7 +125,6 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     target.current = null;
     setPhase("arrival");
     setStage("satellite");
-    window.sessionStorage.setItem("orbi:cinematic-entry", "1");
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
     // Hold the real 3D scene long enough for the acquisition message to land.
