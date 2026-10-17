@@ -1,11 +1,23 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SCINTILLA — Optical Intelligence",
-  description: "Event-based optical-link mission control simulation.",
+  title: "Orbi — Virtual FSOC System",
+  description:
+    "Software-in-the-loop optical communication testing with the Scintilla event-based detection and control pipeline.",
+  applicationName: "Orbi",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
-  return <html lang="en"><body>{children}</body></html>;
+export const viewport: Viewport = {
+  themeColor: "#fbfcff",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
 }
