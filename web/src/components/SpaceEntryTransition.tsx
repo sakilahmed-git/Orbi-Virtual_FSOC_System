@@ -93,6 +93,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     target.current = null;
     setPhase("arrival");
     setStage("satellite");
+    window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
     // Let the live scene breathe before revealing the instruments.
     later(() => setStage("interface"), 550);
