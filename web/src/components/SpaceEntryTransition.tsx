@@ -12,23 +12,12 @@ import {
   type ReactNode,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import MissionSpace from "./MissionSpace";
-import { useMissionSimulation } from "@/lib/useMissionSimulation";
 
 type TransitionContextValue = { enterSpace: (href: string) => void };
 type TransitionPhase = "idle" | "launch" | "arrival";
 type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interface";
 
 const TransitionContext = createContext<TransitionContextValue | null>(null);
-
-function CinematicMissionScene() {
-  const { snapshot } = useMissionSimulation();
-  return (
-    <div className="space-entry__scene" aria-hidden="true">
-      <MissionSpace simulation={snapshot} ground={false} view="mission" />
-    </div>
-  );
-}
 
 export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -58,7 +47,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     }
     clearTimers();
     target.current = href;
-    window.sessionStorage.setItem("orbi:cinematic-overlay-entry", "1");
+    window.sessionStorage.setItem("orbi:cinematic-entry", "1");
     setStage("cabin");
     setPhase("launch");
 
@@ -149,7 +138,6 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           aria-label="Orbital launch sequence"
         >
           <div className="space-entry__wash" />
-          <CinematicMissionScene />
           <div className="space-entry__cockpit" aria-hidden="true">
             <div className="space-entry__cockpit-top"><span>ORBI / FPV</span><span>CAM 01 · LIVE</span></div>
             <i className="space-entry__cockpit-corner space-entry__cockpit-corner--tl" />
