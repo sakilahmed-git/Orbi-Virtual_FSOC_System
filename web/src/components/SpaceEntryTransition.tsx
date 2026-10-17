@@ -26,6 +26,8 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const [stage, setStage] = useState<FlightStage>("cabin");
   const target = useRef<string | null>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [typedHeadline, setTypedHeadline] = useState("");
+  const [typedSubline, setTypedSubline] = useState("");
 
   const clearTimers = useCallback(() => {
     timers.current.forEach(clearTimeout);
@@ -47,14 +49,43 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("cabin");
     setPhase("launch");
 
-    // One continuous first-person flight: cabin -> ignition -> atmospheric ascent -> orbit.
-    later(() => setStage("ignition"), 850);
-    later(() => setStage("ascent"), 1650);
-    later(() => setStage("orbit"), 2600);
+    // Give the mission transmissions room to type in, rather than flashing past.
+    later(() => setStage("ignition"), 1450);
+    later(() => setStage("ascent"), 2850);
+    later(() => setStage("orbit"), 4300);
     later(() => {
       if (target.current) router.push(target.current);
-    }, 3250);
+    }, 5550);
   }, [clearTimers, later, pathname, phase, router]);
+
+  useEffect(() => {
+    const transmissions: Record<FlightStage, [string, string]> = {
+      cabin: ["Flight computer: cabin sealed.", "Ground control, we are ready for orbital insertion."],
+      ignition: ["Telemetry confirmed. Engines online.", "Remain seated. We are leaving Earth."],
+      ascent: ["Passing through the atmosphere.", "External light levels falling. Guidance is nominal."],
+      orbit: ["Orbital insertion confirmed.", "Ground control, acquiring the optical satellite now."],
+      satellite: ["Visual contact. Satellite acquired.", "Stabilising the real optical link in your mission viewport."],
+      interface: ["Mission control is yours.", "Live telemetry, link status and controls are coming online."],
+    };
+    const [headline, subline] = transmissions[stage];
+    setTypedHeadline("");
+    setTypedSubline("");
+    let headlineIndex = 0;
+    let sublineIndex = 0;
+    const headlineTimer = setInterval(() => {
+      headlineIndex += 1;
+      setTypedHeadline(headline.slice(0, headlineIndex));
+      if (headlineIndex >= headline.length) {
+        clearInterval(headlineTimer);
+        const sublineTimer = setInterval(() => {
+          sublineIndex += 1;
+          setTypedSubline(subline.slice(0, sublineIndex));
+          if (sublineIndex >= subline.length) clearInterval(sublineTimer);
+        }, 20);
+      }
+    }, 29);
+    return () => clearInterval(headlineTimer);
+  }, [stage]);
 
   useEffect(() => {
     if (phase !== "launch" || !target.current || pathname === "/" || pathname !== target.current) return;
@@ -62,12 +93,12 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setPhase("arrival");
     setStage("satellite");
     clearTimers();
-    // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 1150);
+    // Let the live scene breathe before revealing the instruments.
+    later(() => setStage("interface"), 1750);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 2950);
+    }, 3900);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -104,9 +135,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
               <b>{stage === "cabin" ? "01—06" : stage === "ignition" ? "02—06" : stage === "ascent" ? "03—06" : stage === "orbit" ? "04—06" : stage === "satellite" ? "05—06" : "06—06"}</b>
             </span>
             <div className="space-entry__progress"><i /></div>
-            <strong className="space-entry__headline">
-              <span>{stage === "cabin" ? "We're leaving Earth." : stage === "ignition" ? "Engines are live." : stage === "ascent" ? "Feel the lift." : stage === "orbit" ? "Earth, falling away." : stage === "satellite" ? "Orbit established." : "Welcome to mission control."}</span>
-              <em>{stage === "cabin" ? "Buckle up. You're riding inside the rocket." : stage === "ignition" ? "Cabin locked. Thrust building." : stage === "ascent" ? "The atmosphere turns to midnight." : stage === "orbit" ? "The stars come into focus." : stage === "satellite" ? "Your satellite comes into view." : "Now the instruments come alive."}</em>
+            <strong className="space-entry__headline" aria-live="polite">
+              <span>{typedHeadline}<i className="space-entry__typing-cursor" aria-hidden="true" /></span>
+              <em>{typedSubline}{typedSubline.length > 0 && <i className="space-entry__typing-cursor space-entry__typing-cursor--sub" aria-hidden="true" />}</em>
             </strong>
             <div className="space-entry__steps">
               <span className={["cabin", "ignition", "ascent"].includes(stage) ? "is-current" : "is-done"}><i /> ASCENT</span>
