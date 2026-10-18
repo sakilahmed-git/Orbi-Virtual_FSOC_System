@@ -224,8 +224,8 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       // Keep the first frame wide enough to establish the complete optical system.
       // A close fly-by made the large solar arrays clip the viewport and felt like
       // a second motion layered on top of the transition.
-      c.start.set(0, 8.4, 24);
-      c.pass.set(0, 6.9, 20);
+      c.start.copy(c.source).add(new THREE.Vector3(0.9, 1.25, 4.6));
+      c.pass.copy(c.source).add(new THREE.Vector3(-1.8, 0.75, 2.6));
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
@@ -311,14 +311,20 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
     if (cinematic.current.active) {
       const c = cinematic.current;
       c.elapsed += dt;
-      const t = THREE.MathUtils.clamp(c.elapsed / 2.8, 0, 1);
+      const t = THREE.MathUtils.clamp(c.elapsed / 2.35, 0, 1);
       const ease = (v: number) => v * v * (3 - 2 * v);
       const lookTarget = new THREE.Vector3();
-      // One restrained, continuous pull-back: no close-up jump, no abrupt
-      // direction change, and no second pass that crops the solar arrays.
-      const local = ease(t);
-      camera.position.copy(c.start).lerp(desired, local);
-      lookTarget.copy(c.midpoint).lerp(new THREE.Vector3(0, 0, 0), local);
+      // Close fly-by of the real dashboard satellite, then a smooth dolly-out
+      // to reveal both endpoints and the complete mission dashboard.
+      if (t < 0.38) {
+        const local = ease(t / 0.38);
+        camera.position.copy(c.start).lerp(c.pass, local);
+        lookTarget.copy(c.source).lerp(c.midpoint, local * 0.35);
+      } else {
+        const local = ease((t - 0.38) / 0.62);
+        camera.position.copy(c.pass).lerp(desired, local);
+        lookTarget.copy(c.midpoint).lerp(new THREE.Vector3(0, 0, 0), local);
+      }
       camera.lookAt(lookTarget);
       if (t >= 1) c.active = false;
       return;
