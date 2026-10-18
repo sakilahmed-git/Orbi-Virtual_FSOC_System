@@ -1218,6 +1218,7 @@ function OpticalLink({
   const pulseA = useRef<THREE.Mesh>(null);
   const pulseB = useRef<THREE.Mesh>(null);
   const pulseC = useRef<THREE.Mesh>(null);
+  const linkColor = useRef(new THREE.Color("#69c9ff"));
   const connected = simulation.phase === "CONNECTED";
   const acquiring = ![
     "CONNECTED",
@@ -1261,7 +1262,9 @@ function OpticalLink({
       new THREE.Vector3(0, 1, 0),
       actual.clone().normalize()
     );
-    const smooth = 1 - Math.exp(-dt * 14);
+    const smooth = 1 - Math.exp(-dt * 8);
+    const targetColor = new THREE.Color(acquiring ? "#69c9ff" : connected ? "#ff4169" : "#ff6a78");
+    linkColor.current.lerp(targetColor, 1 - Math.exp(-dt * 1.6));
     for (const object of [
       halo.current,
       hit.current,
@@ -1282,16 +1285,19 @@ function OpticalLink({
     pulseA.current.position.lerp(move(0), smooth);
     pulseB.current.position.lerp(move(0.33), smooth);
     pulseC.current.position.lerp(move(0.66), smooth);
+    for (const object of [halo.current, beam.current]) {
+      const material = object.material;
+      const materials = Array.isArray(material) ? material : [material];
+      materials.forEach((item) => {
+        if ("color" in item && item.color instanceof THREE.Color) item.color.copy(linkColor.current);
+      });
+    }
     const pulseScale = connected ? 1.15 : 0.8;
     pulseA.current.scale.setScalar(pulseScale);
     pulseB.current.scale.setScalar(pulseScale);
     pulseC.current.scale.setScalar(pulseScale);
   });
-  const color = acquiring
-    ? "#69c9ff"
-    : connected
-      ? "#ff4169"
-      : "#ff6a78";
+  const color = "#69c9ff";
   return (
     <group>
       {/* invisible click target for the link inspector */}
@@ -1311,7 +1317,7 @@ function OpticalLink({
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={connected ? 0.12 : 0.055}
+          opacity={0.09}
           blending={THREE.AdditiveBlending}
           depthTest={false}
           depthWrite={false}
@@ -1330,7 +1336,7 @@ function OpticalLink({
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={connected ? 0.92 : acquiring ? 0.42 : 0.78}
+          opacity={0.68}
           blending={THREE.AdditiveBlending}
           depthTest={false}
           depthWrite={false}
@@ -1342,7 +1348,7 @@ function OpticalLink({
         <meshBasicMaterial
           color="#fff5f7"
           transparent
-          opacity={connected ? 0.9 : 0.6}
+          opacity={0.72}
           blending={THREE.AdditiveBlending}
           depthTest={false}
           depthWrite={false}
@@ -1357,9 +1363,9 @@ function OpticalLink({
         >
           <sphereGeometry args={[0.075, 16, 16]} />
           <meshBasicMaterial
-            color={connected ? "#ffffff" : "#bcecff"}
+            color="#bcecff"
             transparent
-            opacity={connected ? 0.95 : 0.55}
+            opacity={0.78}
             blending={THREE.AdditiveBlending}
             depthTest={false}
             depthWrite={false}
