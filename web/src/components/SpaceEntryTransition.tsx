@@ -107,16 +107,21 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         setTypedSubline(line.speaker);
         currentAudio = new Audio(line.src);
         currentAudio.preload = "auto";
+        let finishAudio!: () => void;
         const audioFinished = new Promise<void>((resolve) => {
-          if (!currentAudio) return resolve();
-          currentAudio.onended = () => resolve();
-          currentAudio.onerror = () => resolve();
+          finishAudio = resolve;
+          if (!currentAudio) resolve();
+          else {
+            currentAudio.onended = resolve;
+            currentAudio.onerror = resolve;
+          }
         });
         const typingFinished = typeText(line.text, setTypedHeadline, 48);
         try {
           await currentAudio.play();
         } catch {
-          // Captions continue if browser autoplay is blocked.
+          // Never stall the typewriter if the browser blocks audio playback.
+          finishAudio();
         }
         await Promise.all([typingFinished, audioFinished]);
         if (cancelled) return;
