@@ -76,9 +76,17 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("cabin");
     setPhase("launch");
 
-    // One camera journey for the whole transition. Wait one frame for the
-    // transition scene to mount, then trigger it once; never retrigger on arrival.
-    later(() => window.dispatchEvent(new CustomEvent("orbi:cinematic-entry")), 120);
+    // The 3D Canvas may mount slowly on a cold load. Retry the start event
+    // briefly so CameraRig cannot miss it; its listener guards against restarting
+    // a journey that has already begun.
+    let cameraStartAttempts = 0;
+    const startCameraWhenReady = () => {
+      if (!target.current) return;
+      window.dispatchEvent(new Event("orbi:cinematic-entry"));
+      cameraStartAttempts += 1;
+      if (cameraStartAttempts < 20) later(startCameraWhenReady, 100);
+    };
+    later(startCameraWhenReady, 0);
     later(() => setStage("ignition"), 3200);
     later(() => setStage("ascent"), 7200);
     later(() => setStage("orbit"), 12000);
