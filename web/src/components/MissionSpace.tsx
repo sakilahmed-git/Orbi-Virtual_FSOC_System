@@ -135,14 +135,12 @@ export default function MissionSpace({
                     connected={simulation.phase === "CONNECTED"}
         />
       )}
-      {simulation.phase !== "READY" &&
-        simulation.phase !== "DISCONNECTING" && (
-          <OpticalLink onSelect={onSelect}
-            simulation={simulation}
-            shared={shared}
-            ground={ground}
-          />
-        )}
+      <OpticalLink
+        onSelect={onSelect}
+        simulation={simulation}
+        shared={shared}
+        ground={ground}
+      />
       {simulation.ghost && (
         <GhostMarker position={simulation.ghost} />
       )}
@@ -309,22 +307,23 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       const c = cinematic.current;
       c.elapsed += dt;
       const t = THREE.MathUtils.clamp(c.elapsed / 11.8, 0, 1);
-      const ease = (v: number) => v * v * (3 - 2 * v);
-      const lookTarget = new THREE.Vector3();
-      // Cinematic fly-by of the real dashboard satellite, a gentle orbital arc,
-      // then a slow dolly-out to reveal both endpoints and the complete mission.
-      if (t < 0.4) {
-        const local = ease(t / 0.4);
-        camera.position.copy(c.start).lerp(c.pass, local);
-        lookTarget.copy(c.source).lerp(c.midpoint, local * 0.35);
-        lookTarget.y += Math.sin(local * Math.PI) * 0.42;
-      } else {
-        const local = ease((t - 0.4) / 0.6);
-        camera.position.copy(c.pass).lerp(desired, local);
-        camera.position.y += Math.sin(local * Math.PI) * 1.35;
-        lookTarget.copy(c.midpoint).lerp(new THREE.Vector3(0, 0, 0), local);
-        lookTarget.y += Math.sin(local * Math.PI) * 0.55;
-      }
+      // One Catmull–Rom trajectory for the entire shot. Position and look target
+      // share the same continuous parameter, so the second angle cannot snap or
+      // feel like a separate camera taking over.
+      const positionPath = new THREE.CatmullRomCurve3([
+        c.start,
+        c.pass,
+        desired,
+      ], false, "centripetal");
+      const lookPath = new THREE.CatmullRomCurve3([
+        c.source,
+        c.midpoint,
+        new THREE.Vector3(0, 0, 0),
+      ], false, "centripetal");
+      camera.position.copy(positionPath.getPoint(t));
+      camera.position.y += Math.sin(t * Math.PI) * 0.9;
+      const lookTarget = lookPath.getPoint(t);
+      lookTarget.y += Math.sin(t * Math.PI) * 0.35;
       camera.lookAt(lookTarget);
       if (t >= 1) c.active = false;
       return;
@@ -1217,12 +1216,8 @@ function OpticalLink({
   const pulseC = useRef<THREE.Mesh>(null);
   const linkColor = useRef(new THREE.Color("#69c9ff"));
   const connected = simulation.phase === "CONNECTED";
-  const acquiring = ![
-    "CONNECTED",
-    "DISTURBANCE",
-    "CORRECTING",
-    "TRACK",
-  ].includes(simulation.phase);
+  const disconnected = simulation.phase === "READY" || simulation.phase === "DISCONNECTING";
+  const acquiring = !connected && !disconnected;
   useFrame(({ clock }, dt) => {
     if (
       !halo.current ||
@@ -1289,10 +1284,31 @@ function OpticalLink({
         if ("color" in item && item.color instanceof THREE.Color) item.color.copy(linkColor.current);
       });
     }
-    const pulseScale = connected ? 1.15 : 0.8;
+    const pulseScale = disconnected ? 0.001 : connected ? 1.15 : 0.8;
     pulseA.current.scale.setScalar(pulseScale);
     pulseB.current.scale.setScalar(pulseScale);
     pulseC.current.scale.setScalar(pulseScale);
+
+    // Keep the link geometry mounted between the same endpoints. A disconnect
+    // dims the beam and removes travelling pulses instead of unmounting it.
+    const stateOpacity = disconnected
+      ? { halo: 0.025, beam: 0.035, core: 0.008 }
+      : acquiring
+        ? { halo: 0.05, beam: 0.18, core: 0.12 }
+        : { halo: 0.09, beam: 0.68, core: 0.72 };
+    for (const [object, opacity] of [
+      [halo.current, stateOpacity.halo],
+      [beam.current, stateOpacity.beam],
+      [core.current, stateOpacity.core],
+    ] as const) {
+      const material = object.material;
+      (Array.isArray(material) ? material : [material]).forEach((item) => {
+        if ("opacity" in item) {
+          item.transparent = true;
+          item.opacity = opacity;
+        }
+      });
+    }
   });
   const color = "#69c9ff";
   return (
