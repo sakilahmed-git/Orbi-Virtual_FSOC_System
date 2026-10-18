@@ -18,6 +18,15 @@ type TransitionContextValue = { enterSpace: (href: string) => void };
 type TransitionPhase = "idle" | "launch" | "arrival";
 type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interface";
 
+const launchDialogue = [
+  { text: "Control, we’re picking up a signal beyond the Moon.", speaker: "ASTRONAUT KNOX", src: "/audio/astro1.mp3" },
+  { text: "Copy that. Engines are on. Let’s go find out.", speaker: "MISSION CONTROL · TALIA", src: "/audio/missioncontrol1.mp3" },
+  { text: "Earth is behind us. The signal’s getting stronger.", speaker: "ASTRONAUT KNOX", src: "/audio/astro2.mp3" },
+  { text: "Visual contact. Two satellites, one steady signal.", speaker: "ASTRONAUT KNOX", src: "/audio/astro3.mp3" },
+  { text: "Easy… matching their orbit. Keep the link steady.", speaker: "MISSION CONTROL · TALIA", src: "/audio/missioncontrol2.mp3" },
+  { text: "Link confirmed. Mission Control, you’re back in.", speaker: "ASTRONAUT KNOX", src: "/audio/astro4.mp3" },
+] as const;
+
 function TypewriterText({ text, className, speed = 48 }: { text: string; className?: string; speed?: number }) {
   const [visibleText, setVisibleText] = useState("");
 
@@ -43,7 +52,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const [phase, setPhase] = useState<TransitionPhase>("idle");
   const [stage, setStage] = useState<FlightStage>("cabin");
   const target = useRef<string | null>(null);
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);\n  const [typedHeadline, setTypedHeadline] = useState("");\n  const [typedSubline, setTypedSubline] = useState("");
 
   const clearTimers = useCallback(() => {
     timers.current.forEach(clearTimeout);
@@ -76,6 +85,37 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       router.push(target.current);
     }, 16000);
   }, [clearTimers, later, pathname, phase, router]);
+
+  useEffect(() => {
+    if (phase !== "launch") return;
+    let cancelled = false;
+    let typingTimer: ReturnType<typeof setInterval> | undefined;
+    let currentAudio: HTMLAudioElement | undefined;
+    const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+    const typeLine = (text: string) => new Promise<void>((resolve) => {
+      let index = 0; setTypedHeadline("");
+      typingTimer = setInterval(() => {
+        if (cancelled) { if (typingTimer) clearInterval(typingTimer); resolve(); return; }
+        index += 1; setTypedHeadline(text.slice(0, index));
+        if (index >= text.length) { if (typingTimer) clearInterval(typingTimer); resolve(); }
+      }, 42);
+    });
+    const run = async () => {
+      for (const line of launchDialogue) {
+        if (cancelled) return;
+        setTypedSubline(line.speaker); setTypedHeadline("");
+        currentAudio = new Audio(line.src); currentAudio.preload = "auto";
+        const audioDone = new Promise<void>((resolve) => { currentAudio!.onended = () => resolve(); currentAudio!.onerror = () => resolve(); });
+        const typingDone = typeLine(line.text);
+        try { await currentAudio.play(); } catch { /* Continue if autoplay is blocked. */ }
+        await Promise.all([typingDone, audioDone]);
+        if (cancelled) return;
+        await sleep(260);
+      }
+    };
+    void run();
+    return () => { cancelled = true; if (typingTimer) clearInterval(typingTimer); if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; } };
+  }, [phase]);
 
   useEffect(() => {
     if (phase !== "launch" || !target.current || pathname === "/" || pathname !== target.current) return;
@@ -149,7 +189,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
             </div>
           </div>
           <strong className="space-entry__headline">
-            <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "Control, we’re picking up a signal beyond the Moon." : stage === "ignition" ? "Copy that. Engines are on. Let’s go find out." : stage === "ascent" ? "Earth is behind us. The signal’s getting stronger." : stage === "orbit" ? "Visual contact. Two satellites, one steady signal." : stage === "satellite" ? "Easy… matching their orbit. Keep the link steady." : "Link confirmed. Mission Control, you’re back in."} />
+            <span>{typedHeadline}<i className="space-entry__type-caret" aria-hidden="true" /></span><em className="space-entry__speaker">{typedSubline}</em>
           </strong>
           <div className="space-entry__flash" aria-hidden="true" />
         </div>
