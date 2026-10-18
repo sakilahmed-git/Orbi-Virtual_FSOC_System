@@ -2167,3 +2167,55 @@ html body .scintilla-console .sc-mark:after {
 @keyframes ot-arrival-acquire{0%,100%{opacity:1;transform:scale(1)}}
 @media(max-width:680px){.optical-transition__top,.optical-transition__bottom{left:16px;right:16px;font-size:7px;letter-spacing:.06em}.optical-transition__top{top:20px}.optical-transition__bottom{bottom:18px}.optical-transition__top span:first-child{font-size:10px}.optical-transition__top b{display:none}.optical-transition__copy{top:25%;left:24px;max-width:calc(100vw - 48px)}.optical-transition__copy h2{font-size:clamp(40px,11vw,60px)}.optical-transition__copy p{font-size:12px}.optical-transition__terminal--tx{left:1%}.optical-transition__terminal--rx{right:1%}.optical-transition__acquire{right:calc(1% + 20px)}.optical-transition__path{left:8%;right:8%}.orbi-optical-transition--arrival .optical-transition__copy{top:20%}.orbi-optical-transition--arrival .optical-transition__path{top:62%}.orbi-optical-transition--arrival .optical-transition__terminal{top:calc(62% - 38px)}.orbi-optical-transition--arrival .optical-transition__acquire{top:calc(62% - 55px)}}
 @media(prefers-reduced-motion:reduce){.orbi-optical-transition *{animation:none!important;transition:none!important}.optical-transition__path,.optical-transition__terminal,.optical-transition__acquire,.optical-transition__horizon{opacity:1;transform:none}}
+
+
+/* FINAL HANDOFF REPAIR — keep copy legible and reveal the actual workspace. */
+.orbi-optical-transition .optical-transition__field {
+  z-index: 0;
+}
+.orbi-optical-transition .optical-transition__copy,
+.orbi-optical-transition .optical-transition__top,
+.orbi-optical-transition .optical-transition__bottom {
+  z-index: 3;
+}
+.orbi-optical-transition:not(.orbi-optical-transition--arrival) .optical-transition__path {
+  top: 76%;
+}
+.orbi-optical-transition:not(.orbi-optical-transition--arrival) .optical-transition__terminal {
+  top: calc(76% - 38px);
+}
+.orbi-optical-transition:not(.orbi-optical-transition--arrival) .optical-transition__acquire {
+  top: calc(76% - 55px);
+}
+.orbi-optical-transition--arrival {
+  animation: ot-arrival-handoff 1.8s cubic-bezier(.22,.72,.2,1) both;
+}
+.orbi-optical-transition--arrival .optical-transition__copy {
+  top: 15%;
+}
+.orbi-optical-transition--arrival .optical-transition__path {
+  top: 69%;
+}
+.orbi-optical-transition--arrival .optical-transition__terminal {
+  top: calc(69% - 38px);
+}
+.orbi-optical-transition--arrival .optical-transition__acquire {
+  top: calc(69% - 55px);
+}
+@keyframes ot-arrival-handoff {
+  0% { opacity: 1; }
+  65% { opacity: .92; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@media (max-width: 680px) {
+  .orbi-optical-transition:not(.orbi-optical-transition--arrival) .optical-transition__path { top: 74%; }
+  .orbi-optical-transition:not(.orbi-optical-transition--arrival) .optical-transition__terminal { top: calc(74% - 30px); }
+  .orbi-optical-transition:not(.orbi-optical-transition--arrival) .optical-transition__acquire { top: calc(74% - 42px); }
+  .orbi-optical-transition--arrival .optical-transition__copy { top: 14%; }
+  .orbi-optical-transition--arrival .optical-transition__path { top: 68%; }
+  .orbi-optical-transition--arrival .optical-transition__terminal { top: calc(68% - 30px); }
+  .orbi-optical-transition--arrival .optical-transition__acquire { top: calc(68% - 42px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbi-optical-transition--arrival { animation: none !important; opacity: 0; }
+}
