@@ -68,13 +68,13 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     // One camera journey for the whole transition. Wait one frame for the
     // transition scene to mount, then trigger it once; never retrigger on arrival.
     later(() => window.dispatchEvent(new CustomEvent("orbi:cinematic-entry")), 120);
-    later(() => setStage("ignition"), 3200);
-    later(() => setStage("ascent"), 6400);
-    later(() => setStage("orbit"), 9600);
+    later(() => setStage("ignition"), 4000);
+    later(() => setStage("ascent"), 8000);
+    later(() => setStage("orbit"), 12000);
     later(() => {
       if (!target.current) return;
       router.push(target.current);
-    }, 12800);
+    }, 16000);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
@@ -84,11 +84,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 2600);
+    later(() => setStage("interface"), 4200);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 4300);
+    }, 8000);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -149,7 +149,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
             </div>
           </div>
           <strong className="space-entry__headline">
-            <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "Beyond Earth, a faint signal is calling. We have one chance." : stage === "ignition" ? "Thrusters are live. We leave our world behind and follow the signal." : stage === "ascent" ? "Earth falls away as we close in on the beacon, deeper into the dark." : stage === "orbit" ? "There — our beacon in the dark. The signal is real. Hold the connection." : stage === "satellite" ? "Easy on approach. Keep both satellites aligned and bring the link home." : "Docking complete. Mission Control is yours. Our next chapter begins now."} />
+            <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "Control, we’re picking up a signal beyond the Moon." : stage === "ignition" ? "Copy that. Engines are on. Let’s go find out." : stage === "ascent" ? "Earth is behind us. The signal’s getting stronger." : stage === "orbit" ? "Visual contact. Two satellites, one steady signal." : stage === "satellite" ? "Easy… matching their orbit. Keep the link steady." : "Link confirmed. Mission Control, you’re back in."} />
           </strong>
           <div className="space-entry__flash" aria-hidden="true" />
         </div>
