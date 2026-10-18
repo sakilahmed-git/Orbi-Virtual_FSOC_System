@@ -83,7 +83,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           className={`space-entry space-entry--${phase} space-entry--${stage}`}
           aria-live="polite"
           role="status"
-          aria-label="Orbital launch sequence"
+          aria-label="Orbital transition sequence"
         >
           <div className="space-entry__wash" />
           <div className="space-entry__stars" aria-hidden="true">
@@ -99,54 +99,32 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
             ))}
           </div>
 
-          <div className="fpv-flight-scene" aria-hidden="true">
-            <div className="fpv-cabin-glow" />
-            <div className="fpv-window">
-              <div className="fpv-window-sky" />
-              <div className="fpv-earth">
-                <div className="fpv-earth-clouds" />
-                <svg className="fpv-earth-land" viewBox="0 0 520 520" role="presentation">
-                  <path d="M104 105 150 72 195 88 215 120 198 151 220 175 202 208 168 219 153 255 125 245 108 208 81 191 76 152Z" />
-                  <path d="M208 260 243 276 260 315 249 354 230 398 213 373 205 332 187 298Z" />
-                  <path d="M275 105 312 81 352 95 378 122 414 128 430 159 403 184 366 179 346 207 311 194 288 166 260 153Z" />
-                  <path d="M335 220 373 207 408 226 416 263 397 299 379 332 353 315 340 277 317 251Z" />
-                  <path d="M431 340 457 350 468 373 448 392 426 377Z" />
-                </svg>
-              </div>
-              <div className="fpv-atmosphere-line" />
-              <div className="fpv-window-reflection" />
-              <div className="fpv-window-rim" />
+          <div className="orbi-warp-field" aria-hidden="true">
+            <div className="orbi-warp-field__nebula" />
+            <div className="orbi-warp-field__grid" />
+            <div className="orbi-warp-field__rings">
+              <i />
+              <i />
+              <i />
             </div>
-
-            <div className="fpv-horizon" />
-            <div className="fpv-cabin-left" />
-            <div className="fpv-cabin-right" />
-            <div className="fpv-overhead" />
-            <div className="fpv-console">
-              <div className="fpv-console-screen"><span /><i /><b /></div>
-              <div className="fpv-console-screen fpv-console-screen--small"><span /><i /></div>
-              <div className="fpv-console-lights"><i /><i /><i /><i /><i /></div>
+            <div className="orbi-warp-field__core">
+              <i />
+              <b />
             </div>
-            <div className="fpv-seat fpv-seat--left" />
-            <div className="fpv-seat fpv-seat--right" />
-            <div className="fpv-seat-shoulder fpv-seat-shoulder--left" />
-            <div className="fpv-seat-shoulder fpv-seat-shoulder--right" />
-            <div className="fpv-vignette" />
-            <div className="fpv-motion-blur" />
-            <div className="fpv-ignition-flare" />
-            {/* Real dashboard satellite is revealed after navigation; no duplicate craft. */}
+            <div className="orbi-warp-field__scan" />
+            <div className="orbi-warp-field__horizon" />
           </div>
 
           <div className="space-entry__hud">
             <span className="space-entry__brand"><b>◉</b> ORBI <i>MISSION SYSTEMS</i></span>
             <span className="space-entry__readout">
-              {stage === "cabin" ? "CABIN SECURE" : stage === "ignition" ? "ENGINE IGNITION" : stage === "ascent" ? "ATMOSPHERIC ASCENT" : stage === "orbit" ? "ORBITAL INSERTION" : stage === "satellite" ? "ORBIT ESTABLISHED" : "MISSION CONTROL"}
+              {stage === "cabin" ? "SYSTEMS ONLINE" : stage === "ignition" ? "SIGNAL LOCK" : stage === "ascent" ? "PHASE SHIFT" : stage === "orbit" ? "ORBITAL SYNC" : stage === "satellite" ? "TARGET ACQUIRED" : "MISSION CONTROL"}
               <b>{stage === "cabin" ? "01—06" : stage === "ignition" ? "02—06" : stage === "ascent" ? "03—06" : stage === "orbit" ? "04—06" : stage === "satellite" ? "05—06" : "06—06"}</b>
             </span>
             <div className="space-entry__progress"><i /></div>
             <strong className="space-entry__headline">
-              <span>{stage === "cabin" ? "We're leaving Earth." : stage === "ignition" ? "Engines are live." : stage === "ascent" ? "Feel the lift." : stage === "orbit" ? "Earth, falling away." : stage === "satellite" ? "Orbit established." : "Welcome to mission control."}</span>
-              <em>{stage === "cabin" ? "Buckle up. You're riding inside the rocket." : stage === "ignition" ? "Cabin locked. Thrust building." : stage === "ascent" ? "The atmosphere turns to midnight." : stage === "orbit" ? "The stars come into focus." : stage === "satellite" ? "Your satellite comes into view." : "Now the instruments come alive."}</em>
+              <span>{stage === "cabin" ? "Beyond the interface." : stage === "ignition" ? "Locking the signal." : stage === "ascent" ? "Entering the field." : stage === "orbit" ? "Space, in perfect sync." : stage === "satellite" ? "Target acquired." : "Mission control, online."}</span>
+              <em>{stage === "cabin" ? "Preparing a direct link to your orbital workspace." : stage === "ignition" ? "Synchronizing telemetry and navigation." : stage === "ascent" ? "Space folding into a single clean transition." : stage === "orbit" ? "Bringing the live optical system into focus." : stage === "satellite" ? "Revealing your live 3D mission scene." : "Your instruments are ready."}</em>
             </strong>
             <div className="space-entry__steps">
               <span className={["cabin", "ignition", "ascent"].includes(stage) ? "is-current" : "is-done"}><i /> ASCENT</span>
