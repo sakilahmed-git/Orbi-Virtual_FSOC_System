@@ -1,6 +1,9 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
+import { Suspense, createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from "react";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { usePathname, useRouter } from "next/navigation";
 
 type TransitionContextValue = { enterSpace: (href: string) => void };
@@ -95,4 +98,61 @@ export function OrbitalTransitionLink({ href, className, children, onClick, ...p
     event.preventDefault();
     context.enterSpace(href);
   }} {...props}>{children}</a>;
+}
+
+
+/**
+ * Real spacecraft geometry sourced from NASA's public 3D Resources collection.
+ * This is a GLB model rendered in WebGL, not a CSS/SVG satellite illustration.
+ */
+const NASA_TDRS_MODEL = "https://raw.githubusercontent.com/nasa/NASA-3D-Resources/master/3D%20Models/Tracking%20and%20Data%20Relay%20Satellites%20%28TDRS%29%20%28D%29/Tracking%20and%20Data%20Relay%20Satellites%20%28TDRS%29%20%28D%29.glb";
+
+function NasaSatelliteApproach() {
+  const gltf = useLoader(GLTFLoader, NASA_TDRS_MODEL);
+  const near = useMemo(() => {
+    const clone = gltf.scene.clone(true);
+    const box = new THREE.Box3().setFromObject(clone);
+    const size = box.getSize(new THREE.Vector3());
+    const largest = Math.max(size.x, size.y, size.z) || 1;
+    clone.scale.setScalar(3.1 / largest);
+    const normalized = new THREE.Box3().setFromObject(clone);
+    const center = normalized.getCenter(new THREE.Vector3());
+    clone.position.sub(center);
+    return clone;
+  }, [gltf.scene]);
+  const far = useMemo(() => {
+    const clone = near.clone(true);
+    clone.scale.multiplyScalar(0.46);
+    return clone;
+  }, [near]);
+  const nearRef = useRef<THREE.Group>(null);
+  const farRef = useRef<THREE.Group>(null);
+  const elapsed = useRef(0);
+
+  useFrame((_, dt) => {
+    elapsed.current += dt;
+    const t = Math.min(elapsed.current / 5.2, 1);
+    const ease = t * t * (3 - 2 * t);
+    if (nearRef.current) {
+      nearRef.current.position.set(-0.45 + ease * 0.2, 0.05, 0.4 - ease * 2.3);
+      nearRef.current.rotation.set(0.18, -0.38 + elapsed.current * 0.035, -0.12);
+      const scale = 0.56 + ease * 1.12;
+      nearRef.current.scale.setScalar(scale);
+    }
+    if (farRef.current) {
+      farRef.current.position.set(2.9 - ease * 0.3, 1.35, -3.2);
+      farRef.current.rotation.set(0.2, 0.8 + elapsed.current * 0.018, 0.1);
+    }
+  });
+
+  return (
+    <>
+      <ambientLight intensity={1.35} />
+      <directionalLight position={[4, 5, 6]} intensity={2.8} color="#d9f0ff" />
+      <directionalLight position={[-5, 1, -3]} intensity={1.2} color="#5598d5" />
+      <pointLight position={[0, 0, 3]} intensity={1.2} color="#8be8ff" />
+      <group ref={nearRef}><primitive object={near} /></group>
+      <group ref={farRef}><primitive object={far} /></group>
+    </>
+  );
 }
