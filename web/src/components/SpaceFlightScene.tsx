@@ -175,8 +175,10 @@ function FlightCamera({ phase, stage }: { phase: Phase; stage: Stage }) {
       target.set(THREE.MathUtils.lerp(1.25, 0, p), THREE.MathUtils.lerp(.75, -2.2, p), THREE.MathUtils.lerp(-6.5, -23, p));
     }
     camera.lookAt(target);
-    camera.fov = launch ? THREE.MathUtils.lerp(48, 56, smooth(t / 7.9)) : 48;
-    camera.updateProjectionMatrix();
+    if (camera instanceof THREE.PerspectiveCamera) {
+      camera.fov = launch ? THREE.MathUtils.lerp(48, 56, smooth(t / 7.9)) : 48;
+      camera.updateProjectionMatrix();
+    }
   });
   return null;
 }
