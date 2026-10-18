@@ -109,7 +109,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         setTypedSubline(line.speaker); setTypedHeadline("");
         currentAudio = new Audio(line.src); currentAudio.preload = "auto";
         let finishAudio!: () => void;
-        const audioDone = new Promise<void>((resolve) => { finishAudio = resolve; currentAudio!.onended = resolve; currentAudio!.onerror = resolve; });
+        const audioDone = new Promise<void>((resolve) => { finishAudio = resolve; currentAudio!.onended = () => resolve(); currentAudio!.onerror = () => resolve(); });
         const typingDone = typeLine(line.text);
         try { await currentAudio.play(); } catch { finishAudio(); /* Continue if autoplay is blocked. */ }
         await Promise.all([typingDone, audioDone]);
