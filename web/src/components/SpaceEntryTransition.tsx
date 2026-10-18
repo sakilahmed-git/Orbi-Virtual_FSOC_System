@@ -65,11 +65,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 1650);
+    later(() => setStage("interface"), 2450);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 2400);
+    }, 3150);
   }, [pathname, phase, clearTimers, later]);
 
 
