@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import SpaceFlightScene from "@/components/SpaceFlightScene";
 
 type TransitionContextValue = { enterSpace: (href: string) => void };
 type TransitionPhase = "idle" | "launch" | "arrival";
@@ -103,6 +104,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           aria-label="Orbital transition sequence"
         >
           <div className="space-entry__wash" />
+          <SpaceFlightScene phase={phase} stage={stage} />
           <div className="space-entry__stars" aria-hidden="true">
             {Array.from({ length: 76 }, (_, i) => (
               <i key={i} style={{
