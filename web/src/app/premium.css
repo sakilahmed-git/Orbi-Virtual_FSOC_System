@@ -2266,3 +2266,27 @@ html body .scintilla-console .sc-mark:after {
 .space-entry--satellite .orbi-flight-scene {
   animation-duration: 3.6s !important;
 }
+
+
+/* Single-shot handoff: never restart or replay the 3D scene on route arrival. */
+.space-entry--launch .orbi-flight-scene {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+.space-entry--arrival .orbi-flight-scene,
+.space-entry--satellite .orbi-flight-scene {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: none !important;
+}
+.space-entry--interface .orbi-flight-scene {
+  animation: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+  filter: none !important;
+  transition: opacity 1.1s cubic-bezier(.22,.72,.2,1) !important;
+}
