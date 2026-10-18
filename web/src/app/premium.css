@@ -2290,3 +2290,69 @@ html body .scintilla-console .sc-mark:after {
   filter: none !important;
   transition: opacity 1.1s cubic-bezier(.22,.72,.2,1) !important;
 }
+
+
+/* Story-driven launch button: a compact thruster flare, recoil and forward streak. */
+.orbi-landing .ol-nav-cta,
+.orbi-landing .orbi-secondary-action,
+.orbi-landing .orbi-text-link {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+.orbi-landing .ol-nav-cta.is-firing,
+.orbi-landing .orbi-secondary-action.is-firing,
+.orbi-landing .orbi-text-link.is-firing {
+  animation: orbi-launch-recoil 680ms cubic-bezier(.18,.78,.2,1) both;
+}
+.orbi-landing .ol-nav-cta.is-firing::after,
+.orbi-landing .orbi-secondary-action.is-firing::after,
+.orbi-landing .orbi-text-link.is-firing::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -10px;
+  top: 50%;
+  width: 0;
+  height: 2px;
+  opacity: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #83e8f5 24%, #fff 72%, transparent);
+  box-shadow: 0 0 12px 3px #72d7f0a8;
+  transform: translateY(-50%);
+  animation: orbi-thruster-shot 520ms ease-out both;
+  pointer-events: none;
+}
+.orbi-landing .ol-nav-cta.is-firing::before,
+.orbi-landing .orbi-secondary-action.is-firing::before,
+.orbi-landing .orbi-text-link.is-firing::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -5px;
+  border: 1px solid #91e8f4;
+  border-radius: inherit;
+  opacity: 0;
+  animation: orbi-launch-ring 520ms ease-out both;
+  pointer-events: none;
+}
+@keyframes orbi-launch-recoil {
+  0% { transform: translateX(0) scale(1); filter: brightness(1); }
+  16% { transform: translateX(-3px) scale(.97); filter: brightness(1.3); }
+  46% { transform: translateX(5px) scale(1.035); filter: brightness(1.15); }
+  100% { transform: translateX(0) scale(1); filter: brightness(1); }
+}
+@keyframes orbi-thruster-shot {
+  0% { width: 0; left: -5px; opacity: 0; }
+  16% { opacity: 1; }
+  100% { width: 78px; left: -76px; opacity: 0; }
+}
+@keyframes orbi-launch-ring {
+  0% { opacity: .8; transform: scale(.96); }
+  100% { opacity: 0; transform: scale(1.18); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbi-landing .is-firing { animation: none !important; }
+  .orbi-landing .is-firing::before,
+  .orbi-landing .is-firing::after { animation: none !important; }
+}
