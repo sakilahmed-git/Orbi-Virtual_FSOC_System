@@ -19,6 +19,16 @@ type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "in
 
 const TransitionContext = createContext<TransitionContextValue | null>(null);
 
+const launchDialogue = [
+  { text: "Control, we’re picking up a signal beyond the Moon.", speaker: "ASTRONAUT KNOX", src: "/audio/astro1.mp3" },
+  { text: "Copy that. Engines are on. Let’s go find out.", speaker: "MISSION CONTROL · TALIA", src: "/audio/missioncontrol1.mp3" },
+  { text: "Earth is behind us. The signal’s getting stronger.", speaker: "ASTRONAUT KNOX", src: "/audio/astro2.mp3" },
+  { text: "Visual contact. Two satellites, one steady signal.", speaker: "ASTRONAUT KNOX", src: "/audio/astro3.mp3" },
+  { text: "Easy… matching their orbit. Keep the link steady.", speaker: "MISSION CONTROL · TALIA", src: "/audio/missioncontrol2.mp3" },
+  { text: "Link confirmed. Mission Control, you’re back in.", speaker: "ASTRONAUT KNOX", src: "/audio/astro4.mp3" },
+] as const;
+
+
 export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -62,49 +72,82 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         window.sessionStorage.setItem("orbi:cinematic-entry", "1");
         router.push(target.current);
       }
-    }, 8200);
+    }, 24000);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
     if (phase === "idle") return;
-    const launchMessage: [string, string] = [
-      "Beyond Earth, a beam must find its target.",
-      "FREE-SPACE OPTICAL COMMUNICATION  /  FSOC",
-    ];
-    const arrivalMessages: Record<"satellite" | "interface", [string, string]> = {
-      satellite: ["Two satellites. One narrow beam.", "ACQUIRE  /  TRACK  /  MAINTAIN THE OPTICAL LINK"],
-      interface: ["What happens when the link drifts?", "ORBI USES LEARNING TO PREDICT, REACQUIRE & RECOVER"],
-    };
-    const messageKey = phase === "launch" ? "launch" : isInterfaceStage ? "interface" : "satellite";
-    const [headline, subline] = messageKey === "launch"
-      ? launchMessage
-      : arrivalMessages[messageKey];
+    let cancelled = false;
+    let headlineTimer: ReturnType<typeof setInterval> | undefined;
+    let currentAudio: HTMLAudioElement | undefined;
 
-    setTypedHeadline("");
-    setTypedSubline("");
-    let headlineIndex = 0;
-    let sublineIndex = 0;
-    let sublineTimer: ReturnType<typeof setInterval> | undefined;
+    const typeText = (text: string, setter: (value: string) => void, speed: number) =>
+      new Promise<void>((resolve) => {
+        let index = 0;
+        setter("");
+        headlineTimer = setInterval(() => {
+          if (cancelled) {
+            clearInterval(headlineTimer);
+            resolve();
+            return;
+          }
+          index += 1;
+          setter(text.slice(0, index));
+          if (index >= text.length) {
+            clearInterval(headlineTimer);
+            resolve();
+          }
+        }, speed);
+      });
 
-    // Slow, deliberate typewriter timing. Crucially, depend on phase rather
-    // than every flight stage, so ignition/ascent/orbit never reset the text.
-    const headlineTimer = setInterval(() => {
-      headlineIndex += 1;
-      setTypedHeadline(headline.slice(0, headlineIndex));
-      if (headlineIndex >= headline.length) {
-        clearInterval(headlineTimer);
-        // A short dramatic pause before the smaller transmission line begins.
-        sublineTimer = setInterval(() => {
-          sublineIndex += 1;
-          setTypedSubline(subline.slice(0, sublineIndex));
-          if (sublineIndex >= subline.length) clearInterval(sublineTimer);
-        }, 24);
+    const runLaunchDialogue = async () => {
+      for (const line of launchDialogue) {
+        if (cancelled) return;
+        setTypedHeadline("");
+        setTypedSubline(line.speaker);
+        currentAudio = new Audio(line.src);
+        currentAudio.preload = "auto";
+        const audioFinished = new Promise<void>((resolve) => {
+          if (!currentAudio) return resolve();
+          currentAudio.onended = () => resolve();
+          currentAudio.onerror = () => resolve();
+        });
+        const typingFinished = typeText(line.text, setTypedHeadline, 48);
+        try {
+          await currentAudio.play();
+        } catch {
+          // Captions continue if browser autoplay is blocked.
+        }
+        await Promise.all([typingFinished, audioFinished]);
+        if (cancelled) return;
+        await new Promise((resolve) => setTimeout(resolve, 320));
       }
-    }, phase === "launch" ? 68 : 44);
+    };
+
+    const runStatusMessage = async () => {
+      const arrivalMessages: Record<"satellite" | "interface", [string, string]> = {
+        satellite: ["Two satellites. One narrow beam.", "ACQUIRE  /  TRACK  /  MAINTAIN THE OPTICAL LINK"],
+        interface: ["What happens when the link drifts?", "ORBI USES LEARNING TO PREDICT, REACQUIRE & RECOVER"],
+      };
+      const [headline, subline] = arrivalMessages[isInterfaceStage ? "interface" : "satellite"];
+      setTypedHeadline("");
+      setTypedSubline("");
+      await typeText(headline, setTypedHeadline, 44);
+      if (cancelled) return;
+      await new Promise((resolve) => setTimeout(resolve, 180));
+      await typeText(subline, setTypedSubline, 24);
+    };
+
+    if (phase === "launch") void runLaunchDialogue();
+    else void runStatusMessage();
 
     return () => {
-      clearInterval(headlineTimer);
-      if (sublineTimer) clearInterval(sublineTimer);
+      cancelled = true;
+      if (headlineTimer) clearInterval(headlineTimer);
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
     };
   }, [phase, isInterfaceStage]);
 
