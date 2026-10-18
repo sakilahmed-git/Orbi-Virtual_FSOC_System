@@ -1296,11 +1296,8 @@ function OpticalLink({
       : acquiring
         ? { halo: 0.05, beam: 0.18, core: 0.12 }
         : { halo: 0.09, beam: 0.68, core: 0.72 };
-    for (const [object, opacity] of [
-      [halo.current, stateOpacity.halo],
-      [beam.current, stateOpacity.beam],
-      [core.current, stateOpacity.core],
-    ] as const) {
+    const setMaterialOpacity = (object: THREE.Mesh | null, opacity: number) => {
+      if (!object) return;
       const material = object.material;
       (Array.isArray(material) ? material : [material]).forEach((item) => {
         if ("opacity" in item) {
@@ -1308,7 +1305,10 @@ function OpticalLink({
           item.opacity = opacity;
         }
       });
-    }
+    };
+    setMaterialOpacity(halo.current, stateOpacity.halo);
+    setMaterialOpacity(beam.current, stateOpacity.beam);
+    setMaterialOpacity(core.current, stateOpacity.core);
   });
   const color = "#69c9ff";
   return (
