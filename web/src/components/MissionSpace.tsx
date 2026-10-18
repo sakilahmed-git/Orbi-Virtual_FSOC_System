@@ -306,7 +306,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
     if (cinematic.current.active) {
       const c = cinematic.current;
       c.elapsed += dt;
-      const t = THREE.MathUtils.clamp(c.elapsed / 12.8, 0, 1);
+      const t = THREE.MathUtils.clamp(c.elapsed / 16.0, 0, 1);
       // One Catmull–Rom trajectory for the entire shot. Position and look target
       // share the same continuous parameter, so the second angle cannot snap or
       // feel like a separate camera taking over.
