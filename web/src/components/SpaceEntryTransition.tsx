@@ -65,16 +65,14 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("cabin");
     setPhase("launch");
 
-    // One continuous first-person flight: cabin -> ignition -> atmospheric ascent -> orbit.
+    // One camera journey for the whole transition. Wait one frame for the
+    // transition scene to mount, then trigger it once; never retrigger on arrival.
+    later(() => window.dispatchEvent(new CustomEvent("orbi:cinematic-entry")), 120);
     later(() => setStage("ignition"), 2400);
     later(() => setStage("ascent"), 4800);
-    later(() => {
-      setStage("orbit");
-      window.dispatchEvent(new CustomEvent("orbi:cinematic-entry"));
-    }, 7000);
+    later(() => setStage("orbit"), 7000);
     later(() => {
       if (!target.current) return;
-      window.sessionStorage.setItem("orbi:cinematic-entry", "1");
       router.push(target.current);
     }, 11800);
   }, [clearTimers, later, pathname, phase, router]);
