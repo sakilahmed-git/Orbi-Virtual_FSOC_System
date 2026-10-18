@@ -39,14 +39,10 @@ const TRANSITION_SNAPSHOT: MissionSnapshot = {
 export default function SpaceFlightScene({ phase, stage }: { phase: Phase; stage: Stage }) {
   if (phase === "idle" || stage === "interface") return null;
 
-  // End the visible laser at ascent, rather than leaving it on throughout
-  // the longer camera move. The dialogue timing and gaps remain untouched.
-  const simulation: MissionSnapshot = {
-    ...TRANSITION_SNAPSHOT,
-    phase: stage === "ascent" || stage === "orbit" || stage === "satellite"
-      ? "READY"
-      : "CONNECTED",
-  };
+  // Keep the optical link active for the full dialogue and camera journey.
+  // The laser should not drop out during ascent/orbit; the transition scene
+  // is removed when the interface takes over.
+  const simulation = TRANSITION_SNAPSHOT;
 
   return (
     <div className={`orbi-flight-scene orbi-flight-scene--${phase} orbi-flight-scene--${stage}`} aria-hidden="true">
