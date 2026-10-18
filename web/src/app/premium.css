@@ -2429,3 +2429,39 @@ html body .scintilla-console .sc-mark:after {
     line-height: 1.38 !important;
   }
 }
+
+
+/* Alien-film narration: futuristic display lettering with a restrained scan glow. */
+.space-entry > .space-entry__headline {
+  font-family: "Orbitron", "Rajdhani", "Eurostile", "Arial", sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: .035em !important;
+  text-transform: none !important;
+  animation: orbi-alien-caption-in 720ms cubic-bezier(.16,.72,.18,1) both !important;
+}
+.space-entry > .space-entry__headline span {
+  font-family: inherit !important;
+  letter-spacing: inherit !important;
+  text-shadow: 0 0 8px rgba(107,214,255,.22), 0 2px 20px rgba(0,0,0,.98) !important;
+}
+.space-entry > .space-entry__headline .space-entry__type-caret {
+  width: 2px !important;
+  height: 1em !important;
+  vertical-align: -.12em !important;
+  background: #a5efff !important;
+  box-shadow: 0 0 9px rgba(104,224,255,.9) !important;
+  animation: orbi-alien-caret 780ms steps(2, end) infinite !important;
+}
+@keyframes orbi-alien-caption-in {
+  0% { opacity: 0; filter: blur(5px); transform: translateX(-50%) translateY(12px); letter-spacing: .16em; }
+  55% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; filter: blur(0); transform: translateX(-50%) translateY(0); letter-spacing: .035em; }
+}
+@keyframes orbi-alien-caret {
+  0%, 48% { opacity: 1; }
+  49%, 100% { opacity: .18; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry > .space-entry__headline { animation: none !important; }
+  .space-entry > .space-entry__headline .space-entry__type-caret { animation: none !important; }
+}
