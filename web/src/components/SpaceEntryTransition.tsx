@@ -58,11 +58,10 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           <div className="cockpit-scene" aria-hidden="true">
             <div className="cockpit-scene__stars" />
             <div className="cockpit-scene__planet"><i /><b /></div>
-            <div className="cockpit-scene__satellite cockpit-scene__satellite--near">
-              <i className="cockpit-scene__body" /><b className="cockpit-scene__dish" /><span className="cockpit-scene__panel cockpit-scene__panel--left" /><span className="cockpit-scene__panel cockpit-scene__panel--right" />
-            </div>
-            <div className="cockpit-scene__satellite cockpit-scene__satellite--far">
-              <i className="cockpit-scene__body" /><b className="cockpit-scene__dish" /><span className="cockpit-scene__panel cockpit-scene__panel--left" /><span className="cockpit-scene__panel cockpit-scene__panel--right" />
+            <div className="cockpit-scene__real3d">
+              <Canvas camera={{ position: [0, 0, 5.8], fov: 42 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }}>
+                <Suspense fallback={null}><NasaSatelliteApproach /></Suspense>
+              </Canvas>
             </div>
             <div className="cockpit-scene__approach-line" />
             <div className="cockpit-scene__vignette" />
