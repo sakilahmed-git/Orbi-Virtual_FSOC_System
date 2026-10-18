@@ -2219,3 +2219,101 @@ html body .scintilla-console .sc-mark:after {
 @media (prefers-reduced-motion: reduce) {
   .orbi-optical-transition--arrival { animation: none !important; opacity: 0; }
 }
+
+
+
+/* CINEMATIC COCKPIT APPROACH — satellite rendezvous, then cockpit opens onto the live dashboard. */
+.orbi-optical-transition {
+  background: #020711 !important;
+  color: #edf7ff !important;
+}
+.cockpit-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% 54%, rgba(20,73,103,.25), transparent 38%),
+    linear-gradient(180deg,#02050c 0%,#071321 58%,#02050b 100%);
+}
+.cockpit-scene__stars {
+  position:absolute; inset:-8%;
+  opacity:.72;
+  background-image:radial-gradient(1px 1px at 11% 22%,#e8f8ff 99%,transparent),radial-gradient(1px 1px at 22% 67%,#8db9d6 99%,transparent),radial-gradient(1px 1px at 41% 18%,#fff 99%,transparent),radial-gradient(1px 1px at 62% 32%,#9bc9e7 99%,transparent),radial-gradient(1px 1px at 82% 16%,#fff 99%,transparent),radial-gradient(1px 1px at 91% 61%,#a9d6ed 99%,transparent),radial-gradient(1px 1px at 73% 81%,#fff 99%,transparent),radial-gradient(1px 1px at 29% 88%,#fff 99%,transparent);
+  background-size:390px 290px;
+  animation: cockpit-stars-drift 5.4s linear both;
+}
+.cockpit-scene__planet {
+  position:absolute; left:50%; top:54%; width:min(44vw,520px); aspect-ratio:1;
+  border-radius:50%; transform:translate(-50%,-50%) scale(.08);
+  opacity:0;
+  background:radial-gradient(circle at 36% 31%,#537b91 0%,#18364d 30%,#081523 62%,#020711 74%);
+  box-shadow:0 0 55px #2b8db62b, inset -30px -18px 55px #000b;
+  animation: cockpit-planet-approach 5.4s cubic-bezier(.15,.7,.2,1) both;
+}
+.cockpit-scene__planet i {position:absolute;inset:-2%;border:1px solid #71d8f655;border-radius:50%;box-shadow:0 0 35px #36a5d522}
+.cockpit-scene__planet b {position:absolute;left:8%;right:8%;top:44%;height:1px;background:linear-gradient(90deg,transparent,#85dff744,transparent);transform:rotate(-18deg)}
+.cockpit-scene__satellite {position:absolute;left:50%;top:49%;width:180px;height:100px;opacity:0;filter:drop-shadow(0 12px 20px #0009);transform:translate(-50%,-50%) scale(.1)}
+.cockpit-scene__satellite--near {animation: cockpit-satellite-near 5.4s cubic-bezier(.15,.7,.2,1) both}
+.cockpit-scene__satellite--far {animation: cockpit-satellite-far 5.4s cubic-bezier(.15,.7,.2,1) both}
+.cockpit-scene__body {position:absolute;left:69px;top:34px;width:43px;height:32px;border:1px solid #d9edf6;background:linear-gradient(135deg,#dceaf0,#6e8998 48%,#253c50 49%,#0d1c2c);clip-path:polygon(12% 0,88% 0,100% 50%,88% 100%,12% 100%,0 50%);box-shadow:inset 0 0 0 4px #263e50}
+.cockpit-scene__dish {position:absolute;left:82px;top:15px;width:17px;height:17px;border:2px solid #d8edf6;border-radius:50%;background:#14354b;box-shadow:0 0 13px #73e6ff77}
+.cockpit-scene__panel {position:absolute;top:25px;width:59px;height:48px;border:1px solid #6ca8c4;background:repeating-linear-gradient(90deg,#123657 0 8px,#34749a 9px 10px),linear-gradient(#1d5378,#081c30);box-shadow:inset 0 0 0 3px #0b2338}
+.cockpit-scene__panel--left {left:3px;transform:skewY(-8deg)}
+.cockpit-scene__panel--right {right:3px;transform:skewY(8deg)}
+.cockpit-scene__satellite--far {top:34%;left:73%}
+.cockpit-scene__satellite--far .cockpit-scene__body {background:linear-gradient(135deg,#a8bec8,#3b5363 55%,#0a1826)}
+.cockpit-scene__approach-line {position:absolute;left:50%;top:50%;width:1px;height:1px;background:#80e8ff;box-shadow:0 0 0 1px #80e8ff,0 0 24px 8px #54dfff88;animation:cockpit-lock-point 5.4s ease both}
+.cockpit-scene__vignette {position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 25%,#02050bc9 100%);pointer-events:none}
+.cockpit-scene__frame {position:absolute;z-index:2;pointer-events:none;background:linear-gradient(180deg,#263c4d,#07121e 38%,#02050b);box-shadow:0 0 0 1px #7c9eaf66,0 0 36px #000b}
+.cockpit-scene__frame--top {top:-2px;left:0;right:0;height:clamp(48px,10vh,100px);clip-path:polygon(0 0,100% 0,100% 48%,72% 100%,28% 100%,0 48%);transform:translateY(0);animation:cockpit-open-top 1.25s 4.2s cubic-bezier(.2,.8,.2,1) both}
+.cockpit-scene__frame--bottom {bottom:-2px;left:0;right:0;height:clamp(70px,15vh,140px);clip-path:polygon(0 52%,28% 0,72% 0,100% 52%,100% 100%,0 100%);animation:cockpit-open-bottom 1.25s 4.2s cubic-bezier(.2,.8,.2,1) both}
+.cockpit-scene__frame--left {left:-2px;top:0;bottom:0;width:clamp(36px,8vw,100px);clip-path:polygon(0 0,100% 8%,78% 25%,78% 75%,100% 92%,0 100%);animation:cockpit-open-left 1.25s 4.2s cubic-bezier(.2,.8,.2,1) both}
+.cockpit-scene__frame--right {right:-2px;top:0;bottom:0;width:clamp(36px,8vw,100px);clip-path:polygon(0 8%,100% 0,100% 100%,0 92%,22% 75%,22% 25%);animation:cockpit-open-right 1.25s 4.2s cubic-bezier(.2,.8,.2,1) both}
+.cockpit-scene__door {position:absolute;z-index:4;top:0;bottom:0;width:50%;background:linear-gradient(90deg,#02050b,#102131 70%,#253b4a);opacity:.96;box-shadow:inset 0 0 0 1px #8ab5cc55}
+.cockpit-scene__door--left {left:0;clip-path:polygon(0 0,100% 0,83% 18%,83% 82%,100% 100%,0 100%);animation:cockpit-door-left 1.25s 4.2s cubic-bezier(.2,.8,.2,1) both}
+.cockpit-scene__door--right {right:0;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,17% 82%,17% 18%);animation:cockpit-door-right 1.25s 4.2s cubic-bezier(.2,.8,.2,1) both}
+.cockpit-scene__hud {position:absolute;z-index:3;left:clamp(60px,10vw,140px);right:clamp(60px,10vw,140px);bottom:clamp(32px,8vh,82px);display:flex;justify-content:space-between;gap:12px;color:#9eb8c9;font:9px var(--orbi-mono,monospace);letter-spacing:.12em;animation:cockpit-hud-in .5s 2.6s both}
+.cockpit-scene__hud span {display:flex;flex-direction:column;gap:8px}
+.cockpit-scene__hud b {color:#e5f8ff;font-weight:400}
+.cockpit-scene__hud b i {display:inline-block;width:6px;height:6px;border-radius:50%;background:#6df4c3;box-shadow:0 0 10px #6df4c3}
+.orbi-optical-transition .optical-transition__copy {z-index:5;top:22%;left:clamp(60px,11vw,150px);max-width:min(570px,70vw);text-shadow:0 2px 30px #000b}
+.orbi-optical-transition .optical-transition__eyebrow {color:#9ad8e9}
+.orbi-optical-transition .optical-transition__copy h2 {color:#f4faff;max-width:9ch;font-size:clamp(42px,6vw,78px)}
+.orbi-optical-transition .optical-transition__copy p {color:#a8c0d0}
+.orbi-optical-transition .optical-transition__top,.orbi-optical-transition .optical-transition__bottom {z-index:6;color:#b0c6d4}
+.orbi-optical-transition--arrival .cockpit-scene__door--left {animation:cockpit-door-left-open 1.35s cubic-bezier(.16,.8,.2,1) both}
+.orbi-optical-transition--arrival .cockpit-scene__door--right {animation:cockpit-door-right-open 1.35s cubic-bezier(.16,.8,.2,1) both}
+.orbi-optical-transition--arrival .cockpit-scene__frame--top {animation:cockpit-open-top 1.35s cubic-bezier(.16,.8,.2,1) both}
+.orbi-optical-transition--arrival .cockpit-scene__frame--bottom {animation:cockpit-open-bottom 1.35s cubic-bezier(.16,.8,.2,1) both}
+.orbi-optical-transition--arrival .cockpit-scene__frame--left {animation:cockpit-open-left 1.35s cubic-bezier(.16,.8,.2,1) both}
+.orbi-optical-transition--arrival .cockpit-scene__frame--right {animation:cockpit-open-right 1.35s cubic-bezier(.16,.8,.2,1) both}
+.orbi-optical-transition--arrival .optical-transition__copy {animation:cockpit-copy-out .5s ease both}
+.orbi-optical-transition--arrival {animation:cockpit-overlay-out 1.8s 0.25s cubic-bezier(.2,.7,.2,1) both}
+@keyframes cockpit-stars-drift {from{transform:scale(1.25) translateY(2%)}to{transform:scale(1) translateY(-1%)}}
+@keyframes cockpit-planet-approach {0%{opacity:0;transform:translate(-50%,-50%) scale(.08)}25%{opacity:.75}65%{opacity:.85;transform:translate(-50%,-50%) scale(.72)}100%{opacity:.25;transform:translate(-50%,-50%) scale(1.2)}}
+@keyframes cockpit-satellite-near {0%{opacity:0;transform:translate(-50%,-50%) scale(.08)}28%{opacity:.25}68%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:.75;transform:translate(-50%,-50%) scale(1.55)}}
+@keyframes cockpit-satellite-far {0%,25%{opacity:0;transform:translate(-50%,-50%) scale(.08)}62%{opacity:.6}100%{opacity:.4;transform:translate(-50%,-50%) scale(.8)}}
+@keyframes cockpit-lock-point {0%,40%{opacity:0;transform:scale(.2)}62%,100%{opacity:1;transform:scale(1)}}
+@keyframes cockpit-open-top {to{transform:translateY(-105%)}}
+@keyframes cockpit-open-bottom {to{transform:translateY(110%)}}
+@keyframes cockpit-open-left {to{transform:translateX(-105%)}}
+@keyframes cockpit-open-right {to{transform:translateX(105%)}}
+@keyframes cockpit-door-left {0%,72%{transform:translateX(0)}100%{transform:translateX(-105%)}}
+@keyframes cockpit-door-right {0%,72%{transform:translateX(0)}100%{transform:translateX(105%)}}
+@keyframes cockpit-door-left-open {from{transform:translateX(0)}to{transform:translateX(-105%)}}
+@keyframes cockpit-door-right-open {from{transform:translateX(0)}to{transform:translateX(105%)}}
+@keyframes cockpit-hud-in {from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cockpit-copy-out {to{opacity:0;transform:translateY(-10px)}}
+@keyframes cockpit-overlay-out {0%{opacity:1}70%{opacity:.95}100%{opacity:0;visibility:hidden}}
+@media(max-width:680px) {
+ .orbi-optical-transition .optical-transition__copy {top:19%;left:54px;max-width:calc(100vw - 108px)}
+ .orbi-optical-transition .optical-transition__copy h2 {font-size:clamp(38px,10vw,56px)}
+ .cockpit-scene__satellite {scale:.65}
+ .cockpit-scene__hud {left:52px;right:52px;bottom:24px;font-size:7px;letter-spacing:.04em}
+ .cockpit-scene__planet {width:76vw}
+}
+@media(prefers-reduced-motion:reduce) {
+ .cockpit-scene *, .orbi-optical-transition--arrival {animation:none!important;transition:none!important}
+ .orbi-optical-transition--arrival {opacity:0!important}
+}
