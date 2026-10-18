@@ -52,7 +52,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const [phase, setPhase] = useState<TransitionPhase>("idle");
   const [stage, setStage] = useState<FlightStage>("cabin");
   const target = useRef<string | null>(null);
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);\n  const [typedHeadline, setTypedHeadline] = useState("");\n  const [typedSubline, setTypedSubline] = useState("");
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [typedHeadline, setTypedHeadline] = useState("");
+  const [typedSubline, setTypedSubline] = useState("");
 
   const clearTimers = useCallback(() => {
     timers.current.forEach(clearTimeout);
@@ -77,7 +79,14 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     // One camera journey for the whole transition. Wait one frame for the
     // transition scene to mount, then trigger it once; never retrigger on arrival.
     later(() => window.dispatchEvent(new CustomEvent("orbi:cinematic-entry")), 120);
-    later(() => setStage("ignition"), 3200);\n    later(() => setStage("ascent"), 7200);\n    later(() => setStage("orbit"), 12000);\n    later(() => {\n      if (!target.current) return;\n      window.sessionStorage.setItem("orbi:cinematic-entry", "1");\n      router.push(target.current);\n    }, 26000);
+    later(() => setStage("ignition"), 3200);
+    later(() => setStage("ascent"), 7200);
+    later(() => setStage("orbit"), 12000);
+    later(() => {
+      if (!target.current) return;
+      window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+      router.push(target.current);
+    }, 26000);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
@@ -99,7 +108,8 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         if (cancelled) return;
         setTypedSubline(line.speaker); setTypedHeadline("");
         currentAudio = new Audio(line.src); currentAudio.preload = "auto";
-        let finishAudio!: () => void;\n        const audioDone = new Promise<void>((resolve) => { finishAudio = resolve; currentAudio!.onended = resolve; currentAudio!.onerror = resolve; });
+        let finishAudio!: () => void;
+        const audioDone = new Promise<void>((resolve) => { finishAudio = resolve; currentAudio!.onended = resolve; currentAudio!.onerror = resolve; });
         const typingDone = typeLine(line.text);
         try { await currentAudio.play(); } catch { finishAudio(); /* Continue if autoplay is blocked. */ }
         await Promise.all([typingDone, audioDone]);
