@@ -17,6 +17,23 @@ type TransitionContextValue = { enterSpace: (href: string) => void };
 type TransitionPhase = "idle" | "launch" | "arrival";
 type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interface";
 
+function TypewriterText({ text, className, speed = 34 }: { text: string; className?: string; speed?: number }) {
+  const [visibleText, setVisibleText] = useState("");
+
+  useEffect(() => {
+    setVisibleText("");
+    let index = 0;
+    const timer = window.setInterval(() => {
+      index += 1;
+      setVisibleText(text.slice(0, index));
+      if (index >= text.length) window.clearInterval(timer);
+    }, speed);
+    return () => window.clearInterval(timer);
+  }, [text, speed]);
+
+  return <span className={className}>{visibleText}<i className="space-entry__type-caret" aria-hidden="true" /></span>;
+}
+
 const TransitionContext = createContext<TransitionContextValue | null>(null);
 
 export function SpaceEntryTransition({ children }: { children: ReactNode }) {
@@ -48,14 +65,14 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setPhase("launch");
 
     // One continuous first-person flight: cabin -> ignition -> atmospheric ascent -> orbit.
-    later(() => setStage("ignition"), 180);
-    later(() => setStage("ascent"), 420);
-    later(() => setStage("orbit"), 700);
+    later(() => setStage("ignition"), 850);
+    later(() => setStage("ascent"), 1700);
+    later(() => setStage("orbit"), 2550);
     later(() => {
       if (!target.current) return;
       window.sessionStorage.setItem("orbi:cinematic-entry", "1");
       router.push(target.current);
-    }, 1000);
+    }, 3400);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
@@ -65,11 +82,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 2450);
+    later(() => setStage("interface"), 2600);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 3150);
+    }, 4300);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -123,8 +140,8 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
             </span>
             <div className="space-entry__progress"><i /></div>
             <strong className="space-entry__headline">
-              <span>{stage === "cabin" ? "Beyond the interface." : stage === "ignition" ? "Locking the signal." : stage === "ascent" ? "Entering the field." : stage === "orbit" ? "Space, in perfect sync." : stage === "satellite" ? "Target acquired." : "Mission control, online."}</span>
-              <em>{stage === "cabin" ? "Preparing a direct link to your orbital workspace." : stage === "ignition" ? "Synchronizing telemetry and navigation." : stage === "ascent" ? "Space folding into a single clean transition." : stage === "orbit" ? "Bringing the live optical system into focus." : stage === "satellite" ? "Revealing your live 3D mission scene." : "Your instruments are ready."}</em>
+              <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "Beyond the interface." : stage === "ignition" ? "Locking the signal." : stage === "ascent" ? "Entering the field." : stage === "orbit" ? "Space, in perfect sync." : stage === "satellite" ? "Target acquired." : "Mission control, online."} />
+              <TypewriterText className="space-entry__typed-subline" speed={17} text={stage === "cabin" ? "Preparing a direct link to your orbital workspace." : stage === "ignition" ? "Synchronizing telemetry and navigation." : stage === "ascent" ? "Space folding into a single clean transition." : stage === "orbit" ? "Bringing the live optical system into focus." : stage === "satellite" ? "Revealing your live 3D mission scene." : "Your instruments are ready."} />
             </strong>
             <div className="space-entry__steps">
               <span className={["cabin", "ignition", "ascent"].includes(stage) ? "is-current" : "is-done"}><i /> ASCENT</span>
