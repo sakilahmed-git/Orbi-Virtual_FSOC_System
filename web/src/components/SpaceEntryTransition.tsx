@@ -138,12 +138,12 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           <div className="space-entry__hud">
             <span className="space-entry__brand"><b>◉</b> ORBI <i>MISSION SYSTEMS</i></span>
             <span className="space-entry__readout">
-              {stage === "cabin" ? "SYSTEMS ONLINE" : stage === "ignition" ? "SIGNAL LOCK" : stage === "ascent" ? "PHASE SHIFT" : stage === "orbit" ? "ORBITAL SYNC" : stage === "satellite" ? "TARGET ACQUIRED" : "MISSION CONTROL"}
+              {stage === "cabin" ? "MISSION BRIEFING" : stage === "ignition" ? "IGNITION SEQUENCE" : stage === "ascent" ? "ATMOSPHERIC EXIT" : stage === "orbit" ? "BEACON IN SIGHT" : stage === "satellite" ? "FINAL APPROACH" : "MISSION READY"}
               <b>{stage === "cabin" ? "01—06" : stage === "ignition" ? "02—06" : stage === "ascent" ? "03—06" : stage === "orbit" ? "04—06" : stage === "satellite" ? "05—06" : "06—06"}</b>
             </span>
             <div className="space-entry__progress"><i /></div>
             <strong className="space-entry__headline">
-              <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "Beyond the interface." : stage === "ignition" ? "Locking the signal." : stage === "ascent" ? "Entering the field." : stage === "orbit" ? "Space, in perfect sync." : stage === "satellite" ? "Target acquired." : "Mission control, online."} />
+              <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "The signal is out there." : stage === "ignition" ? "Thrusters hot. Hold your breath." : stage === "ascent" ? "Leaving the world behind." : stage === "orbit" ? "There — our beacon in the dark." : stage === "satellite" ? "Approach vector locked. Easy now." : "We made it. Your mission begins."} />
 
             </strong>
             <div className="space-entry__steps">
@@ -178,6 +178,12 @@ export function OrbitalTransitionLink({
         onClick?.(event);
         if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
+        const button = event.currentTarget;
+        button.classList.remove("is-firing");
+        // Restart the launch burst on every deliberate click.
+        void button.offsetWidth;
+        button.classList.add("is-firing");
+        window.setTimeout(() => button.classList.remove("is-firing"), 680);
         context.enterSpace(href);
       }}
       {...props}
