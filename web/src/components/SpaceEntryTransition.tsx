@@ -68,11 +68,13 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     // One continuous first-person flight: cabin -> ignition -> atmospheric ascent -> orbit.
     later(() => setStage("ignition"), 2400);
     later(() => setStage("ascent"), 4800);
-    later(() => setStage("orbit"), 7600);
+    later(() => {
+      setStage("orbit");
+      window.dispatchEvent(new CustomEvent("orbi:cinematic-entry"));
+    }, 7000);
     later(() => {
       if (!target.current) return;
       window.sessionStorage.setItem("orbi:cinematic-entry", "1");
-      window.dispatchEvent(new CustomEvent("orbi:cinematic-entry"));
       router.push(target.current);
     }, 11800);
   }, [clearTimers, later, pathname, phase, router]);
