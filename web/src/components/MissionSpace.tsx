@@ -311,19 +311,22 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
     if (cinematic.current.active) {
       const c = cinematic.current;
       c.elapsed += dt;
-      const t = THREE.MathUtils.clamp(c.elapsed / 2.35, 0, 1);
+      const t = THREE.MathUtils.clamp(c.elapsed / 4.8, 0, 1);
       const ease = (v: number) => v * v * (3 - 2 * v);
       const lookTarget = new THREE.Vector3();
-      // Close fly-by of the real dashboard satellite, then a smooth dolly-out
-      // to reveal both endpoints and the complete mission dashboard.
-      if (t < 0.38) {
-        const local = ease(t / 0.38);
+      // Cinematic fly-by of the real dashboard satellite, a gentle orbital arc,
+      // then a slow dolly-out to reveal both endpoints and the complete mission.
+      if (t < 0.46) {
+        const local = ease(t / 0.46);
         camera.position.copy(c.start).lerp(c.pass, local);
         lookTarget.copy(c.source).lerp(c.midpoint, local * 0.35);
+        lookTarget.y += Math.sin(local * Math.PI) * 0.42;
       } else {
-        const local = ease((t - 0.38) / 0.62);
+        const local = ease((t - 0.46) / 0.54);
         camera.position.copy(c.pass).lerp(desired, local);
+        camera.position.y += Math.sin(local * Math.PI) * 1.35;
         lookTarget.copy(c.midpoint).lerp(new THREE.Vector3(0, 0, 0), local);
+        lookTarget.y += Math.sin(local * Math.PI) * 0.55;
       }
       camera.lookAt(lookTarget);
       if (t >= 1) c.active = false;
