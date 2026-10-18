@@ -1918,3 +1918,89 @@ html body .scintilla-console .sc-mark:after {
   .space-entry__type-caret { animation: none; opacity: 0; }
 }
 
+/* ORBI / solar threshold — a slow, sun-like bloom that washes the frame to white. */
+.space-entry__headline > span:first-child {
+  display: block;
+  min-height: 1.12em;
+}
+.space-entry__type-caret {
+  display: inline-block;
+  width: 1px;
+  height: .82em;
+  margin-left: .14em;
+  vertical-align: -.04em;
+  background: #c7f7ff;
+  box-shadow: 0 0 12px rgba(130,235,255,.9);
+  animation: orbi-type-caret 900ms steps(2, start) infinite;
+}
+.space-entry--launch .orbi-warp-field__core {
+  animation: orbi-sun-build 2.4s cubic-bezier(.2,.65,.15,1) both !important;
+}
+.space-entry--launch .orbi-warp-field__core i {
+  animation: orbi-sun-corona 2.4s ease-out both !important;
+}
+.space-entry--launch .orbi-warp-field__core b {
+  animation: orbi-sun-ray 2.4s ease-in both;
+}
+.space-entry--launch .space-entry__flash {
+  z-index: 4 !important;
+  background: #fff !important;
+  animation: orbi-solar-blanch 1.05s 7.65s cubic-bezier(.15,.72,.2,1) both !important;
+}
+.space-entry--launch .orbi-warp-field__rings {
+  animation-duration: 2.8s !important;
+}
+@keyframes orbi-sun-build {
+  0% {
+    opacity: 0;
+    transform: translate(-50%,-50%) scale(.12);
+    background: #a6f2ff;
+    filter: brightness(1);
+    box-shadow: 0 0 18px 6px rgba(140,236,255,.7), 0 0 55px 20px rgba(47,183,255,.4);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(-50%,-50%) scale(1.6);
+    background: #fff6d7;
+    filter: brightness(1.5);
+    box-shadow: 0 0 32px 15px rgba(181,245,255,.95), 0 0 100px 48px rgba(100,213,255,.68), 0 0 220px 100px rgba(111,136,255,.28);
+  }
+  72% {
+    opacity: 1;
+    transform: translate(-50%,-50%) scale(3.8);
+    background: #fff;
+    filter: brightness(2.8);
+    box-shadow: 0 0 65px 34px #fff, 0 0 180px 90px rgba(255,248,219,.96), 0 0 360px 180px rgba(126,224,255,.72);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%,-50%) scale(8);
+    background: #fff;
+    filter: brightness(4);
+    box-shadow: 0 0 100px 60px #fff, 0 0 280px 150px #fff8e8, 0 0 520px 260px rgba(190,244,255,.8);
+  }
+}
+@keyframes orbi-sun-corona {
+  0% { opacity: 0; transform: scale(.2); border-color: rgba(143,232,255,.6); box-shadow: 0 0 25px rgba(81,198,255,.1); }
+  40% { opacity: .75; transform: scale(2.4); border-color: rgba(255,248,220,.8); box-shadow: 0 0 65px rgba(127,221,255,.55); }
+  100% { opacity: .08; transform: scale(13); border-color: rgba(255,255,255,.9); box-shadow: 0 0 150px rgba(255,255,255,.7); }
+}
+@keyframes orbi-sun-ray {
+  0%,35% { opacity: .15; width: 8vw; }
+  68% { opacity: 1; width: 100vw; background: linear-gradient(90deg,transparent,#d7f7ff,#fff,#fff4d6,#fff,transparent); box-shadow: 0 0 55px #fff; }
+  100% { opacity: 1; width: 180vw; background: #fff; box-shadow: 0 0 120px 40px #fff; }
+}
+@keyframes orbi-solar-blanch {
+  0% { opacity: 0; }
+  45% { opacity: .08; }
+  78% { opacity: .72; }
+  100% { opacity: 1; }
+}
+@keyframes orbi-type-caret {
+  to { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry__type-caret { animation: none; opacity: 0; }
+  .space-entry--launch .space-entry__flash { animation: none !important; opacity: 0; }
+}
+
