@@ -18,7 +18,7 @@ type TransitionContextValue = { enterSpace: (href: string) => void };
 type TransitionPhase = "idle" | "launch" | "arrival";
 type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interface";
 
-function TypewriterText({ text, className, speed = 36 }: { text: string; className?: string; speed?: number }) {
+function TypewriterText({ text, className, speed = 30 }: { text: string; className?: string; speed?: number }) {
   const [visibleText, setVisibleText] = useState("");
 
   useEffect(() => {
@@ -84,11 +84,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 2700);
+    later(() => setStage("interface"), 2600);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 4300);
+    }, 5200);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -142,16 +142,15 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
               <b>{stage === "cabin" ? "01—06" : stage === "ignition" ? "02—06" : stage === "ascent" ? "03—06" : stage === "orbit" ? "04—06" : stage === "satellite" ? "05—06" : "06—06"}</b>
             </span>
             <div className="space-entry__progress"><i /></div>
-            <strong className="space-entry__headline">
-              <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "Somewhere beyond Earth, a faint signal is calling through the silence. We have one chance to find it." : stage === "ignition" ? "Thrusters are live. Hold steady as we leave the familiar world behind and follow the signal into the dark." : stage === "ascent" ? "Earth is falling away beneath us. Every second brings us closer to the beacon, and farther from everything we know." : stage === "orbit" ? "There — a light against the endless black. The signal is real. Now bring us in carefully and hold the connection." : stage === "satellite" ? "Easy on the approach. Two satellites, one narrow beam of light — keep them aligned, and let the link find its way home." : "Docking complete. The signal is yours to command. Mission Control is online, and the next chapter begins now."} />
-
-            </strong>
             <div className="space-entry__steps">
               <span className={["cabin", "ignition", "ascent"].includes(stage) ? "is-current" : "is-done"}><i /> ASCENT</span>
               <span className={["orbit"].includes(stage) ? "is-current" : ["satellite", "interface"].includes(stage) ? "is-done" : ""}><i /> ORBIT</span>
               <span className={stage === "interface" ? "is-current" : ""}><i /> MISSION CONTROL</span>
             </div>
           </div>
+          <strong className="space-entry__headline">
+            <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "Beyond Earth, a faint signal is calling. We have one chance." : stage === "ignition" ? "Thrusters are live. We leave our world behind and follow the signal." : stage === "ascent" ? "Earth falls away as we close in on the beacon, deeper into the dark." : stage === "orbit" ? "There — our beacon in the dark. The signal is real. Hold the connection." : stage === "satellite" ? "Easy on approach. Keep both satellites aligned and bring the link home." : "Docking complete. Mission Control is yours. Our next chapter begins now."} />
+          </strong>
           <div className="space-entry__flash" aria-hidden="true" />
         </div>
       )}
