@@ -68,12 +68,13 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     // One continuous first-person flight: cabin -> ignition -> atmospheric ascent -> orbit.
     later(() => setStage("ignition"), 2400);
     later(() => setStage("ascent"), 4800);
-    later(() => setStage("orbit"), 6200);
+    later(() => setStage("orbit"), 7600);
     later(() => {
       if (!target.current) return;
       window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+      window.dispatchEvent(new CustomEvent("orbi:cinematic-entry"));
       router.push(target.current);
-    }, 10800);
+    }, 11800);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
@@ -83,11 +84,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 3200);
+    later(() => setStage("interface"), 3600);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 5000);
+    }, 5600);
   }, [pathname, phase, clearTimers, later]);
 
 
