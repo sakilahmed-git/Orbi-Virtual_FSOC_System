@@ -2257,3 +2257,12 @@ html body .scintilla-console .sc-mark:after {
 @media (prefers-reduced-motion: reduce) {
   .space-entry .orbi-flight-scene { animation: none !important; transition: none !important; }
 }
+
+/* Final timing sync: keep the real 3D mission visible for the entire 11.8s flight. */
+.space-entry--launch .orbi-flight-scene {
+  animation-duration: 11.8s !important;
+}
+.space-entry--arrival .orbi-flight-scene,
+.space-entry--satellite .orbi-flight-scene {
+  animation-duration: 3.6s !important;
+}
