@@ -1890,3 +1890,31 @@ html body .scintilla-console .sc-mark:after {
 @keyframes orbi-hud-clear { to{opacity:0;transform:translateY(-8px);filter:blur(5px)} }
 @media(max-width:700px) { .orbi-warp-field__rings{width:88vw}.orbi-warp-field__grid{background-size:36px 36px}.space-entry__hud{left:22px !important;right:22px !important;bottom:22px !important} }
 @media(prefers-reduced-motion:reduce) { .orbi-warp-field *,.space-entry__wash,.space-entry__hud{animation:none !important;transition:none !important}.space-entry--arrival{opacity:0 !important} }
+
+/* ORBI / cinematic typewriter — deliberate pacing and a restrained signal cursor. */
+.space-entry__headline > span:first-child {
+  display: block;
+  min-height: 1.08em;
+}
+.space-entry__type-caret {
+  display: inline-block;
+  width: 1px;
+  height: .82em;
+  margin-left: .12em;
+  vertical-align: -.04em;
+  background: #a9f1ff;
+  box-shadow: 0 0 9px rgba(106,224,255,.65);
+  animation: orbi-type-caret 850ms steps(2, start) infinite;
+}
+.space-entry__typed-subline {
+  display: block;
+  min-height: 1.5em;
+  margin-top: .7em;
+}
+@keyframes orbi-type-caret {
+  to { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry__type-caret { animation: none; opacity: 0; }
+}
+
