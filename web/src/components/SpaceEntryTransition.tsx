@@ -1,157 +1,198 @@
 "use client";
 
-import { Suspense, createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+} from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 type TransitionContextValue = { enterSpace: (href: string) => void };
-type Phase = "idle" | "launch" | "arrival";
+type TransitionPhase = "idle" | "launch" | "arrival";
+type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interface";
+
 const TransitionContext = createContext<TransitionContextValue | null>(null);
 
 export function SpaceEntryTransition({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [phase, setPhase] = useState<Phase>("idle");
-  const [arrival, setArrival] = useState(false);
+  const [phase, setPhase] = useState<TransitionPhase>("idle");
+  const [stage, setStage] = useState<FlightStage>("cabin");
   const target = useRef<string | null>(null);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const clearTimers = useCallback(() => { timers.current.forEach(clearTimeout); timers.current = []; }, []);
-  const later = useCallback((fn: () => void, ms: number) => { timers.current.push(setTimeout(fn, ms)); }, []);
+
+  const clearTimers = useCallback(() => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+  }, []);
+
+  const later = useCallback((fn: () => void, ms: number) => {
+    timers.current.push(setTimeout(fn, ms));
+  }, []);
 
   const enterSpace = useCallback((href: string) => {
     if (phase !== "idle" || href === pathname) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { router.push(href); return; }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      router.push(href);
+      return;
+    }
     clearTimers();
     target.current = href;
-    setArrival(false);
+    setStage("cabin");
     setPhase("launch");
-    // A single 7.2-second optical-path sequence. The scene advances via CSS,
-    // not React stage changes, so animations cannot restart at each beat.
+
+    // One continuous first-person flight: cabin -> ignition -> atmospheric ascent -> orbit.
+    later(() => setStage("ignition"), 850);
+    later(() => setStage("ascent"), 1650);
+    later(() => setStage("orbit"), 2600);
     later(() => {
-      if (!target.current) return;
-      window.sessionStorage.setItem("orbi:cinematic-entry", "1");
-      router.push(target.current);
-    }, 5400);
-  }, [phase, pathname, router, clearTimers, later]);
+      if (target.current) router.push(target.current);
+    }, 3250);
+  }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
     if (phase !== "launch" || !target.current || pathname === "/" || pathname !== target.current) return;
     target.current = null;
-    setArrival(true);
     setPhase("arrival");
-    window.dispatchEvent(new Event("orbi:cinematic-entry"));
+    setStage("satellite");
     clearTimers();
-    // The destination route is live underneath. Fade the optical overlay away
-    // quickly so the real Mission Control UI is revealed, not held behind it.
-    later(() => setPhase("idle"), 1800);
+    // The scene arrives first. Only then does the mission interface assemble around it.
+    later(() => setStage("interface"), 1150);
+    later(() => {
+      setPhase("idle");
+      setStage("cabin");
+    }, 2950);
   }, [pathname, phase, clearTimers, later]);
+
 
   useEffect(() => () => clearTimers(), [clearTimers]);
 
   return (
     <TransitionContext.Provider value={{ enterSpace }}>
-      <div className={`orbi-transition-content orbi-transition-content--${phase} ${arrival ? "orbi-transition-content--arrival" : ""}`}>{children}</div>
+      <div className={`orbi-transition-content orbi-transition-content--${phase} orbi-transition-content--${stage}`}>{children}</div>
       {phase !== "idle" && (
-        <div className={`orbi-optical-transition orbi-optical-transition--${phase}`} role="status" aria-label="Approaching satellite and opening Mission Control cockpit">
-          <div className="cockpit-scene" aria-hidden="true">
-            <div className="cockpit-scene__stars" />
-            <div className="cockpit-scene__planet"><i /><b /></div>
-            <div className="cockpit-scene__real3d">
-              <Canvas camera={{ position: [0, 0, 5.8], fov: 42 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }}>
-                <Suspense fallback={null}><NasaSatelliteApproach /></Suspense>
-              </Canvas>
+        <div
+          className={`space-entry space-entry--${phase} space-entry--${stage}`}
+          aria-live="polite"
+          role="status"
+          aria-label="Orbital launch sequence"
+        >
+          <div className="space-entry__wash" />
+          <div className="space-entry__stars" aria-hidden="true">
+            {Array.from({ length: 76 }, (_, i) => (
+              <i key={i} style={{
+                "--star-x": `${(i * 37 + 11) % 100}%`,
+                "--star-y": `${(i * 53 + 7) % 100}%`,
+                "--star-dx": `${(((i * 37 + 11) % 100) - 50) * 0.7}vw`,
+                "--star-dy": `${(((i * 53 + 7) % 100) - 50) * 0.7}vh`,
+                "--star-delay": `${(i % 11) * -0.09}s`,
+                "--star-size": `${i % 7 === 0 ? 3 : i % 3 === 0 ? 2 : 1}px`,
+              } as CSSProperties} />
+            ))}
+          </div>
+
+          <div className="fpv-flight-scene" aria-hidden="true">
+            <div className="fpv-cabin-glow" />
+            <div className="fpv-window">
+              <div className="fpv-window-sky" />
+              <div className="fpv-earth">
+                <div className="fpv-earth-clouds" />
+                <svg className="fpv-earth-land" viewBox="0 0 520 520" role="presentation">
+                  <path d="M104 105 150 72 195 88 215 120 198 151 220 175 202 208 168 219 153 255 125 245 108 208 81 191 76 152Z" />
+                  <path d="M208 260 243 276 260 315 249 354 230 398 213 373 205 332 187 298Z" />
+                  <path d="M275 105 312 81 352 95 378 122 414 128 430 159 403 184 366 179 346 207 311 194 288 166 260 153Z" />
+                  <path d="M335 220 373 207 408 226 416 263 397 299 379 332 353 315 340 277 317 251Z" />
+                  <path d="M431 340 457 350 468 373 448 392 426 377Z" />
+                </svg>
+              </div>
+              <div className="fpv-atmosphere-line" />
+              <div className="fpv-window-reflection" />
+              <div className="fpv-window-rim" />
             </div>
-            <div className="cockpit-scene__approach-line" />
-            <div className="cockpit-scene__vignette" />
-            <div className="cockpit-scene__frame cockpit-scene__frame--top" />
-            <div className="cockpit-scene__frame cockpit-scene__frame--left" />
-            <div className="cockpit-scene__frame cockpit-scene__frame--right" />
-            <div className="cockpit-scene__frame cockpit-scene__frame--bottom" />
-            <div className="cockpit-scene__door cockpit-scene__door--left" />
-            <div className="cockpit-scene__door cockpit-scene__door--right" />
-            <div className="cockpit-scene__hud"><span>RELATIVE RANGE <b>02.4 KM</b></span><span>OPTICAL LOCK <b><i /></b></span><span>ATTITUDE <b>STABLE</b></span></div>
+
+            <div className="fpv-horizon" />
+            <div className="fpv-cabin-left" />
+            <div className="fpv-cabin-right" />
+            <div className="fpv-overhead" />
+            <div className="fpv-console">
+              <div className="fpv-console-screen"><span /><i /><b /></div>
+              <div className="fpv-console-screen fpv-console-screen--small"><span /><i /></div>
+              <div className="fpv-console-lights"><i /><i /><i /><i /><i /></div>
+            </div>
+            <div className="fpv-seat fpv-seat--left" />
+            <div className="fpv-seat fpv-seat--right" />
+            <div className="fpv-seat-shoulder fpv-seat-shoulder--left" />
+            <div className="fpv-seat-shoulder fpv-seat-shoulder--right" />
+            <div className="fpv-vignette" />
+            <div className="fpv-motion-blur" />
+            <div className="fpv-ignition-flare" />
+            <div className="fpv-orbit-satellite">
+              <svg viewBox="0 0 180 112" role="presentation">
+                <defs><linearGradient id="satMetal" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#f7fbff"/><stop offset="1" stopColor="#607b90"/></linearGradient></defs>
+                <g stroke="#d5e9f3" strokeWidth="2" fill="none"><path d="M90 52 90 20M90 52 118 66M90 52 62 66"/></g>
+                <rect x="75" y="34" width="30" height="35" rx="4" fill="url(#satMetal)" stroke="#f3fbff" />
+                <rect x="12" y="35" width="49" height="34" rx="2" fill="#163c60" stroke="#8bd5ed" />
+                <rect x="119" y="35" width="49" height="34" rx="2" fill="#163c60" stroke="#8bd5ed" />
+                <path d="M24 35v34M36 35v34M48 35v34M131 35v34M143 35v34M155 35v34M12 46h49M12 58h49M119 46h49M119 58h49" stroke="#5ba8d2" strokeWidth="1" />
+                <circle cx="90" cy="50" r="6" fill="#e5f8ff" /><path d="M90 69v16m-9-4h18" stroke="#e8f6fc" strokeWidth="2"/>
+              </svg>
+            </div>
           </div>
-          <div className="optical-transition__top"><span><i /> ORBI <b>MISSION APPROACH</b></span><span>{arrival ? "COCKPIT OPEN / CONTROL TRANSFERRED" : "RENDEZVOUS SEQUENCE"}</span></div>
-          <div className="optical-transition__copy">
-            <span className="optical-transition__eyebrow">{arrival ? "MISSION CONTROL / ONLINE" : "APPROACHING ORBITAL TERMINAL"}</span>
-            <h2>{arrival ? "Welcome to Mission Control." : "Closing the distance."}</h2>
-            <p>{arrival ? "The cockpit opens. Your live workspace is ready." : "Bringing the optical terminal into view. Preparing control handoff."}</p>
+
+          <div className="space-entry__hud">
+            <span className="space-entry__brand"><b>◉</b> ORBI <i>MISSION SYSTEMS</i></span>
+            <span className="space-entry__readout">
+              {stage === "cabin" ? "CABIN SECURE" : stage === "ignition" ? "ENGINE IGNITION" : stage === "ascent" ? "ATMOSPHERIC ASCENT" : stage === "orbit" ? "ORBITAL INSERTION" : stage === "satellite" ? "ORBIT ESTABLISHED" : "MISSION CONTROL"}
+              <b>{stage === "cabin" ? "01—06" : stage === "ignition" ? "02—06" : stage === "ascent" ? "03—06" : stage === "orbit" ? "04—06" : stage === "satellite" ? "05—06" : "06—06"}</b>
+            </span>
+            <div className="space-entry__progress"><i /></div>
+            <strong className="space-entry__headline">
+              <span>{stage === "cabin" ? "We're leaving Earth." : stage === "ignition" ? "Engines are live." : stage === "ascent" ? "Feel the lift." : stage === "orbit" ? "Earth, falling away." : stage === "satellite" ? "Orbit established." : "Welcome to mission control."}</span>
+              <em>{stage === "cabin" ? "Buckle up. You're riding inside the rocket." : stage === "ignition" ? "Cabin locked. Thrust building." : stage === "ascent" ? "The atmosphere turns to midnight." : stage === "orbit" ? "The stars come into focus." : stage === "satellite" ? "Your satellite comes into view." : "Now the instruments come alive."}</em>
+            </strong>
+            <div className="space-entry__steps">
+              <span className={["cabin", "ignition", "ascent"].includes(stage) ? "is-current" : "is-done"}><i /> ASCENT</span>
+              <span className={["orbit"].includes(stage) ? "is-current" : ["satellite", "interface"].includes(stage) ? "is-done" : ""}><i /> ORBIT</span>
+              <span className={stage === "interface" ? "is-current" : ""}><i /> MISSION CONTROL</span>
+            </div>
           </div>
-          <div className="optical-transition__bottom"><span><i /> RANGE DECREASING <b>→</b> DOCKING ALIGNMENT</span><span>{arrival ? "DASHBOARD READY" : "APPROACH / AUTO"}</span></div>
+          <div className="space-entry__flash" aria-hidden="true" />
         </div>
       )}
     </TransitionContext.Provider>
   );
 }
 
-export function OrbitalTransitionLink({ href, className, children, onClick, ...props }: {
-  href: string; className?: string; children: ReactNode; onClick?: (event: MouseEvent<HTMLAnchorElement>) => void; "aria-label"?: string;
+export function OrbitalTransitionLink({
+  href, className, children, onClick, ...props
+}: {
+  href: string;
+  className?: string;
+  children: ReactNode;
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+  "aria-label"?: string;
 }) {
   const context = useContext(TransitionContext);
   if (!context) throw new Error("OrbitalTransitionLink must be inside SpaceEntryTransition");
-  return <a href={href} className={className} onClick={(event) => {
-    onClick?.(event);
-    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault();
-    context.enterSpace(href);
-  }} {...props}>{children}</a>;
-}
-
-
-/**
- * Real spacecraft geometry sourced from NASA's public 3D Resources collection.
- * This is a GLB model rendered in WebGL, not a CSS/SVG satellite illustration.
- */
-const NASA_TDRS_MODEL = "https://raw.githubusercontent.com/nasa/NASA-3D-Resources/master/3D%20Models/Tracking%20and%20Data%20Relay%20Satellites%20%28TDRS%29%20%28D%29/Tracking%20and%20Data%20Relay%20Satellites%20%28TDRS%29%20%28D%29.glb";
-
-function NasaSatelliteApproach() {
-  const gltf = useLoader(GLTFLoader, NASA_TDRS_MODEL);
-  const near = useMemo(() => {
-    const clone = gltf.scene.clone(true);
-    const box = new THREE.Box3().setFromObject(clone);
-    const size = box.getSize(new THREE.Vector3());
-    const largest = Math.max(size.x, size.y, size.z) || 1;
-    clone.scale.setScalar(3.1 / largest);
-    const normalized = new THREE.Box3().setFromObject(clone);
-    const center = normalized.getCenter(new THREE.Vector3());
-    clone.position.sub(center);
-    return clone;
-  }, [gltf.scene]);
-  const far = useMemo(() => {
-    const clone = near.clone(true);
-    clone.scale.multiplyScalar(0.46);
-    return clone;
-  }, [near]);
-  const nearRef = useRef<THREE.Group>(null);
-  const farRef = useRef<THREE.Group>(null);
-  const elapsed = useRef(0);
-
-  useFrame((_, dt) => {
-    elapsed.current += dt;
-    const t = Math.min(elapsed.current / 5.2, 1);
-    const ease = t * t * (3 - 2 * t);
-    if (nearRef.current) {
-      nearRef.current.position.set(-0.45 + ease * 0.2, 0.05, 0.4 - ease * 2.3);
-      nearRef.current.rotation.set(0.18, -0.38 + elapsed.current * 0.035, -0.12);
-      const scale = 0.56 + ease * 1.12;
-      nearRef.current.scale.setScalar(scale);
-    }
-    if (farRef.current) {
-      farRef.current.position.set(2.9 - ease * 0.3, 1.35, -3.2);
-      farRef.current.rotation.set(0.2, 0.8 + elapsed.current * 0.018, 0.1);
-    }
-  });
-
   return (
-    <>
-      <ambientLight intensity={1.35} />
-      <directionalLight position={[4, 5, 6]} intensity={2.8} color="#d9f0ff" />
-      <directionalLight position={[-5, 1, -3]} intensity={1.2} color="#5598d5" />
-      <pointLight position={[0, 0, 3]} intensity={1.2} color="#8be8ff" />
-      <group ref={nearRef}><primitive object={near} /></group>
-      <group ref={farRef}><primitive object={far} /></group>
-    </>
+    <a
+      href={href}
+      className={className}
+      onClick={(event) => {
+        onClick?.(event);
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        context.enterSpace(href);
+      }}
+      {...props}
+    >
+      {children}
+    </a>
   );
 }
