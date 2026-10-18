@@ -1816,3 +1816,25 @@ html body .scintilla-console .sc-mark:after {
  .cockpit-scene *, .orbi-optical-transition--arrival {animation:none!important;transition:none!important}
  .orbi-optical-transition--arrival {opacity:0!important}
 }
+
+
+/* Real NASA GLB spacecraft, rendered through Three.js/WebGL in the approach scene. */
+.cockpit-scene__real3d {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+}
+.cockpit-scene__real3d canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+.cockpit-scene__planet { z-index: 0; }
+.cockpit-scene__stars { z-index: 0; }
+.cockpit-scene__vignette { z-index: 2; }
+.cockpit-scene__frame { z-index: 3; }
+.cockpit-scene__door { z-index: 4; }
+.cockpit-scene__hud { z-index: 5; }
