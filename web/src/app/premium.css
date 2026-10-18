@@ -2389,3 +2389,43 @@ html body .scintilla-console .sc-mark:after {
     line-height: 1.4 !important;
   }
 }
+
+
+/* Final subtitle placement: the narration is a direct child of the full-screen
+   transition, so pin it to the viewport instead of the animated HUD container. */
+.space-entry > .space-entry__headline {
+  position: absolute !important;
+  z-index: 20 !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: clamp(24px, 5.5vh, 58px) !important;
+  width: min(1040px, calc(100vw - 48px)) !important;
+  max-width: min(1040px, calc(100vw - 48px)) !important;
+  margin: 0 !important;
+  padding: 0 8px !important;
+  transform: translateX(-50%) !important;
+  text-align: center !important;
+  font-size: clamp(17px, 1.9vw, 27px) !important;
+  line-height: 1.4 !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.015em !important;
+  text-shadow: 0 2px 20px rgba(0,0,0,.98), 0 0 4px rgba(0,0,0,.98) !important;
+}
+.space-entry > .space-entry__headline span {
+  color: #f7fbff !important;
+  letter-spacing: inherit !important;
+}
+.space-entry > .space-entry__headline .space-entry__type-caret {
+  display: inline-block !important;
+  margin-left: 2px !important;
+}
+@media (max-width: 640px) {
+  .space-entry > .space-entry__headline {
+    width: calc(100vw - 28px) !important;
+    max-width: calc(100vw - 28px) !important;
+    bottom: 24px !important;
+    font-size: clamp(15px, 4vw, 20px) !important;
+    line-height: 1.38 !important;
+  }
+}
