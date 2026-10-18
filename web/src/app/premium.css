@@ -1838,3 +1838,55 @@ html body .scintilla-console .sc-mark:after {
 .cockpit-scene__frame { z-index: 3; }
 .cockpit-scene__door { z-index: 4; }
 .cockpit-scene__hud { z-index: 5; }
+
+
+/* ORBI / SIGNAL GATE — clean sci-fi handoff, no rocket or duplicate spacecraft. */
+.space-entry { isolation:isolate !important; overflow:hidden !important; background:#030812 !important; color:#e9f7ff !important; }
+.space-entry__wash {
+  z-index:0 !important; opacity:1 !important;
+  background:radial-gradient(ellipse at 50% 54%,rgba(27,104,151,.18),transparent 38%),linear-gradient(115deg,#f4f7f7 0%,#d8e5e8 18%,#7894a4 34%,#172d40 52%,#050c18 72%,#020711 100%) !important;
+  background-size:280% 100% !important; animation:orbi-signal-wash 1.12s cubic-bezier(.18,.72,.18,1) both !important;
+}
+.orbi-warp-field { position:absolute; z-index:1; inset:0; overflow:hidden; perspective:900px; pointer-events:none; background:radial-gradient(ellipse at 50% 48%,rgba(11,37,61,.12),transparent 44%),linear-gradient(180deg,rgba(2,7,17,.02),rgba(2,7,17,.66)); }
+.orbi-warp-field__nebula { position:absolute; width:80vmax; height:80vmax; left:50%; top:48%; border-radius:50%; transform:translate(-50%,-50%) scale(.15); opacity:0; background:radial-gradient(circle,rgba(69,213,255,.16),rgba(70,104,255,.08) 24%,rgba(2,7,17,0) 64%); filter:blur(14px); animation:orbi-nebula-arrive 2.8s cubic-bezier(.16,.72,.18,1) both; }
+.orbi-warp-field__grid { position:absolute; left:-35%; right:-35%; top:52%; height:75vh; opacity:0; transform:perspective(440px) rotateX(72deg) scale(1.4); transform-origin:center top; background-image:linear-gradient(rgba(72,194,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(72,194,255,.12) 1px,transparent 1px); background-size:54px 54px; mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 72%,transparent); animation:orbi-grid-arrive 2.1s .2s cubic-bezier(.16,.72,.18,1) both; }
+.orbi-warp-field__rings { position:absolute; width:min(58vw,680px); aspect-ratio:1; left:50%; top:48%; transform:translate(-50%,-50%) rotateX(68deg) scale(.08); opacity:0; filter:drop-shadow(0 0 22px rgba(62,205,255,.2)); animation:orbi-rings-arrive 2.35s cubic-bezier(.16,.72,.18,1) both; }
+.orbi-warp-field__rings i { position:absolute; inset:0; border:1px solid rgba(109,221,255,.55); border-radius:50%; box-shadow:inset 0 0 24px rgba(65,191,255,.045),0 0 26px rgba(48,181,255,.08); }
+.orbi-warp-field__rings i:nth-child(2) { inset:13%; border-color:rgba(128,151,255,.42); transform:rotate(28deg); }
+.orbi-warp-field__rings i:nth-child(3) { inset:27%; border-color:rgba(105,236,255,.7); transform:rotate(-19deg); }
+.orbi-warp-field__core { position:absolute; left:50%; top:48%; width:clamp(8px,1.2vw,16px); aspect-ratio:1; transform:translate(-50%,-50%) scale(.1); border-radius:50%; opacity:0; background:#effcff; box-shadow:0 0 12px 4px rgba(140,236,255,.9),0 0 48px 16px rgba(47,183,255,.55),0 0 130px 46px rgba(72,80,255,.24); animation:orbi-core-pulse 2.35s cubic-bezier(.18,.72,.18,1) both; }
+.orbi-warp-field__core i { position:absolute; inset:-220%; border:1px solid rgba(140,236,255,.58); border-radius:50%; animation:orbi-core-ring 1.45s .18s cubic-bezier(.1,.7,.2,1) both; }
+.orbi-warp-field__core b { position:absolute; left:50%; top:50%; width:48vw; height:1px; transform:translate(-50%,-50%); background:linear-gradient(90deg,transparent,rgba(123,224,255,.72),#fff,rgba(123,224,255,.72),transparent); box-shadow:0 0 18px rgba(94,215,255,.7); }
+.orbi-warp-field__scan { position:absolute; inset:-20%; opacity:0; background:linear-gradient(115deg,transparent 35%,rgba(108,225,255,.1) 49%,rgba(226,251,255,.5) 50%,rgba(108,225,255,.1) 51%,transparent 65%); transform:translateX(-80%); animation:orbi-scan-sweep 1.15s .55s cubic-bezier(.16,.72,.18,1) both; }
+.orbi-warp-field__horizon { position:absolute; left:50%; top:48%; width:120vw; height:120vw; border-radius:50%; border-top:1px solid rgba(124,223,255,.3); box-shadow:0 -14px 70px rgba(41,168,255,.09); transform:translate(-50%,12%) scale(.5); opacity:0; animation:orbi-horizon-lift 2.1s .1s cubic-bezier(.16,.72,.18,1) both; }
+.space-entry__hud { z-index:5 !important; left:clamp(26px,6.4vw,96px) !important; right:clamp(26px,6.4vw,96px) !important; bottom:clamp(24px,6vh,64px) !important; animation:orbi-hud-materialize .55s .24s ease-out both !important; }
+.space-entry__brand { letter-spacing:.2em !important; color:rgba(224,246,255,.84) !important; }
+.space-entry__brand b { color:#8eeaff !important; text-shadow:0 0 16px rgba(75,209,255,.8) !important; }
+.space-entry__readout { color:rgba(146,211,237,.78) !important; }
+.space-entry__progress { background:rgba(124,192,222,.13) !important; }
+.space-entry__progress i { background:linear-gradient(90deg,#7b9dff,#8cf0ff,#fff) !important; box-shadow:0 0 14px rgba(93,218,255,.72) !important; }
+.space-entry__headline span { color:#f4fbff !important; letter-spacing:-.045em !important; text-shadow:0 4px 36px rgba(0,0,0,.5) !important; }
+.space-entry__headline em { color:rgba(185,215,231,.82) !important; }
+.space-entry__steps { color:rgba(148,184,203,.58) !important; }
+.space-entry__steps .is-current { color:#c9f6ff !important; }
+.space-entry__steps .is-current i { background:#a9f1ff !important; box-shadow:0 0 12px rgba(106,224,255,.95) !important; }
+.space-entry--arrival,.space-entry--satellite,.space-entry--interface { background:transparent !important; }
+.space-entry--arrival .space-entry__wash,.space-entry--satellite .space-entry__wash,.space-entry--interface .space-entry__wash { animation:orbi-arrival-clear 2.6s cubic-bezier(.16,.72,.18,1) both !important; }
+.space-entry--arrival .orbi-warp-field,.space-entry--satellite .orbi-warp-field { animation:orbi-field-clear 2.6s cubic-bezier(.16,.72,.18,1) both; }
+.space-entry--arrival .space-entry__hud,.space-entry--satellite .space-entry__hud { animation:orbi-hud-clear 1.1s 1.05s ease-in both !important; }
+.space-entry--interface .orbi-warp-field,.space-entry--interface .space-entry__hud { opacity:0 !important; pointer-events:none !important; }
+.space-entry--launch .orbi-warp-field__rings,.space-entry--launch .orbi-warp-field__core,.space-entry--launch .orbi-warp-field__nebula { animation-duration:1.05s; }
+@keyframes orbi-signal-wash { 0%{background-position:0% 50%;filter:brightness(1)}45%{background-position:45% 50%;filter:brightness(.72)}100%{background-position:100% 50%;filter:brightness(.22)} }
+@keyframes orbi-nebula-arrive { 0%{opacity:0;transform:translate(-50%,-50%) scale(.12)}38%{opacity:.85}100%{opacity:.28;transform:translate(-50%,-50%) scale(1.08)} }
+@keyframes orbi-grid-arrive { 0%,18%{opacity:0;transform:perspective(440px) rotateX(72deg) scale(1.8) translateY(16%)}58%{opacity:.55}100%{opacity:.24;transform:perspective(440px) rotateX(72deg) scale(1) translateY(0)} }
+@keyframes orbi-rings-arrive { 0%{opacity:0;transform:translate(-50%,-50%) rotateX(68deg) scale(.08) rotate(0)}32%{opacity:.95}72%{opacity:.82;transform:translate(-50%,-50%) rotateX(68deg) scale(1.06) rotate(36deg)}100%{opacity:.38;transform:translate(-50%,-50%) rotateX(68deg) scale(1.3) rotate(70deg)} }
+@keyframes orbi-core-pulse { 0%{opacity:0;transform:translate(-50%,-50%) scale(.1)}34%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}58%{opacity:.9;transform:translate(-50%,-50%) scale(.7)}100%{opacity:.12;transform:translate(-50%,-50%) scale(1.8)} }
+@keyframes orbi-core-ring { 0%{opacity:0;transform:scale(.15)}100%{opacity:.08;transform:scale(8)} }
+@keyframes orbi-scan-sweep { 0%{opacity:0;transform:translateX(-80%)}20%{opacity:.9}100%{opacity:0;transform:translateX(80%)} }
+@keyframes orbi-horizon-lift { 0%{opacity:0;transform:translate(-50%,22%) scale(.25)}55%{opacity:.75}100%{opacity:.18;transform:translate(-50%,-10%) scale(1.05)} }
+@keyframes orbi-hud-materialize { from{opacity:0;transform:translateY(12px);filter:blur(7px)}to{opacity:1;transform:translateY(0);filter:blur(0)} }
+@keyframes orbi-arrival-clear { 0%{opacity:1;filter:blur(0)}60%{opacity:.76}100%{opacity:0;filter:blur(12px);visibility:hidden} }
+@keyframes orbi-field-clear { 0%{opacity:1;transform:scale(1);filter:blur(0)}100%{opacity:0;transform:scale(1.12);filter:blur(16px)} }
+@keyframes orbi-hud-clear { to{opacity:0;transform:translateY(-8px);filter:blur(5px)} }
+@media(max-width:700px) { .orbi-warp-field__rings{width:88vw}.orbi-warp-field__grid{background-size:36px 36px}.space-entry__hud{left:22px !important;right:22px !important;bottom:22px !important} }
+@media(prefers-reduced-motion:reduce) { .orbi-warp-field *,.space-entry__wash,.space-entry__hud{animation:none !important;transition:none !important}.space-entry--arrival{opacity:0 !important} }
