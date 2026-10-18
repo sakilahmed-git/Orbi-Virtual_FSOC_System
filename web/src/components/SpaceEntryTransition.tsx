@@ -30,7 +30,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       if (!target.current) return;
       window.sessionStorage.setItem("orbi:cinematic-entry", "1");
       router.push(target.current);
-    }, 7200);
+    }, 5400);
   }, [phase, pathname, router, clearTimers, later]);
 
   useEffect(() => {
@@ -40,9 +40,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setPhase("arrival");
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
-    // The actual 3D viewport is now behind the optical line; the overlay clears
-    // only after the dashboard's existing staged reveal has completed.
-    later(() => setPhase("idle"), 3600);
+    // The destination route is live underneath. Fade the optical overlay away
+    // quickly so the real Mission Control UI is revealed, not held behind it.
+    later(() => setPhase("idle"), 1800);
   }, [pathname, phase, clearTimers, later]);
 
   useEffect(() => () => clearTimers(), [clearTimers]);
