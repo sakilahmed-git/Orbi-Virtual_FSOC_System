@@ -60,15 +60,26 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("cabin");
     setPhase("launch");
 
-    // Give the transmission a cinematic beat: the words finish typing, breathe,
-    // and remain readable while the flight visuals continue behind them.
+    // Start the camera as soon as the overlay is mounted. The 3D Canvas can
+    // take longer than one frame to mount on a cold load, so retry the event
+    // briefly; CameraRig ignores duplicate events once its journey has begun.
+    let cameraStartAttempts = 0;
+    const startCameraWhenReady = () => {
+      if (!target.current || phase === "idle") return;
+      window.dispatchEvent(new Event("orbi:cinematic-entry"));
+      cameraStartAttempts += 1;
+      if (cameraStartAttempts < 20) later(startCameraWhenReady, 100);
+    };
+    later(startCameraWhenReady, 0);
+
+    // Keep the choreography independent of camera initialization timing.
     later(() => setStage("ignition"), 1600);
     later(() => setStage("ascent"), 3400);
     later(() => setStage("orbit"), 6100);
     later(() => {
       if (target.current) {
-        // Persist the hand-off before navigation so the 3D scene can pick it
-        // up even if it mounts after the transition component dispatches events.
+        // Persist the hand-off before navigation so the destination scene can
+        // continue the camera journey if it mounts after navigation.
         window.sessionStorage.setItem("orbi:cinematic-entry", "1");
         router.push(target.current);
       }
