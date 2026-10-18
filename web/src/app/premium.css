@@ -1945,7 +1945,7 @@ html body .scintilla-console .sc-mark:after {
 .space-entry--launch .space-entry__flash {
   z-index: 4 !important;
   background: #fff !important;
-  animation: orbi-solar-blanch 1.05s 7.65s cubic-bezier(.15,.72,.2,1) both !important;
+  animation: orbi-solar-blanch 1.05s 9.5s cubic-bezier(.15,.72,.2,1) both !important;
 }
 .space-entry--launch .orbi-warp-field__rings {
   animation-duration: 2.8s !important;
