@@ -18,7 +18,7 @@ type TransitionContextValue = { enterSpace: (href: string) => void };
 type TransitionPhase = "idle" | "launch" | "arrival";
 type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interface";
 
-function TypewriterText({ text, className, speed = 92 }: { text: string; className?: string; speed?: number }) {
+function TypewriterText({ text, className, speed = 36 }: { text: string; className?: string; speed?: number }) {
   const [visibleText, setVisibleText] = useState("");
 
   useEffect(() => {
@@ -68,13 +68,13 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     // One camera journey for the whole transition. Wait one frame for the
     // transition scene to mount, then trigger it once; never retrigger on arrival.
     later(() => window.dispatchEvent(new CustomEvent("orbi:cinematic-entry")), 120);
-    later(() => setStage("ignition"), 2400);
-    later(() => setStage("ascent"), 4800);
-    later(() => setStage("orbit"), 7000);
+    later(() => setStage("ignition"), 1900);
+    later(() => setStage("ascent"), 3700);
+    later(() => setStage("orbit"), 5500);
     later(() => {
       if (!target.current) return;
       router.push(target.current);
-    }, 11800);
+    }, 10000);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
@@ -84,11 +84,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 3600);
+    later(() => setStage("interface"), 2700);
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 5600);
+    }, 4300);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -143,7 +143,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
             </span>
             <div className="space-entry__progress"><i /></div>
             <strong className="space-entry__headline">
-              <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "The signal is out there." : stage === "ignition" ? "Thrusters hot. Hold your breath." : stage === "ascent" ? "Leaving the world behind." : stage === "orbit" ? "There — our beacon in the dark." : stage === "satellite" ? "Approach vector locked. Easy now." : "We made it. Your mission begins."} />
+              <TypewriterText key={`headline-${stage}`} text={stage === "cabin" ? "Somewhere beyond Earth, a faint signal is calling through the silence. We have one chance to find it." : stage === "ignition" ? "Thrusters are live. Hold steady as we leave the familiar world behind and follow the signal into the dark." : stage === "ascent" ? "Earth is falling away beneath us. Every second brings us closer to the beacon, and farther from everything we know." : stage === "orbit" ? "There — a light against the endless black. The signal is real. Now bring us in carefully and hold the connection." : stage === "satellite" ? "Easy on the approach. Two satellites, one narrow beam of light — keep them aligned, and let the link find its way home." : "Docking complete. The signal is yours to command. Mission Control is online, and the next chapter begins now."} />
 
             </strong>
             <div className="space-entry__steps">
