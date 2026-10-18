@@ -18,7 +18,7 @@ type TransitionContextValue = { enterSpace: (href: string) => void };
 type TransitionPhase = "idle" | "launch" | "arrival";
 type FlightStage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interface";
 
-function TypewriterText({ text, className, speed = 28 }: { text: string; className?: string; speed?: number }) {
+function TypewriterText({ text, className, speed = 48 }: { text: string; className?: string; speed?: number }) {
   const [visibleText, setVisibleText] = useState("");
 
   useEffect(() => {
@@ -68,13 +68,13 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     // One camera journey for the whole transition. Wait one frame for the
     // transition scene to mount, then trigger it once; never retrigger on arrival.
     later(() => window.dispatchEvent(new CustomEvent("orbi:cinematic-entry")), 120);
-    later(() => setStage("ignition"), 2200);
-    later(() => setStage("ascent"), 4400);
-    later(() => setStage("orbit"), 6600);
+    later(() => setStage("ignition"), 3200);
+    later(() => setStage("ascent"), 6400);
+    later(() => setStage("orbit"), 9600);
     later(() => {
       if (!target.current) return;
       router.push(target.current);
-    }, 10000);
+    }, 12800);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 5200);
+    }, 4300);
   }, [pathname, phase, clearTimers, later]);
 
 
