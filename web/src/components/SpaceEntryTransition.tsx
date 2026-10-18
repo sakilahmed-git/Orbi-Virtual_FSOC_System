@@ -72,7 +72,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       if (!target.current) return;
       window.sessionStorage.setItem("orbi:cinematic-entry", "1");
       router.push(target.current);
-    }, 9600);
+    }, 10800);
   }, [clearTimers, later, pathname, phase, router]);
 
   useEffect(() => {
