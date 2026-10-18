@@ -2199,3 +2199,61 @@ html body .scintilla-console .sc-mark:after {
 @media (prefers-reduced-motion: reduce) {
   .orbi-flight-scene { display: none !important; }
 }
+
+/* Corrective override: use the actual MissionSpace satellite geometry, never a decorative substitute. */
+.space-entry .orbi-flight-scene {
+  z-index: 3 !important;
+  background: #020817 !important;
+  opacity: 1;
+  transform: translateZ(0) scale(1);
+  transform-origin: 50% 50%;
+  transition: opacity 1.15s cubic-bezier(.22,.72,.2,1), transform 2.6s cubic-bezier(.18,.76,.22,1), filter 1.2s ease;
+  will-change: opacity, transform, filter;
+}
+.space-entry .orbi-flight-scene canvas {
+  position: absolute !important;
+  inset: 0 !important;
+}
+.space-entry .orbi-warp-field__core,
+.space-entry .orbi-warp-field__rings,
+.space-entry .orbi-warp-field__grid,
+.space-entry .orbi-warp-field__horizon,
+.space-entry .orbi-warp-field__scan,
+.space-entry .orbi-warp-field::before,
+.space-entry .orbi-warp-field::after,
+.space-entry .space-entry__flash {
+  opacity: 0 !important;
+  animation: none !important;
+  background: transparent !important;
+}
+.space-entry .orbi-warp-field__nebula {
+  opacity: .16 !important;
+  animation: none !important;
+  filter: blur(30px) !important;
+}
+.space-entry .space-entry__stars { opacity: .12 !important; }
+.space-entry--launch .orbi-flight-scene {
+  animation: orbi-mission-approach 10.8s cubic-bezier(.18,.68,.18,1) both !important;
+}
+.space-entry--launch .space-entry__wash { opacity: .04 !important; animation: none !important; }
+.space-entry--arrival .orbi-flight-scene,
+.space-entry--satellite .orbi-flight-scene {
+  opacity: 1 !important;
+  animation: orbi-mission-handoff 2.8s cubic-bezier(.22,.72,.2,1) both !important;
+}
+.space-entry--interface .orbi-flight-scene { opacity: 0 !important; }
+@keyframes orbi-mission-approach {
+  0% { opacity: .15; transform: scale(1.12); filter: brightness(.55) saturate(.8); }
+  12% { opacity: .9; transform: scale(1.08); filter: brightness(.8) saturate(1); }
+  48% { opacity: 1; transform: scale(1.025); filter: brightness(1.05) saturate(1.1); }
+  76% { opacity: 1; transform: scale(1.01); filter: brightness(1.12) saturate(1.16); }
+  100% { opacity: 1; transform: scale(1); filter: brightness(1) saturate(1); }
+}
+@keyframes orbi-mission-handoff {
+  0% { opacity: 1; transform: scale(1); filter: brightness(1) saturate(1.08); }
+  45% { opacity: .92; transform: scale(1.018); filter: brightness(.82) saturate(1.08); }
+  100% { opacity: 0; transform: scale(1.035); filter: brightness(.68) saturate(.95); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-entry .orbi-flight-scene { animation: none !important; transition: none !important; }
+}
