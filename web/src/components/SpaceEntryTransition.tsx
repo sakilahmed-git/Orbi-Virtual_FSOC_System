@@ -139,8 +139,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       // Continue immediately after the final spoken line and its typing finish.
       if (!cancelled && target.current) {
         const destination = target.current;
-        target.current = null;
+        clearTimers();
         window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+        // Keep the target until the pathname changes so the arrival scene can run.
         router.push(destination);
       }
     };
