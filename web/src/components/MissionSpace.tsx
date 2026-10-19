@@ -310,20 +310,29 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       // One Catmull–Rom trajectory for the entire shot. Position and look target
       // share the same continuous parameter, so the second angle cannot snap or
       // feel like a separate camera taking over.
+      // A single continuous, gently banking orbital arc: begin beside the
+      // source, drift past it, sweep out to the side, rise to a wide view,
+      // then settle into the dashboard framing. Keep the original 22s duration.
       const positionPath = new THREE.CatmullRomCurve3([
         c.start,
         c.pass,
+        c.midpoint.clone().add(new THREE.Vector3(-3.2, 2.2, 1.4)),
+        new THREE.Vector3(2.8, 9.2, 18.5),
         desired,
       ], false, "centripetal");
       const lookPath = new THREE.CatmullRomCurve3([
         c.source,
-        c.midpoint,
-        new THREE.Vector3(0, 0, 0),
+        c.source.clone().lerp(c.midpoint, 0.32).add(new THREE.Vector3(0, 0.45, 0)),
+        c.midpoint.clone().add(new THREE.Vector3(0.6, 0.25, 0)),
+        new THREE.Vector3(0, 0.2, 0),
       ], false, "centripetal");
       camera.position.copy(positionPath.getPoint(t));
-      camera.position.y += Math.sin(t * Math.PI) * 0.9;
+      // A restrained rise and side drift adds parallax without a sudden orbit
+      // or an artificial shake.
+      camera.position.y += Math.sin(t * Math.PI) * 0.55;
+      camera.position.x += Math.sin(t * Math.PI * 1.15) * 0.32;
       const lookTarget = lookPath.getPoint(t);
-      lookTarget.y += Math.sin(t * Math.PI) * 0.35;
+      lookTarget.y += Math.sin(t * Math.PI) * 0.18;
       camera.lookAt(lookTarget);
       if (t >= 1) c.active = false;
       return;
