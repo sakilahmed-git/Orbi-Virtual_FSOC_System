@@ -559,7 +559,7 @@ export default function MissionControl() {
     const linkBtn = <div className="fp-pad"><button className={connected ? "sc-dark red" : "sc-primary"} onClick={connected ? handleDisconnect : handleEstablish} disabled={demoRunning}>{connected ? "DISCONNECT" : learned ? "RECONNECT LINK" : "ESTABLISH LINK"}</button></div>;
     const idCard = (name: string, meta: string, accent: string, live: boolean) => <div className="fp-id" style={{ borderLeft: `3px solid ${accent}` }}><div><b>{name}</b><span>{meta}</span></div><em style={{ color: live ? "#079b76" : "#7b8993" }}>● {live ? "ONLINE" : "READY"}</em></div>;
     const healthBlock = (<>
-        <div className="sc-analog-grid"><div className="sc-analog"><Gauge label="System health" value={`${health}%`} p={health} color="#08b98a" /></div><div className="sc-analog"><Gauge label="Link quality" value={connected ? `${sim.quality.toFixed(0)}%` : "—"} p={connected ? sim.quality : 0} color="#19bfe8" /></div></div>
+        <div className="sc-analog-grid" style={{ background: "transparent", padding: 8 }}><div className="sc-analog" style={{ background: "#0d2235", borderColor: "#29465f", color: "#dceafb" }}><Gauge label="System health" value={`${health}%`} p={health} color="#08b98a" /></div><div className="sc-analog" style={{ background: "#0d2235", borderColor: "#29465f", color: "#dceafb" }}><Gauge label="Link quality" value={connected ? `${sim.quality.toFixed(0)}%` : "—"} p={connected ? sim.quality : 0} color="#19bfe8" /></div></div>
         {miniGrid([["Link margin", linkMargin === null ? "—" : `${linkMargin.toFixed(1)} dB`], ["Pointing error", `${sim.pointingErrorDeg.toFixed(3)}°`], ["Confidence", `${confidence}%`], ["Beacon", sim.beaconVisible ? "VISIBLE" : "SEARCHING"], ["Adaptive state", sim.adaptive ? "ACTIVE" : "IDLE"], ["Learned model", learned ? "LOADED" : "COLD"]])}
     </>);
     const inspector = (s: "a" | "b") => {
@@ -1333,9 +1333,9 @@ export default function MissionControl() {
 
       <div style={{ display: "flex", gap: 6, padding: "0 10px 10px" }}>
 
-        <button className={`sc-secondary ${eventView ? "" : ""}`} style={eventView ? { background: "#eef8fc", borderColor: `${accent}66`, color: "#1479b0" } : undefined} onClick={() => setEventView(true)}>Event View</button>
+        <button className={`sc-secondary ${eventView ? "" : ""}`} style={eventView ? { background: "#12364a", borderColor: `${accent}88`, color: "#a3f0f5" } : { background: "#0b1c2e", borderColor: "#294158", color: "#b7cce0" }} onClick={() => setEventView(true)}>Event View</button>
 
-        <button className="sc-secondary" style={!eventView ? { background: "#eef8fc", borderColor: `${accent}66`, color: "#1479b0" } : undefined} onClick={() => setEventView(false)}>Frame View</button>
+        <button className="sc-secondary" style={!eventView ? { background: "#12364a", borderColor: `${accent}88`, color: "#a3f0f5" } : { background: "#0b1c2e", borderColor: "#294158", color: "#b7cce0" }} onClick={() => setEventView(false)}>Frame View</button>
 
       </div>
 
