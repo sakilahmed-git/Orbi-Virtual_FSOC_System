@@ -1226,7 +1226,6 @@ export default function MissionControl() {
                 overflow: "hidden",
                 border: `1px solid ${locked ? `${accent}66` : "#263847"}`,
                 background: "radial-gradient(circle at 50% 50%,#163047 0%,#07131f 44%,#02070d 100%)",
-                position: "relative",
                 boxShadow: `inset 0 0 36px rgba(0,0,0,.55), 0 0 0 1px ${locked ? `${accent}18` : "transparent"}`,
             }}>
 
