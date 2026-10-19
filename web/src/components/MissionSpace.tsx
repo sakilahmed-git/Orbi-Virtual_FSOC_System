@@ -234,7 +234,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       c.pass.copy(c.midpoint).add(new THREE.Vector3(-1.5, 0.8, 3.0));
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
-      camera.lookAt(c.source);
+      camera.lookAt(c.source.clone().lerp(c.midpoint, 0.2));
     };
     window.addEventListener("orbi:cinematic-entry", startCinematicEntry);
     return () => window.removeEventListener("orbi:cinematic-entry", startCinematicEntry);
