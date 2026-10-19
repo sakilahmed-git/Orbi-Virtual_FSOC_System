@@ -124,7 +124,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       }, 42);
     });
     const run = async () => {
-      for (const line of launchDialogue) {
+      for (const [lineIndex, line] of launchDialogue.entries()) {
         if (cancelled) return;
         setTypedSubline(line.speaker); setTypedHeadline("");
         currentAudio = new Audio(line.src); currentAudio.preload = "auto";
@@ -134,7 +134,8 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         try { await currentAudio.play(); } catch { finishAudio(); /* Continue if autoplay is blocked. */ }
         await Promise.all([typingDone, audioDone]);
         if (cancelled) return;
-        await sleep(260);
+        // Keep the dialogue flowing; the final line transitions immediately.
+      if (lineIndex < launchDialogue.length - 1) await sleep(70);
       }
       // Continue immediately after the final spoken line and its typing finish.
       if (!cancelled && target.current) {
@@ -156,7 +157,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     clearTimers();
     // The scene arrives first. Only then does the mission interface assemble around it.
-    later(() => setStage("interface"), 4200);
+    later(() => setStage("interface"), 1000);
     later(() => {
       setPhase("idle");
       setStage("cabin");
