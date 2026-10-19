@@ -939,17 +939,15 @@ export default function MissionControl() {
 }
 
 
-/* Keep sensor feed viewport visible; force terminal health widgets onto dark surfaces. */
-.scintilla-console .sc-camera-panel{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important;background:#09192a!important;color:#dceafb!important;border:1px solid #29445d!important}
-.scintilla-console .sc-camera-panel>.sc-panel-head{display:flex!important;min-height:38px!important;background:#0d2034!important;color:#e5f2ff!important;border-bottom:1px solid #263d54!important}
-.scintilla-console .sc-camera-viewport{display:block!important;position:relative!important;height:190px!important;min-height:190px!important;max-height:190px!important;visibility:visible!important;opacity:1!important;overflow:hidden!important;background:radial-gradient(circle at 50% 50%,#163047 0%,#07131f 44%,#02070d 100%)!important}
-.scintilla-console .sc-camera-viewport>*{visibility:visible!important}
-.scintilla-console .sc-analog-grid{background:transparent!important}
-.scintilla-console .sc-analog{background:#0d2235!important;border-color:#29465f!important;color:#dceafb!important}
-.scintilla-console .sc-analog .gauge>span{color:#8faac3!important}
+/* Explicitly reserve space for the simulated sensor viewport and force dark gauges. */
+.scintilla-console .fp-body{display:block!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important}
+.scintilla-console .fp-body>div{display:block!important;min-height:0!important}
+.scintilla-console .sc-camera-panel{display:block!important;position:relative!important;width:calc(100% - 16px)!important;min-height:0!important;height:auto!important;overflow:visible!important;background:#09192a!important;color:#dceafb!important;border:1px solid #29445d!important}
+.scintilla-console .sc-camera-viewport{display:block!important;position:relative!important;flex:0 0 190px!important;width:calc(100% - 20px)!important;height:190px!important;min-height:190px!important;max-height:190px!important;margin:10px!important;box-sizing:border-box!important;visibility:visible!important;opacity:1!important;overflow:hidden!important;background:radial-gradient(circle at 50% 50%,#163047 0%,#07131f 44%,#02070d 100%)!important;border:1px solid #2b4b66!important}
+.scintilla-console .sc-analog-grid>.sc-analog{background:#0d2235!important;border:1px solid #29465f!important;color:#dceafb!important}
+.scintilla-console .sc-analog .ring:after{background:#0d2235!important;border:1px solid #29445d!important}
 .scintilla-console .sc-analog .ring{box-shadow:inset 0 0 0 7px #0d2235!important}
-.scintilla-console .sc-analog .ring:after{background:#0d2235!important;border-color:#29445d!important}
-.scintilla-console .sc-analog .gauge-value{color:#e5f3ff!important}
+
 `}
 
 </style>
@@ -1216,6 +1214,11 @@ export default function MissionControl() {
 
       <div className="sc-camera-viewport" style={{
                 display: "block",
+                position: "relative",
+                flex: "0 0 190px",
+                width: "calc(100% - 20px)",
+                minWidth: 0,
+                boxSizing: "border-box",
                 margin: 10,
                 height: 190,
                 minHeight: 190,
