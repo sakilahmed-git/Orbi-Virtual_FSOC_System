@@ -973,6 +973,47 @@ export default function MissionControl() {
 `}
 
 
+
+/* FINAL MISSION DASHBOARD SKIN — consistent dark optical-lab surfaces */
+.scintilla-console{background:#020817!important;color:#dceaf6!important}
+.scintilla-console .sc-topbar,.scintilla-console .sc-rail,.scintilla-console .sc-status,
+.scintilla-console .sc-endpoint,.scintilla-console .sc-panel,.scintilla-console .sc-card,
+.scintilla-console .sc-right-inner>.fp-panel,.scintilla-console .fp-panel{
+  background:rgba(7,22,36,.96)!important;color:#dceaf6!important;
+  border-color:#1d4056!important;box-shadow:0 12px 30px rgba(0,0,0,.22)!important;
+}
+.scintilla-console .sc-topbar{background:rgba(6,22,37,.96)!important;border-color:#21445b!important}
+.scintilla-console .sc-brand-title,.scintilla-console .sc-endpoint-name,
+.scintilla-console .sc-metric-value,.scintilla-console .sc-panel-head,
+.scintilla-console .sc-card-head,.scintilla-console .sc-mini b,
+.scintilla-console .sc-verified-row b{color:#dceaf6!important}
+.scintilla-console .sc-brand-sub,.scintilla-console .sc-metric-label,
+.scintilla-console .sc-endpoint-meta,.scintilla-console .sc-mini span{color:#8daabd!important}
+.scintilla-console .sc-nav button,.scintilla-console .sc-nav a,
+.scintilla-console .sc-rail button{color:#91aabd!important}
+.scintilla-console .sc-nav .active,.scintilla-console .sc-rail button.active,
+.scintilla-console .sc-rail button.open{background:#123448!important;color:#8de5ed!important;border-color:#286078!important;box-shadow:none!important}
+.scintilla-console .sc-search{background:#07192a!important;border-color:#21465e!important;color:#a7bfce!important}
+.scintilla-console .sc-search input{color:#e0edf6!important}
+.scintilla-console .sc-tool,.scintilla-console .sc-secondary,
+.scintilla-console .sc-mode button{background:#0b2032!important;color:#a9c1d1!important;border-color:#25485f!important}
+.scintilla-console .sc-mode button.active{background:#103c50!important;color:#8de5ed!important;border-color:#2c8294!important}
+.scintilla-console .sc-mini,.scintilla-console .sc-gauge,.scintilla-console .sc-analog,
+.scintilla-console .sc-verified-row,.scintilla-console .sc-advisory{
+  background:#0b2235!important;border-color:#21465c!important;color:#c8dbe8!important;
+}
+.scintilla-console .sc-analog .gauge .ring{box-shadow:inset 0 0 0 7px #0b2235,0 2px 10px #0008!important}
+.scintilla-console .sc-analog .gauge .ring:after{background:#071727!important;border-color:#24465b!important}
+.scintilla-console .sc-analog .gauge,.scintilla-console .sc-analog .gauge>span{color:#8eafc3!important}
+.scintilla-console .sc-ai{background:linear-gradient(135deg,#0b263a,#171b38)!important;border-color:#25485f!important}
+.scintilla-console .sc-ai p{color:#9cb5c7!important}
+.scintilla-console .sc-verified-row,.scintilla-console .fp-note{color:#9cb5c7!important}
+.scintilla-console .sc-lower>.sc-panel:nth-child(2)>.sc-panel-head{background:#071a2b!important}
+.scintilla-console .sc-lower>.sc-panel:nth-child(2){scrollbar-color:#31556a transparent}
+.scintilla-console .sc-lower>.sc-panel:nth-child(2)::-webkit-scrollbar-thumb{background:#31556a}
+.scintilla-console .sc-intel{background:#0d2b35!important;border-color:#2c625e!important}
+.scintilla-console .sc-intel b{color:#d8f0ed!important}
+.scintilla-console .sc-intel span{color:#91b9c4!important}
 </style>
         <section className="sc-space"><MissionSpace simulation={sim} ground={ground} view={view} onSelect={selectFromScene} /></section>
         <header className="sc-topbar">
