@@ -179,6 +179,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
     pass: new THREE.Vector3(),
     wide: new THREE.Vector3(),
     source: new THREE.Vector3(),
+    target: new THREE.Vector3(),
     midpoint: new THREE.Vector3(),
   });
   const presets: Record<
@@ -224,12 +225,13 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       c.active = true;
       c.elapsed = Math.max(0, (Date.now() - startAt) / 1000);
       c.source.copy(shared.current.a);
+      c.target.copy(shared.current.b);
       c.midpoint.copy(shared.current.a).add(shared.current.b).multiplyScalar(0.5);
-      // Return to the closer, cinematic three-quarter fly-by: the satellite
-      // feels substantial in frame without placing its body directly in front
-      // of the lens. The shared clock keeps this exact arc continuous on handoff.
+      // Begin tight on the optical beam, then slide left and turn toward
+      // satellite B. The second movement pulls back and rises to reveal both
+      // spacecraft together, followed by a restrained cinematic settling move.
       c.start.copy(c.midpoint).add(new THREE.Vector3(0.15, 0.55, 3.2));
-      c.pass.copy(c.midpoint).add(new THREE.Vector3(-0.8, 1.5, 8.2));
+      c.pass.copy(c.midpoint).add(new THREE.Vector3(-1.5, 0.8, 3.0));
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
@@ -313,34 +315,33 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       const c = cinematic.current;
       c.elapsed += dt;
       const t = THREE.MathUtils.clamp(c.elapsed / 22.0, 0, 1);
-      // One Catmull–Rom trajectory for the entire shot. Position and look target
-      // share the same continuous parameter, so the second angle cannot snap or
-      // feel like a separate camera taking over.
-      // A single continuous, gently banking orbital arc: begin beside the
-      // source, drift past it, sweep out to the side, rise to a wide view,
-      // then settle into the dashboard framing. Keep the original 22s duration.
+      // A single continuous shot with three readable beats:
+      // 1) tight beam detail, sliding left while the camera turns toward B;
+      // 2) pull back and rise while turning left to reveal both satellites;
+      // 3) a small, elegant drift into the dashboard framing.
       const positionPath = new THREE.CatmullRomCurve3([
         c.start,
         c.pass,
-        c.midpoint.clone().add(new THREE.Vector3(-2.4, 2.8, 11.5)),
-        c.midpoint.clone().add(new THREE.Vector3(-3.8, 5.6, 14.5)),
-        new THREE.Vector3(2.8, 9.2, 18.5),
+        c.target.clone().add(new THREE.Vector3(-1.3, 0.65, 3.0)),
+        c.target.clone().add(new THREE.Vector3(-3.0, 2.6, 8.0)),
+        c.midpoint.clone().add(new THREE.Vector3(-3.8, 5.4, 14.0)),
+        new THREE.Vector3(-1.0, 8.2, 22.8),
         new THREE.Vector3(0, 7.6, 22),
       ], false, "centripetal");
       const lookPath = new THREE.CatmullRomCurve3([
         c.midpoint.clone(),
-        c.midpoint.clone().add(new THREE.Vector3(0, 0.15, 0)),
-        c.midpoint.clone().lerp(new THREE.Vector3(0, 0, 0), 0.18),
-        c.midpoint.clone().lerp(new THREE.Vector3(0, 0, 0), 0.58),
+        c.target.clone(),
+        c.target.clone().lerp(c.midpoint, 0.12),
+        c.midpoint.clone().lerp(new THREE.Vector3(0, 0, 0), 0.28),
         new THREE.Vector3(0, 0, 0),
       ], false, "centripetal");
       camera.position.copy(positionPath.getPoint(t));
-      // Smooth cinematic banking and a restrained rise, without any shake or
-      // abrupt secondary movement layered over the main camera trajectory.
-      camera.position.y += Math.sin(t * Math.PI) * 0.42;
-      camera.position.x += Math.sin(t * Math.PI * 1.1) * 0.22;
+      // Keep the motion cinematic but understated: a soft rise and slight
+      // lateral drift, with no shake or extra competing camera movement.
+      camera.position.y += Math.sin(t * Math.PI) * 0.22;
+      camera.position.x += Math.sin(t * Math.PI * 1.2) * 0.12;
       const lookTarget = lookPath.getPoint(t);
-      lookTarget.y += Math.sin(t * Math.PI) * 0.14;
+      lookTarget.y += Math.sin(t * Math.PI) * 0.08;
       camera.lookAt(lookTarget);
       if (t >= 1) c.active = false;
       return;
