@@ -49,6 +49,18 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     timers.current.push(setTimeout(fn, ms));
   }, []);
 
+  const skipTransition = useCallback(() => {
+    clearTimers();
+    const destination = target.current;
+    target.current = null;
+    setPhase("idle");
+    setStage("cabin");
+    if (destination) {
+      window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+      router.push(destination);
+    }
+  }, [clearTimers, router]);
+
   const enterSpace = useCallback((href: string) => {
     if (phase !== "idle" || href === pathname) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -152,6 +164,11 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       if (cancelled) return;
       await new Promise((resolve) => setTimeout(resolve, 180));
       await typeText(subline, setTypedSubline, 24);
+      // Finish as soon as the final interface line is fully typed—no dead air afterward.
+      if (!cancelled && isInterfaceStage) {
+        setPhase("idle");
+        setStage("cabin");
+      }
     };
 
     if (phase === "launch") void runLaunchDialogue();
@@ -174,12 +191,8 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     setStage("satellite");
     window.dispatchEvent(new Event("orbi:cinematic-entry"));
     clearTimers();
-    // Hold the real 3D scene long enough for the acquisition message to land.
+    // Let the acquisition scene land, then finish immediately when the final text types out.
     later(() => setStage("interface"), 3400);
-    later(() => {
-      setPhase("idle");
-      setStage("cabin");
-    }, 6400);
   }, [pathname, phase, clearTimers, later]);
 
 
@@ -243,6 +256,16 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
               <span className={stage === "interface" ? "is-current" : ""}><i /> MISSION CONTROL</span>
             </div>
           </div>
+          <button
+            type="button"
+            className="orbi-transition-skip"
+            onClick={skipTransition}
+            aria-label="Skip cinematic transition"
+          >
+            <span className="orbi-transition-skip__icon" aria-hidden="true">»</span>
+            <span>SKIP INTRO</span>
+            <span className="orbi-transition-skip__key">ESC</span>
+          </button>
           <div className="orbi-cinema__flash" aria-hidden="true" />
         </div>
       )}
