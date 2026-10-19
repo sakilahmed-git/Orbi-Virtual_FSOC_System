@@ -150,7 +150,7 @@ export default function MissionControl() {
     const minPanel = (id: string) => setPanels(p => p[id] ? { ...p, [id]: { ...p[id], min: !p[id].min } } : p);
     function toggleGroup(ids: string[]) { if (ids.some(i => panels[i])) ids.forEach(closePanel); else ids.forEach(openPanel); }
     function selectFromScene(t: SceneTarget) { openPanel(t === "ground" ? "gs" : t); }
-    useEffect(() => { openPanel("tel"); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => { openPanel("a"); openPanel("b"); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const phase = sim.phase as Phase;
     const connected = [
@@ -807,6 +807,79 @@ export default function MissionControl() {
 }
 @media(prefers-reduced-motion:reduce){
  .scintilla-console *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+/* DARK INSTRUMENT THEME — dashboard panels, controls, and data surfaces */
+.scintilla-console{background:#030914!important;color:#dce8f5!important}
+.scintilla-console .sc-topbar,.scintilla-console .sc-rail,.scintilla-console .sc-status,
+.scintilla-console .sc-tool,.scintilla-console .sc-endpoint,.scintilla-console .sc-timeline{
+  background:rgba(8,17,31,.91)!important;border-color:#23364c!important;color:#dce8f5!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.34)!important
+}
+.scintilla-console .sc-mark{background:conic-gradient(from 35deg,#dcecff 0 72%,#54d6e8 73% 88%,#57748f 89% 100%)!important}
+.scintilla-console .sc-mark:after{background:#07111f!important}
+.scintilla-console .sc-brand-title,.scintilla-console .sc-intel b,
+.scintilla-console .sc-metric-value,.scintilla-console .sc-endpoint-name{color:#e6f2ff!important}
+.scintilla-console .sc-brand-sub,.scintilla-console .sc-intel span,
+.scintilla-console .sc-metric-label,.scintilla-console .sc-endpoint-meta{color:#8da5bf!important}
+.scintilla-console .sc-nav button,.scintilla-console .sc-nav a{color:#91a8c1!important}
+.scintilla-console .sc-nav .active,.scintilla-console .sc-nav button:hover,
+.scintilla-console .sc-nav a:hover{background:#14263b!important;color:#e6f4ff!important;box-shadow:inset 0 0 0 1px #2b4762!important}
+.scintilla-console .sc-search,.scintilla-console .sc-intel{background:#0d1a2b!important;border-color:#263d55!important;color:#a9bfd3!important}
+.scintilla-console .sc-search input{color:#e5f1ff!important}
+.scintilla-console .sc-rail button{color:#8ba2b9!important}
+.scintilla-console .sc-rail button:hover,.scintilla-console .sc-rail button.active,
+.scintilla-console .sc-rail button.open{background:#12243a!important;border-color:#29445e!important;color:#70d8e8!important}
+.scintilla-console .sc-metric{border-color:#263a50!important}
+.scintilla-console .sc-stage:not(:last-of-type):after{background:#2b4056!important}
+.scintilla-console .sc-stage{color:#829ab3!important}
+.scintilla-console .sc-stage-dot{background:#14253a!important;border-color:#3b536d!important;color:#b5c8dc!important}
+.scintilla-console .sc-stage.done .sc-stage-dot{background:#176b70!important;border-color:#258b91!important;color:#eaffff!important}
+.scintilla-console .sc-stage.current{color:#e6f7ff!important}
+.scintilla-console .sc-stage.current .sc-stage-dot{background:#2b9caa!important;border-color:#69dce5!important;color:#03131e!important;box-shadow:0 0 0 4px #37c8df25!important}
+.scintilla-console .fp{background:rgba(7,16,29,.97)!important;border-color:#29415b!important;color:#dbe8f6!important;box-shadow:0 20px 58px rgba(0,0,0,.5)!important}
+.scintilla-console .fp-head{background:linear-gradient(180deg,#101e31,#0a1525)!important;border-bottom-color:#263b52!important;color:#e5f2ff!important}
+.scintilla-console .fp-head button{background:#1a2b40!important;color:#a9bfd3!important}
+.scintilla-console .fp-head button:hover{background:#29425b!important;color:#fff!important}
+.scintilla-console .fp-body{scrollbar-color:#344d68 transparent!important;color:#dbe8f6!important}
+.scintilla-console .fp-tabs{display:flex!important;gap:5px!important;padding:8px 10px!important;background:#081322!important;border-bottom:1px solid #1d3148!important}
+.scintilla-console .fp-tabs button{border:1px solid transparent!important;border-radius:8px!important;background:transparent!important;color:#91a8c1!important;padding:7px 9px!important;font-size:9px!important}
+.scintilla-console .fp-tabs button.active{background:#142a41!important;border-color:#31516c!important;color:#8ee8f2!important}
+.scintilla-console .sc-panel,.scintilla-console .sc-card{background:#0b1728!important;border-color:#253a52!important;color:#dce8f5!important;box-shadow:0 8px 26px rgba(0,0,0,.22)!important}
+.scintilla-console .sc-panel-head,.scintilla-console .sc-card-head{background:#0d1b2d!important;border-bottom-color:#243950!important;color:#e0edfa!important}
+.scintilla-console .sc-control-row,.scintilla-console .fp-note,.scintilla-console .sc-verified-row{color:#9bb0c6!important}
+.scintilla-console .sc-control-row b,.scintilla-console .sc-verified-row b{color:#e2effc!important}
+.scintilla-console .sc-mode button,.scintilla-console .sc-secondary,.scintilla-console .fp-sel,
+.scintilla-console .fp-text,.scintilla-console input:not([type=range]),.scintilla-console select,.scintilla-console textarea{
+  background:#0c1b2d!important;border:1px solid #2b425b!important;color:#dceafb!important
+}
+.scintilla-console .sc-mode button.active,.scintilla-console .sc-secondary:focus-visible,
+.scintilla-console .fp-tabs button.active{background:#12334a!important;border-color:#2c7185!important;color:#9cecf5!important}
+.scintilla-console .sc-primary{color:#f1fdff!important}
+.scintilla-console .sc-dark{background:#20364d!important;color:#e5f2ff!important}
+.scintilla-console .sc-dark.red{background:#743744!important;color:#ffe9ee!important}
+.scintilla-console .sc-mini,.scintilla-console .sc-gauge,.scintilla-console .sc-analog{
+  background:linear-gradient(145deg,#0d1d30,#091524)!important;border-color:#263c53!important;color:#dce8f5!important
+}
+.scintilla-console .sc-mini span,.scintilla-console .sc-analog .gauge>span{color:#8ba3bb!important}
+.scintilla-console .sc-mini b,.scintilla-console .sc-gauge-value{color:#e4f0ff!important}
+.scintilla-console .sc-bar{background:#21334a!important}
+.scintilla-console .gauge{color:#d8e7f6!important}
+.scintilla-console .gauge .ring{background:conic-gradient(var(--gauge) calc(var(--p)*1%),#203149 0)!important;box-shadow:inset 0 0 0 7px #0b1728,0 2px 8px rgba(0,0,0,.28)!important}
+.scintilla-console .gauge .ring:after{background:#0b1728!important;border-color:#2a415a!important}
+.scintilla-console .sc-ai{background:linear-gradient(135deg,#0d2337,#191a35)!important;border-color:#2a415b!important}
+.scintilla-console .sc-ai p,.scintilla-console .sc-advisory{color:#9bb1c7!important}
+.scintilla-console .sc-advisory{background:#0c1a2b!important;border-color:#293f57!important}
+.scintilla-console .fp-tbl{color:#dce8f5!important;border-color:#263c53!important}
+.scintilla-console .fp-tbl th{background:#112238!important;color:#a9bfd3!important}
+.scintilla-console .fp-tbl td,.scintilla-console .fp-tbl th{border-color:#263b52!important}
+.scintilla-console .fp-pre{background:#07111f!important;border:1px solid #263b52!important;color:#dceafb!important}
+.scintilla-console .scintilla-console button:disabled{opacity:.45!important;cursor:not-allowed!important}
+.scintilla-console .sc-panel a,.scintilla-console .fp-body a{color:#77d8ee!important}
+.scintilla-console .sc-panel input[type=range],.scintilla-console .fp-body input[type=range]{accent-color:#39c5d8!important}
+.scintilla-console .fp-body button:focus-visible,.scintilla-console .fp-head button:focus-visible{outline:2px solid #55d5e5!important;outline-offset:2px!important}
+@media(max-width:760px){
+ .scintilla-console .fp{background:rgba(7,16,29,.985)!important}
+ .scintilla-console .fp-tabs{flex-wrap:wrap!important}
 }
 
 `}
