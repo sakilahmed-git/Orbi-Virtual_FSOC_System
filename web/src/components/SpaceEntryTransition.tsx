@@ -84,6 +84,9 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
       return;
     }
     clearTimers();
+    // Each new launch gets a fresh shared clock; the two 3D canvases then
+    // synchronize to it during the cinematic-to-dashboard handoff.
+    window.sessionStorage.removeItem("orbi:cinematic-start-at");
     target.current = href;
     setStage("cabin");
     setPhase("launch");
