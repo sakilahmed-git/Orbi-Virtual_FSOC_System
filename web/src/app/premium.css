@@ -262,6 +262,53 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .scintilla-console button:active { transform: translateY(1px); }
 .scintilla-console .sc-primary:active, .scintilla-console .sc-dark:active,
 .scintilla-console .sc-secondary:active { transform: translateY(1px) scale(.99); }
+
+/* Cinematic transition skip control */
+.orbi-transition-skip {
+  position: absolute;
+  right: clamp(18px, 3.2vw, 46px);
+  bottom: clamp(18px, 3.2vw, 42px);
+  z-index: 10002;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(150, 225, 245, .3);
+  border-radius: 7px;
+  color: #dff8ff;
+  background: linear-gradient(135deg, rgba(12, 35, 52, .82), rgba(5, 15, 27, .72));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.09), 0 0 22px rgba(45, 190, 230, .08);
+  backdrop-filter: blur(18px) saturate(140%);
+  font: 500 10px/1 var(--orbi-mono);
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.orbi-transition-skip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(150, 235, 255, .75);
+  background: linear-gradient(135deg, rgba(17, 61, 82, .94), rgba(6, 23, 39, .9));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.13), 0 0 25px rgba(45, 205, 245, .2);
+}
+.orbi-transition-skip:active { transform: translateY(0) scale(.98); }
+.orbi-transition-skip__icon {
+  color: #8deaff;
+  font: 700 16px/1 var(--orbi-sans);
+  text-shadow: 0 0 12px rgba(89, 221, 255, .7);
+}
+.orbi-transition-skip__key {
+  margin-left: 3px;
+  padding: 5px 6px;
+  border: 1px solid rgba(185, 225, 238, .2);
+  border-radius: 3px;
+  color: #8eaebb;
+  font-size: 8px;
+  letter-spacing: .04em;
+}
+@media (max-width: 600px) {
+  .orbi-transition-skip { right: 14px; bottom: 14px; min-height: 40px; padding-inline: 12px; }
+}
 @media (max-width: 640px) {
   .scintilla-console .sc-topbar { animation-delay: .08s; }
   .scintilla-console .sc-rail { animation-delay: .12s; }
