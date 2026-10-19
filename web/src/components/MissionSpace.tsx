@@ -228,7 +228,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       // Return to the closer, cinematic three-quarter fly-by: the satellite
       // feels substantial in frame without placing its body directly in front
       // of the lens. The shared clock keeps this exact arc continuous on handoff.
-      c.start.copy(c.source).add(new THREE.Vector3(2.8, 1.9, 7.6));
+      c.start.copy(c.source).add(new THREE.Vector3(2.1, 1.45, 5.9));
       c.pass.copy(c.source).add(new THREE.Vector3(-3.5, 2.3, 6.0));
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
