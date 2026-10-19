@@ -325,14 +325,14 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
         c.source.clone().add(new THREE.Vector3(-7.4, 4.4, 4.2)),
         c.midpoint.clone().add(new THREE.Vector3(-3.8, 5.6, 10.8)),
         new THREE.Vector3(2.8, 9.2, 18.5),
-        desired,
+        new THREE.Vector3(0, 7.6, 22),
       ], false, "centripetal");
       const lookPath = new THREE.CatmullRomCurve3([
         c.midpoint.clone().add(new THREE.Vector3(0, 0.25, 0)),
         c.source.clone().lerp(c.midpoint, 0.42).add(new THREE.Vector3(0, 0.7, 0)),
         c.midpoint.clone().add(new THREE.Vector3(0.8, 0.65, 0)),
         c.midpoint.clone().lerp(new THREE.Vector3(0, 0, 0), 0.48),
-        new THREE.Vector3(0, 0.2, 0),
+        new THREE.Vector3(0, 0, 0),
       ], false, "centripetal");
       camera.position.copy(positionPath.getPoint(t));
       // Smooth cinematic banking and a restrained rise, without any shake or
