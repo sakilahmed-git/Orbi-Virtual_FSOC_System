@@ -211,22 +211,25 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
     const startCinematicEntry = () => {
       if (started) return;
       started = true;
-      window.sessionStorage.removeItem("orbi:cinematic-entry");
+      // Both the cinematic overlay and dashboard mount their own Canvas.
+      // Share one start timestamp so the second Canvas joins the same camera
+      // journey instead of replaying it from frame zero during the handoff.
+      const clockKey = "orbi:cinematic-start-at";
+      let startAt = Number(window.sessionStorage.getItem(clockKey));
+      if (!Number.isFinite(startAt) || startAt <= 0) {
+        startAt = Date.now();
+        window.sessionStorage.setItem(clockKey, String(startAt));
+      }
       const c = cinematic.current;
       c.active = true;
-      c.elapsed = 0;
+      c.elapsed = Math.max(0, (Date.now() - startAt) / 1000);
       c.source.copy(shared.current.a);
       c.midpoint.copy(shared.current.a).add(shared.current.b).multiplyScalar(0.5);
-      // Start beside the real source satellite, pass it, then pull back to frame
-      // both endpoints. This is camera choreography, not a satellite spin.
-      // Keep the first frame wide enough to establish the complete optical system.
-      // A close fly-by made the large solar arrays clip the viewport and felt like
-      // a second motion layered on top of the transition.
-      // Begin from a wide three-quarter view, offset enough that the full
-      // solar arrays stay inside frame. Then arc past the satellite instead
-      // of starting nose-to-nose with its body.
-      c.start.copy(c.source).add(new THREE.Vector3(4.8, 3.4, 11.5));
-      c.pass.copy(c.source).add(new THREE.Vector3(-4.6, 2.8, 8.2));
+      // Return to the closer, cinematic three-quarter fly-by: the satellite
+      // feels substantial in frame without placing its body directly in front
+      // of the lens. The shared clock keeps this exact arc continuous on handoff.
+      c.start.copy(c.source).add(new THREE.Vector3(2.8, 1.9, 7.6));
+      c.pass.copy(c.source).add(new THREE.Vector3(-3.5, 2.3, 6.0));
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
