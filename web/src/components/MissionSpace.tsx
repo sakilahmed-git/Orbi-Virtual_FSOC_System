@@ -230,7 +230,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       // Begin tight on the optical beam, then slide left and turn toward
       // satellite B. The second movement pulls back and rises to reveal both
       // spacecraft together, followed by a restrained cinematic settling move.
-      c.start.copy(c.midpoint).add(new THREE.Vector3(0.15, 0.55, 3.2));
+      c.start.copy(c.midpoint).add(new THREE.Vector3(0.1, 0.45, 2.7));
       c.pass.copy(c.midpoint).add(new THREE.Vector3(-1.5, 0.8, 3.0));
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
