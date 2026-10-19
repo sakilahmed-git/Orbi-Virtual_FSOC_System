@@ -228,8 +228,8 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       // Return to the closer, cinematic three-quarter fly-by: the satellite
       // feels substantial in frame without placing its body directly in front
       // of the lens. The shared clock keeps this exact arc continuous on handoff.
-      c.start.copy(c.source).add(new THREE.Vector3(2.1, 1.45, 5.9));
-      c.pass.copy(c.source).add(new THREE.Vector3(-3.5, 2.3, 6.0));
+      c.start.copy(c.midpoint).add(new THREE.Vector3(0.15, 0.55, 3.2));
+      c.pass.copy(c.midpoint).add(new THREE.Vector3(-0.8, 1.5, 8.2));
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
@@ -322,16 +322,16 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       const positionPath = new THREE.CatmullRomCurve3([
         c.start,
         c.pass,
-        c.source.clone().add(new THREE.Vector3(-7.4, 4.4, 4.2)),
-        c.midpoint.clone().add(new THREE.Vector3(-3.8, 5.6, 10.8)),
+        c.midpoint.clone().add(new THREE.Vector3(-2.4, 2.8, 11.5)),
+        c.midpoint.clone().add(new THREE.Vector3(-3.8, 5.6, 14.5)),
         new THREE.Vector3(2.8, 9.2, 18.5),
         new THREE.Vector3(0, 7.6, 22),
       ], false, "centripetal");
       const lookPath = new THREE.CatmullRomCurve3([
-        c.midpoint.clone().add(new THREE.Vector3(0, 0.25, 0)),
-        c.source.clone().lerp(c.midpoint, 0.42).add(new THREE.Vector3(0, 0.7, 0)),
-        c.midpoint.clone().add(new THREE.Vector3(0.8, 0.65, 0)),
-        c.midpoint.clone().lerp(new THREE.Vector3(0, 0, 0), 0.48),
+        c.midpoint.clone(),
+        c.midpoint.clone().add(new THREE.Vector3(0, 0.15, 0)),
+        c.midpoint.clone().lerp(new THREE.Vector3(0, 0, 0), 0.18),
+        c.midpoint.clone().lerp(new THREE.Vector3(0, 0, 0), 0.58),
         new THREE.Vector3(0, 0, 0),
       ], false, "centripetal");
       camera.position.copy(positionPath.getPoint(t));
