@@ -970,7 +970,7 @@ export default function MissionControl() {
 .scintilla-console .fp-body .sc-mini-grid>.sc-mini{min-width:0!important;background:#0d2235!important;border:1px solid #29445d!important;color:#dceafb!important}
 .scintilla-console .fp-body .sc-mini span{color:#8ba3bb!important}
 .scintilla-console .fp-body .sc-mini b{color:#e5f2ff!important}
-`/* FINAL MISSION DASHBOARD SKIN — consistent dark optical-lab surfaces */
+/* FINAL MISSION DASHBOARD SKIN — consistent dark optical-lab surfaces */
 .scintilla-console{background:#020817!important;color:#dceaf6!important}
 .scintilla-console .sc-topbar,.scintilla-console .sc-rail,.scintilla-console .sc-status,
 .scintilla-console .sc-endpoint,.scintilla-console .sc-panel,.scintilla-console .sc-card,
