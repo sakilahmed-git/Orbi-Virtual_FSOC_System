@@ -488,7 +488,7 @@ function EndpointSystem({
         );
       group.current.quaternion.slerp(
         desiredQuaternion,
-        1 - Math.exp(-dt * 2.4)
+        1 - Math.exp(-dt * 0.75)
       );
     }
     // Keep the satellite body orientation stable. Disturbance is visualized
