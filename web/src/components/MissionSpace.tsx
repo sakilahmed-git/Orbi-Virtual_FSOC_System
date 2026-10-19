@@ -325,7 +325,7 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
         c.wide,
       ], false, "centripetal");
       const lookPath = new THREE.CatmullRomCurve3([
-        c.source,
+        c.midpoint,
         c.source.clone().lerp(c.midpoint, 0.32).add(new THREE.Vector3(0, 0.45, 0)),
         c.midpoint.clone().add(new THREE.Vector3(0.6, 0.25, 0)),
         new THREE.Vector3(0, 0.2, 0),
