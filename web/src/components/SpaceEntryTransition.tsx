@@ -161,7 +161,7 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     later(() => {
       setPhase("idle");
       setStage("cabin");
-    }, 8000);
+    }, 1200);
   }, [pathname, phase, clearTimers, later]);
 
 
