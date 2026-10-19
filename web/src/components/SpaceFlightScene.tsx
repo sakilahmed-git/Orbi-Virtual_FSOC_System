@@ -13,8 +13,10 @@ type Stage = "cabin" | "ignition" | "ascent" | "orbit" | "satellite" | "interfac
 const TRANSITION_SNAPSHOT: MissionSnapshot = {
   phase: "CONNECTED",
   time: 0,
-  source: [-6.1, 0.3, 0.4],
-  target: [6.1, -0.3, -0.4],
+  // Match useMissionSimulation's exact t=0 orbital positions so the live
+  // dashboard satellites occupy the same coordinates at the handoff frame.
+  source: [-6.1, 0, 1.15],
+  target: [6.1, 1.637, -0.478],
   currentAxis: [1, 0, 0],
   desiredAxis: [1, 0, 0],
   distanceKm: 1586,
