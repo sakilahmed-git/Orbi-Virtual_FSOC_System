@@ -948,7 +948,7 @@ export default function MissionControl() {
 .scintilla-console .sc-analog .ring:after{background:#0d2235!important;border:1px solid #29445d!important}
 .scintilla-console .sc-analog .ring{box-shadow:inset 0 0 0 7px #0d2235!important}
 
-`}
+
 
 
 /* Terminal camera viewport + health cards: explicit dark theme and stable sizing. */
@@ -965,6 +965,7 @@ export default function MissionControl() {
 .scintilla-console .fp-body .sc-mini-grid>.sc-mini{min-width:0!important;background:#0d2235!important;border:1px solid #29445d!important;color:#dceafb!important}
 .scintilla-console .fp-body .sc-mini span{color:#8ba3bb!important}
 .scintilla-console .fp-body .sc-mini b{color:#e5f2ff!important}
+        `}
 </style>
         <section className="sc-space"><MissionSpace simulation={sim} ground={ground} view={view} onSelect={selectFromScene} /></section>
         <header className="sc-topbar">
