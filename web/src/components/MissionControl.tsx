@@ -940,6 +940,18 @@ export default function MissionControl() {
  .scintilla-console .sc-panel>div[style*="height: 172px"]{height:170px!important}
 }
 
+
+/* Keep sensor feed viewport visible; force terminal health widgets onto dark surfaces. */
+.scintilla-console .sc-camera-panel{display:block!important;height:auto!important;min-height:0!important;overflow:visible!important;background:#09192a!important;color:#dceafb!important;border:1px solid #29445d!important}
+.scintilla-console .sc-camera-panel>.sc-panel-head{display:flex!important;min-height:38px!important;background:#0d2034!important;color:#e5f2ff!important;border-bottom:1px solid #263d54!important}
+.scintilla-console .sc-camera-viewport{display:block!important;position:relative!important;height:190px!important;min-height:190px!important;max-height:190px!important;visibility:visible!important;opacity:1!important;overflow:hidden!important;background:radial-gradient(circle at 50% 50%,#163047 0%,#07131f 44%,#02070d 100%)!important}
+.scintilla-console .sc-camera-viewport>*{visibility:visible!important}
+.scintilla-console .sc-analog-grid{background:transparent!important}
+.scintilla-console .sc-analog{background:#0d2235!important;border-color:#29465f!important;color:#dceafb!important}
+.scintilla-console .sc-analog .gauge>span{color:#8faac3!important}
+.scintilla-console .sc-analog .ring{box-shadow:inset 0 0 0 7px #0d2235!important}
+.scintilla-console .sc-analog .ring:after{background:#0d2235!important;border-color:#29445d!important}
+.scintilla-console .sc-analog .gauge-value{color:#e5f3ff!important}
 </style>
         <section className="sc-space"><MissionSpace simulation={sim} ground={ground} view={view} onSelect={selectFromScene} /></section>
         <header className="sc-topbar">
@@ -1188,7 +1200,7 @@ export default function MissionControl() {
         const snr = simulation.beaconVisible
             ? Math.max(2.5, simulation.quality / 4.1)
             : 0;
-        return (<section className="sc-panel">
+        return (<section className="sc-panel sc-camera-panel" style={{ display: "block", minHeight: 0, height: "auto", overflow: "visible", background: "#09192a", borderColor: "#29445d", color: "#dceafb" }}>
 
       <div className="sc-panel-head">
 
@@ -1202,9 +1214,11 @@ export default function MissionControl() {
 
       </div>
 
-      <div style={{
+      <div className="sc-camera-viewport" style={{
+                display: "block",
                 margin: 10,
-                height: 172,
+                height: 190,
+                minHeight: 190,
                 borderRadius: 10,
                 overflow: "hidden",
                 border: `1px solid ${locked ? `${accent}66` : "#263847"}`,
