@@ -939,14 +939,24 @@ export default function MissionControl() {
 }
 
 
-/* Explicitly reserve space for the simulated sensor viewport and force dark gauges. */
-.scintilla-console .fp-body{display:block!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important}
-.scintilla-console .fp-body>div{display:block!important;min-height:0!important}
-.scintilla-console .sc-camera-panel{display:block!important;position:relative!important;width:calc(100% - 16px)!important;min-height:0!important;height:auto!important;overflow:visible!important;background:#09192a!important;color:#dceafb!important;border:1px solid #29445d!important}
-.scintilla-console .sc-camera-viewport{display:block!important;position:relative!important;flex:0 0 190px!important;width:calc(100% - 20px)!important;height:190px!important;min-height:190px!important;max-height:190px!important;margin:10px!important;box-sizing:border-box!important;visibility:visible!important;opacity:1!important;overflow:hidden!important;background:radial-gradient(circle at 50% 50%,#163047 0%,#07131f 44%,#02070d 100%)!important;border:1px solid #2b4b66!important}
-.scintilla-console .sc-analog-grid>.sc-analog{background:#0d2235!important;border:1px solid #29465f!important;color:#dceafb!important}
-.scintilla-console .sc-analog .ring:after{background:#0d2235!important;border:1px solid #29445d!important}
-.scintilla-console .sc-analog .ring{box-shadow:inset 0 0 0 7px #0d2235!important}
+/* Mission inspector: keep the camera viewport in normal flow and enforce the dark console palette. */
+.scintilla-console .fp-body{display:block!important;min-height:0!important;overflow-x:hidden!important;overflow-y:auto!important;background:#071525!important;color:#dceafb!important}
+.scintilla-console .fp-body>div{display:block!important;min-height:0!important;background:#071525!important;color:#dceafb!important}
+.scintilla-console .fp-body .sc-camera-panel{display:block!important;position:relative!important;width:calc(100% - 16px)!important;height:auto!important;min-height:0!important;margin:8px!important;padding:0!important;overflow:visible!important;background:#09192a!important;color:#dceafb!important;border:1px solid #29445d!important;border-radius:12px!important}
+.scintilla-console .fp-body .sc-camera-panel>.sc-panel-head{display:flex!important;align-items:center!important;justify-content:space-between!important;height:34px!important;min-height:34px!important;padding:0 10px!important;background:#0c2033!important;color:#dceafb!important;border-bottom:1px solid #29445d!important}
+.scintilla-console .fp-body .sc-camera-panel>.sc-camera-viewport{display:block!important;position:relative!important;float:none!important;clear:both!important;width:calc(100% - 20px)!important;height:190px!important;min-height:190px!important;max-height:190px!important;margin:10px!important;padding:0!important;box-sizing:border-box!important;visibility:visible!important;opacity:1!important;overflow:hidden!important;background-color:#06111e!important;background-image:radial-gradient(circle at 50% 50%,#163047 0%,#07131f 44%,#02070d 100%)!important;border:1px solid #2b4b66!important;border-radius:10px!important}
+.scintilla-console .fp-body .sc-camera-panel>.sc-camera-viewport *{visibility:visible!important}
+.scintilla-console .fp-body .sc-camera-panel>div:last-child{display:flex!important;position:relative!important;gap:6px!important;padding:0 10px 10px!important;background:transparent!important}
+.scintilla-console .fp-body .sc-analog-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;padding:8px!important;background:transparent!important}
+.scintilla-console .fp-body .sc-analog-grid>.sc-analog{display:grid!important;place-items:center!important;min-width:0!important;min-height:116px!important;padding:9px 6px 7px!important;background:#0d2235!important;background-image:none!important;border:1px solid #29465f!important;border-radius:11px!important;color:#dceafb!important;box-shadow:none!important}
+.scintilla-console .fp-body .sc-analog .gauge{display:grid!important;justify-items:center!important;width:100%!important;color:#dceafb!important}
+.scintilla-console .fp-body .sc-analog .gauge .ring{background:conic-gradient(var(--gauge) calc(var(--p)*1%),#1b3047 0)!important;box-shadow:inset 0 0 0 7px #0d2235,0 2px 8px rgba(0,0,0,.28)!important;color:#dceafb!important}
+.scintilla-console .fp-body .sc-analog .gauge .ring:after{background:#0d2235!important;border:1px solid #29445d!important}
+.scintilla-console .fp-body .sc-analog .gauge>span{color:#8faac3!important}
+.scintilla-console .fp-body .sc-mini-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;padding:8px!important;background:transparent!important}
+.scintilla-console .fp-body .sc-mini-grid>.sc-mini{min-width:0!important;background:#0d2235!important;border:1px solid #29445d!important;color:#dceafb!important}
+.scintilla-console .fp-body .sc-mini span{color:#8ba3bb!important}
+.scintilla-console .fp-body .sc-mini b{color:#e0efff!important}
 
 `}
 
