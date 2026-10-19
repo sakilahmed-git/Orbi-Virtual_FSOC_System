@@ -65,6 +65,18 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
     timers.current.push(setTimeout(fn, ms));
   }, []);
 
+  const skipTransition = useCallback(() => {
+    clearTimers();
+    const destination = target.current;
+    target.current = null;
+    setPhase("idle");
+    setStage("cabin");
+    if (destination) {
+      window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+      router.push(destination);
+    }
+  }, [clearTimers, router]);
+
   const enterSpace = useCallback((href: string) => {
     if (phase !== "idle" || href === pathname) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -123,6 +135,13 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
         await Promise.all([typingDone, audioDone]);
         if (cancelled) return;
         await sleep(260);
+      }
+      // Continue immediately after the final spoken line and its typing finish.
+      if (!cancelled && target.current) {
+        const destination = target.current;
+        target.current = null;
+        window.sessionStorage.setItem("orbi:cinematic-entry", "1");
+        router.push(destination);
       }
     };
     void run();
@@ -203,6 +222,16 @@ export function SpaceEntryTransition({ children }: { children: ReactNode }) {
           <strong className="space-entry__headline">
             <span>{typedHeadline}<i className="space-entry__type-caret" aria-hidden="true" /></span><em className="space-entry__speaker">{typedSubline}</em>
           </strong>
+          <button
+            type="button"
+            className="orbi-transition-skip"
+            onClick={skipTransition}
+            aria-label="Skip cinematic transition"
+          >
+            <span className="orbi-transition-skip__icon" aria-hidden="true">»</span>
+            <span>SKIP INTRO</span>
+            <span className="orbi-transition-skip__key">ESC</span>
+          </button>
           <div className="space-entry__flash" aria-hidden="true" />
         </div>
       )}
