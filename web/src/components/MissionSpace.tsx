@@ -222,8 +222,11 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       // Keep the first frame wide enough to establish the complete optical system.
       // A close fly-by made the large solar arrays clip the viewport and felt like
       // a second motion layered on top of the transition.
-      c.start.copy(c.source).add(new THREE.Vector3(0.9, 1.25, 4.6));
-      c.pass.copy(c.source).add(new THREE.Vector3(-1.8, 0.75, 2.6));
+      // Begin from a wide three-quarter view, offset enough that the full
+      // solar arrays stay inside frame. Then arc past the satellite instead
+      // of starting nose-to-nose with its body.
+      c.start.copy(c.source).add(new THREE.Vector3(4.8, 3.4, 11.5));
+      c.pass.copy(c.source).add(new THREE.Vector3(-4.6, 2.8, 8.2));
       c.wide.set(0, 7.6, 22);
       camera.position.copy(c.start);
       camera.lookAt(c.source);
@@ -316,23 +319,25 @@ function CameraRig({ view, shared }: { view: View; shared: React.MutableRefObjec
       const positionPath = new THREE.CatmullRomCurve3([
         c.start,
         c.pass,
-        c.midpoint.clone().add(new THREE.Vector3(-3.2, 2.2, 1.4)),
+        c.source.clone().add(new THREE.Vector3(-7.4, 4.4, 4.2)),
+        c.midpoint.clone().add(new THREE.Vector3(-3.8, 5.6, 10.8)),
         new THREE.Vector3(2.8, 9.2, 18.5),
         desired,
       ], false, "centripetal");
       const lookPath = new THREE.CatmullRomCurve3([
-        c.source,
-        c.source.clone().lerp(c.midpoint, 0.32).add(new THREE.Vector3(0, 0.45, 0)),
-        c.midpoint.clone().add(new THREE.Vector3(0.6, 0.25, 0)),
+        c.midpoint.clone().add(new THREE.Vector3(0, 0.25, 0)),
+        c.source.clone().lerp(c.midpoint, 0.42).add(new THREE.Vector3(0, 0.7, 0)),
+        c.midpoint.clone().add(new THREE.Vector3(0.8, 0.65, 0)),
+        c.midpoint.clone().lerp(new THREE.Vector3(0, 0, 0), 0.48),
         new THREE.Vector3(0, 0.2, 0),
       ], false, "centripetal");
       camera.position.copy(positionPath.getPoint(t));
-      // A restrained rise and side drift adds parallax without a sudden orbit
-      // or an artificial shake.
-      camera.position.y += Math.sin(t * Math.PI) * 0.55;
-      camera.position.x += Math.sin(t * Math.PI * 1.15) * 0.32;
+      // Smooth cinematic banking and a restrained rise, without any shake or
+      // abrupt secondary movement layered over the main camera trajectory.
+      camera.position.y += Math.sin(t * Math.PI) * 0.42;
+      camera.position.x += Math.sin(t * Math.PI * 1.1) * 0.22;
       const lookTarget = lookPath.getPoint(t);
-      lookTarget.y += Math.sin(t * Math.PI) * 0.18;
+      lookTarget.y += Math.sin(t * Math.PI) * 0.14;
       camera.lookAt(lookTarget);
       if (t >= 1) c.active = false;
       return;
