@@ -1026,19 +1026,22 @@ function SolarPanel({
           roughness={0.22}
           emissive={glow}
           emissiveIntensity={connected ? 0.72 : 0.38}
+          transparent={false}
+          opacity={1}
+          depthWrite
         />
       </mesh>
       {/* Photovoltaic cell grid */}
       {[-0.9, 0, 0.9].map((x) => (
         <mesh key={`cell-x-${x}`} position={[x, 0.045, 0]}>
           <boxGeometry args={[0.018, 0.012, 4.62]} />
-          <meshBasicMaterial color="#70add5" transparent opacity={0.7} />
+          <meshBasicMaterial color="#70add5" transparent={false} opacity={1} depthWrite />
         </mesh>
       ))}
       {[-1.8, -0.9, 0, 0.9, 1.8].map((z) => (
         <mesh key={`cell-z-${z}`} position={[0, 0.046, z]}>
           <boxGeometry args={[2.58, 0.012, 0.018]} />
-          <meshBasicMaterial color="#70add5" transparent opacity={0.68} />
+          <meshBasicMaterial color="#70add5" transparent={false} opacity={1} depthWrite />
         </mesh>
       ))}
       {/* Aluminium perimeter frame */}
@@ -1368,7 +1371,7 @@ function OpticalLink({
           transparent
           opacity={0.09}
           blending={THREE.AdditiveBlending}
-          depthTest={false}
+          depthTest
           depthWrite={false}
         />
       </mesh>
@@ -1387,7 +1390,7 @@ function OpticalLink({
           transparent
           opacity={0.68}
           blending={THREE.AdditiveBlending}
-          depthTest={false}
+          depthTest
           depthWrite={false}
         />
       </mesh>
@@ -1399,7 +1402,7 @@ function OpticalLink({
           transparent
           opacity={0.72}
           blending={THREE.AdditiveBlending}
-          depthTest={false}
+          depthTest
           depthWrite={false}
         />
       </mesh>
@@ -1416,7 +1419,7 @@ function OpticalLink({
             transparent
             opacity={0.78}
             blending={THREE.AdditiveBlending}
-            depthTest={false}
+            depthTest
             depthWrite={false}
           />
         </mesh>
