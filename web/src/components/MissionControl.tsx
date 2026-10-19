@@ -882,8 +882,6 @@ export default function MissionControl() {
  .scintilla-console .fp-tabs{flex-wrap:wrap!important}
 }
 
-`}
-
 /* FINAL DASHBOARD FIX: compact terminal inspectors, visible camera feed, consistent dark surfaces */
 .scintilla-console .fp{
   width:min(390px,calc(100vw - 104px))!important;max-width:calc(100vw - 24px)!important;
@@ -952,6 +950,8 @@ export default function MissionControl() {
 .scintilla-console .sc-analog .ring{box-shadow:inset 0 0 0 7px #0d2235!important}
 .scintilla-console .sc-analog .ring:after{background:#0d2235!important;border-color:#29445d!important}
 .scintilla-console .sc-analog .gauge-value{color:#e5f3ff!important}
+`}
+
 </style>
         <section className="sc-space"><MissionSpace simulation={sim} ground={ground} view={view} onSelect={selectFromScene} /></section>
         <header className="sc-topbar">
