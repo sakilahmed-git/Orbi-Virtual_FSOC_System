@@ -2503,3 +2503,20 @@ html body .scintilla-console .sc-mark:after {
   touch-action: manipulation;
   cursor: pointer !important;
 }
+
+/* Seamless orbital handoff: do not scale, blur, or dim the live dashboard
+   canvas while its controls reveal. Those effects make the spacecraft appear
+   to blink or re-enter when the cinematic canvas is removed. */
+.orbi-transition-content--arrival .scintilla-console .sc-space,
+.orbi-transition-content--interface .scintilla-console .sc-space {
+  animation: none !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+.orbi-transition-content--arrival .scintilla-console .sc-space canvas,
+.orbi-transition-content--interface .scintilla-console .sc-space canvas {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
