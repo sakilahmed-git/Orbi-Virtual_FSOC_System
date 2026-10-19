@@ -2491,3 +2491,15 @@ html body .scintilla-console .sc-mark:after {
   .space-entry > .space-entry__headline { animation: none !important; }
   .space-entry > .space-entry__headline .space-entry__type-caret { animation: none !important; }
 }
+
+
+/* The transition overlay ignores pointer input during arrival; keep Skip clickable. */
+.space-entry .orbi-transition-skip,
+.space-entry--arrival .orbi-transition-skip,
+.space-entry--interface .orbi-transition-skip {
+  position: fixed !important;
+  z-index: 2147483000 !important;
+  pointer-events: auto !important;
+  touch-action: manipulation;
+  cursor: pointer !important;
+}
