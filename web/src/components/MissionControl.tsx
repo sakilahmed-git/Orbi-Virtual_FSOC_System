@@ -970,11 +970,7 @@ export default function MissionControl() {
 .scintilla-console .fp-body .sc-mini-grid>.sc-mini{min-width:0!important;background:#0d2235!important;border:1px solid #29445d!important;color:#dceafb!important}
 .scintilla-console .fp-body .sc-mini span{color:#8ba3bb!important}
 .scintilla-console .fp-body .sc-mini b{color:#e5f2ff!important}
-`}
-
-
-
-/* FINAL MISSION DASHBOARD SKIN — consistent dark optical-lab surfaces */
+`/* FINAL MISSION DASHBOARD SKIN — consistent dark optical-lab surfaces */
 .scintilla-console{background:#020817!important;color:#dceaf6!important}
 .scintilla-console .sc-topbar,.scintilla-console .sc-rail,.scintilla-console .sc-status,
 .scintilla-console .sc-endpoint,.scintilla-console .sc-panel,.scintilla-console .sc-card,
@@ -1014,7 +1010,8 @@ export default function MissionControl() {
 .scintilla-console .sc-intel{background:#0d2b35!important;border-color:#2c625e!important}
 .scintilla-console .sc-intel b{color:#d8f0ed!important}
 .scintilla-console .sc-intel span{color:#91b9c4!important}
-</style>
+`}
+        </style>
         <section className="sc-space"><MissionSpace simulation={sim} ground={ground} view={view} onSelect={selectFromScene} /></section>
         <header className="sc-topbar">
             <div className="sc-brand"><span className="sc-mark" /><div><div className="sc-brand-title">orbi</div><div className="sc-brand-sub">VIRTUAL FSOC LABORATORY</div></div></div>
