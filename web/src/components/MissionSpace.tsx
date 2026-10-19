@@ -430,6 +430,7 @@ function EndpointSystem({
   onSelect?: (t: SceneTarget) => void;
 }) {
   const group = useRef<THREE.Group>(null);
+  const hasInitializedPose = useRef(false);
   const selectRef = useRef(onSelect);
   useEffect(() => { selectRef.current = onSelect; });
   const { camera, gl } = useThree();
@@ -449,6 +450,24 @@ function EndpointSystem({
   useFrame((_, dt) => {
     if (!group.current) return;
     const state = shared.current;
+
+    // Establish the final dashboard pose before the first rendered frame.
+    // Without this, the newly mounted spacecraft starts at the default
+    // orientation and visibly turns/slides into place as the dashboard appears.
+    if (!hasInitializedPose.current) {
+      group.current.position.copy(simulationPosition);
+      const initialDirection = aimTarget.clone().sub(group.current.position);
+      if (initialDirection.lengthSq() > 0.0001) {
+        initialDirection.normalize();
+        group.current.quaternion.setFromUnitVectors(
+          new THREE.Vector3(1, 0, 0),
+          initialDirection,
+        );
+      }
+      if (side === "a") state.a.copy(group.current.position);
+      else state.b.copy(group.current.position);
+      hasInitializedPose.current = true;
+    }
     const dragging =
       side === "a"
         ? state.draggingA
