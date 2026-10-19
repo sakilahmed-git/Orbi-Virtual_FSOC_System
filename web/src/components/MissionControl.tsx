@@ -883,6 +883,63 @@ export default function MissionControl() {
 }
 
 `}
+
+/* FINAL DASHBOARD FIX: compact terminal inspectors, visible camera feed, consistent dark surfaces */
+.scintilla-console .fp{
+  width:min(390px,calc(100vw - 104px))!important;max-width:calc(100vw - 24px)!important;
+  max-height:calc(100dvh - 158px)!important;display:flex!important;flex-direction:column!important;
+  background:#071525!important;border:1px solid #29445e!important;color:#dceafb!important;
+}
+.scintilla-console .fp-head{flex:0 0 42px!important;background:#0d2034!important;color:#e5f2ff!important;border-bottom:1px solid #294158!important}
+.scintilla-console .fp-head b{color:#e5f2ff!important}
+.scintilla-console .fp-body{
+  min-height:0!important;max-height:calc(100dvh - 204px)!important;overflow:auto!important;
+  background:#071525!important;color:#dceafb!important;scrollbar-color:#35516d #0a1828!important;
+}
+.scintilla-console .fp-body>div{min-width:0!important;background:transparent!important;color:#dceafb!important}
+.scintilla-console .fp-id{margin:0!important;padding:10px 12px!important;background:#0b1c2e!important;border-bottom:1px solid #20374e!important;color:#dceafb!important}
+.scintilla-console .fp-id b,.scintilla-console .fp-id span{color:#dceafb!important}
+.scintilla-console .fp-tabs{position:sticky!important;top:0!important;z-index:4!important;display:flex!important;gap:5px!important;padding:8px!important;background:#081727!important;border-bottom:1px solid #223a52!important}
+.scintilla-console .fp-tabs button{background:#0d1e31!important;border:1px solid #294158!important;color:#9fb5cb!important}
+.scintilla-console .fp-tabs button.active{background:#12364a!important;border-color:#28798a!important;color:#a3f0f5!important}
+.scintilla-console .sc-panel{display:block!important;min-height:0!important;height:auto!important;overflow:visible!important;margin:8px!important;background:#09192a!important;border:1px solid #263e56!important;color:#dceafb!important;box-shadow:none!important}
+.scintilla-console .sc-panel-head,.scintilla-console .sc-card-head{background:#0d2034!important;color:#e4f1ff!important;border-bottom:1px solid #263d54!important}
+.scintilla-console .sc-panel>div[style*="height: 172px"]{height:190px!important;margin:8px!important;background:radial-gradient(circle at 50% 50%,#12344c 0%,#08192b 54%,#030b15 100%)!important;border:1px solid #2b4b66!important}
+.scintilla-console .sc-analog-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;padding:8px!important;background:transparent!important}
+.scintilla-console .sc-analog{min-width:0!important;background:#0d2235!important;border:1px solid #29465f!important;color:#dceafb!important;box-shadow:none!important}
+.scintilla-console .sc-analog .gauge{color:#c5d8eb!important}
+.scintilla-console .sc-analog .gauge>span{color:#8faac3!important}
+.scintilla-console .sc-analog .ring{background:conic-gradient(var(--gauge) calc(var(--p)*1%),#1b3047 0)!important;box-shadow:inset 0 0 0 7px #0d2235!important}
+.scintilla-console .sc-analog .ring:after{background:#0d2235!important;border-color:#29445d!important}
+.scintilla-console .sc-analog .gauge-value{color:#e5f3ff!important}
+.scintilla-console .sc-mini-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important;padding:8px!important;background:transparent!important}
+.scintilla-console .sc-mini{min-width:0!important;background:#0d2235!important;border:1px solid #29445d!important;color:#dceafb!important}
+.scintilla-console .sc-mini span{color:#91aac2!important}
+.scintilla-console .sc-mini b{color:#e5f2ff!important}
+.scintilla-console .sc-panel button,.scintilla-console .fp-body button{color:#c5d8eb}
+.scintilla-console .sc-panel .sc-secondary{background:#0d2235!important;border:1px solid #2b465f!important;color:#a9c1d7!important}
+.scintilla-console .sc-panel .sc-secondary[style],.scintilla-console .sc-panel .sc-secondary:focus-visible{background:#12364a!important;color:#a5eff5!important}
+.scintilla-console .sc-control-row,.scintilla-console .sc-panel label{color:#a6bdd3!important}
+.scintilla-console .sc-control-row b{color:#e5f2ff!important}
+.scintilla-console .sc-panel input:not([type=range]),.scintilla-console .sc-panel select,.scintilla-console .sc-panel textarea,
+.scintilla-console .fp-body input:not([type=range]),.scintilla-console .fp-body select,.scintilla-console .fp-body textarea{
+  background:#081727!important;border-color:#2b455e!important;color:#e3f0ff!important;
+}
+.scintilla-console .sc-panel input[type=range]{accent-color:#49d4e5!important}
+.scintilla-console .fp-tbl th{background:#10263c!important;color:#aac3da!important}
+.scintilla-console .fp-tbl td,.scintilla-console .fp-tbl th{border-color:#253e57!important;color:#d5e5f4!important}
+.scintilla-console .sc-card,.scintilla-console .sc-gauge,.scintilla-console .sc-analog,
+.scintilla-console .sc-mini,.scintilla-console .sc-advisory,.scintilla-console .sc-ai{
+  background:#0b1c2e!important;border-color:#294158!important;color:#dceafb!important;box-shadow:none!important;
+}
+.scintilla-console .sc-gauge-value,.scintilla-console .sc-mini b{color:#e5f2ff!important}
+.scintilla-console .sc-bar{background:#20364c!important}
+@media(max-width:760px){
+ .scintilla-console .fp{left:8px!important;right:8px!important;top:136px!important;width:auto!important;max-width:none!important;max-height:calc(100dvh - 210px)!important}
+ .scintilla-console .fp-body{max-height:calc(100dvh - 258px)!important}
+ .scintilla-console .sc-panel>div[style*="height: 172px"]{height:170px!important}
+}
+
 </style>
         <section className="sc-space"><MissionSpace simulation={sim} ground={ground} view={view} onSelect={selectFromScene} /></section>
         <header className="sc-topbar">
