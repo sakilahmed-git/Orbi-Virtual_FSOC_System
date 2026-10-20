@@ -54,3 +54,8 @@ README reviewed: October 2026.
 ## Vision
 
 Make optical-link acquisition observable, predictive, testable, and recoverable—bringing together simulation, engineering data, and a mission-control experience.
+
+
+---
+
+README order refresh: October 2026.
