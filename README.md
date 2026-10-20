@@ -47,6 +47,10 @@ This README describes the project's goals and development direction. It does not
 
 The wider setup includes a `web` application and Python-side components. Review the repository's dependency files and scripts before starting each service; the frontend and Python API may need to run separately.
 
+## Documentation
+
+README reviewed: October 2026.
+
 ## Vision
 
 Make optical-link acquisition observable, predictive, testable, and recoverable—bringing together simulation, engineering data, and a mission-control experience.
